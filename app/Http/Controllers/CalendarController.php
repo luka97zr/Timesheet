@@ -12,7 +12,8 @@ class CalendarController extends Controller
 
     public function store() {
         $test = request()->all();
-        $html = view('index',compact('test'))->render();
-        return response()->json(['success'=>$test]);
+        // return redirect('/')->with($test);
+        $markup = view('components.table._body',compact('test'))->render();
+        return response()->json(['html' => $markup]);
     }
 }

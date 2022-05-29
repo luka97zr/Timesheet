@@ -1,4 +1,4 @@
-import { fill } from "lodash";
+import { fill, get } from "lodash";
 import moment from "moment"
 const calendar = {
     calendarLabel: document.querySelector('.table-navigation__center'),
@@ -10,9 +10,12 @@ const calendar = {
     month: new Date().getMonth(),
     calendarArr: [],
    init() {
-    this.getDate(this.year,this.month)
+    this.btnNext.addEventListener('click',this.nextMonth.bind(this))
+    this.btnPrev.addEventListener('click',this.prevMonth.bind(this))
+    this.sendJSON(this.year,this.month)
    },
    getDate: function(year,month){
+       this.calendarArr = []
     this.calendarLabel.innerHTML =  `${this.year}, ${moment(this.month+1,'MM').format('MMMM')}`
     const startDate = moment([year,month])
         .clone()
@@ -27,26 +30,34 @@ const calendar = {
             .map(()=>day.add(1,"day").clone().format('DD'))
         );
     }
-    
     document.cookie = `date=${JSON.stringify(Object.values(this.calendarArr))}`;
     return this.calendarArr
    },
 
-   sendJSON: async function(){
+   sendJSON: async function(year,month){
        try{
-        const resp = await fetch('/test',{
+        const resp = await fetch('/GetMonth',{
             method : 'POST',
             headers: {
                 "Content-Type": "application/json",
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                 'X-Requested-With': 'XMLHttpRequest'
               },
-            body : JSON.stringify()
+            body : JSON.stringify(this.getDate(year,month))
        })
        const data = await resp.json();
+       this.table.innerHTML = Object.values(data).join('');
        }catch(err){
            console.error(err)
        }
+   },
+   nextMonth: function() {
+       if(this.month < 11)  this.month++;
+        this.sendJSON(this.year,this.month)
+   },
+   prevMonth: function() {
+    if(this.month > 0)  this.month--;
+    this.sendJSON(this.year,this.month)
    }
  }
 

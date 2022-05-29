@@ -30,12 +30,6 @@
 							</tr>
 						</thead>
 						<tbody class="table-body">
-							@php
-							$month = json_decode($_COOKIE['date']);
-							@endphp
-							@foreach($month as $week)
-								<x-table.row :week="$week" />
-							@endforeach
 						</tbody>
 					</table>
 				</div>

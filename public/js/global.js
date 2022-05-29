@@ -36,9 +36,12 @@ var calendar = {
   month: new Date().getMonth(),
   calendarArr: [],
   init: function init() {
-    this.getDate(this.year, this.month);
+    this.btnNext.addEventListener('click', this.nextMonth.bind(this));
+    this.btnPrev.addEventListener('click', this.prevMonth.bind(this));
+    this.sendJSON(this.year, this.month);
   },
   getDate: function getDate(year, month) {
+    this.calendarArr = [];
     this.calendarLabel.innerHTML = "".concat(this.year, ", ").concat(moment__WEBPACK_IMPORTED_MODULE_1___default()(this.month + 1, 'MM').format('MMMM'));
     var startDate = moment__WEBPACK_IMPORTED_MODULE_1___default()([year, month]).clone().startOf('month').startOf('isoWeek');
     var endDate = moment__WEBPACK_IMPORTED_MODULE_1___default()([year, month]).clone().endOf('month').endOf('week');
@@ -54,7 +57,7 @@ var calendar = {
     return this.calendarArr;
   },
   sendJSON: function () {
-    var _sendJSON = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+    var _sendJSON = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(year, month) {
       var resp, data;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) {
@@ -62,14 +65,14 @@ var calendar = {
             case 0:
               _context.prev = 0;
               _context.next = 3;
-              return fetch('/test', {
+              return fetch('/GetMonth', {
                 method: 'POST',
                 headers: {
                   "Content-Type": "application/json",
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                   'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: JSON.stringify()
+                body: JSON.stringify(this.getDate(year, month))
               });
 
             case 3:
@@ -79,28 +82,37 @@ var calendar = {
 
             case 6:
               data = _context.sent;
-              _context.next = 12;
+              this.table.innerHTML = Object.values(data).join('');
+              _context.next = 13;
               break;
 
-            case 9:
-              _context.prev = 9;
+            case 10:
+              _context.prev = 10;
               _context.t0 = _context["catch"](0);
               console.error(_context.t0);
 
-            case 12:
+            case 13:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[0, 9]]);
+      }, _callee, this, [[0, 10]]);
     }));
 
-    function sendJSON() {
+    function sendJSON(_x, _x2) {
       return _sendJSON.apply(this, arguments);
     }
 
     return sendJSON;
-  }()
+  }(),
+  nextMonth: function nextMonth() {
+    if (this.month < 11) this.month++;
+    this.sendJSON(this.year, this.month);
+  },
+  prevMonth: function prevMonth() {
+    if (this.month > 0) this.month--;
+    this.sendJSON(this.year, this.month);
+  }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (calendar);
 

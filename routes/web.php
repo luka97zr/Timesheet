@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [CalendarController::class,'get']);
-Route::post('/test', [CalendarController::class,'store']);
+Route::post('/GetMonth', [CalendarController::class,'store']);
