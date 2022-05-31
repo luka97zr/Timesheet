@@ -106,11 +106,23 @@ var calendar = {
     return sendJSON;
   }(),
   nextMonth: function nextMonth() {
-    if (this.month < 11) this.month++;
+    this.month++;
+
+    if (this.month === 12) {
+      this.month = 0;
+      this.year++;
+    }
+
     this.sendJSON(this.year, this.month);
   },
   prevMonth: function prevMonth() {
-    if (this.month > 0) this.month--;
+    this.month--;
+
+    if (this.month < 0) {
+      this.month = 11;
+      this.year--;
+    }
+
     this.sendJSON(this.year, this.month);
   }
 };

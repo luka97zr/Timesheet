@@ -1,5 +1,4 @@
-let mix = require('laravel-mix');
-const path = require('path');
+const mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,6 +11,6 @@ const path = require('path');
  |
  */
 
-mix.js('resources/assets/js/global.js', 'public/js')
-    .sass('resources/assets/scss/style.scss', 'public/css')
-
+mix.js('resources/js/app.js', 'public/js')
+    .vue()
+    .sass('resources/sass/app.scss', 'public/css');

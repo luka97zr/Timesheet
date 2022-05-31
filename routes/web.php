@@ -14,5 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [CalendarController::class,'get']);
-Route::post('/GetMonth', [CalendarController::class,'store']);
+Route::get('/{any?}',function() {
+    return view('index');
+})->where('any','^(?!api\/)[\/\w\.\,-]');
