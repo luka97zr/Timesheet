@@ -1,10 +1,10 @@
 import VueRouter from 'vue-router'
-import CalendarView from './components/CalendarView'
+import Calendar from './components/Calendar'
 const routes = [
     {
         path: '/',
         name: 'home',
-        component: CalendarView
+        component: Calendar
     }
 ]
 const router = new VueRouter({
