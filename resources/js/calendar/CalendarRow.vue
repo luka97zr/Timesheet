@@ -7,14 +7,19 @@
 <script>
     import CalendarDay from './CalendarDay'
 export default {
+    props: ['week','firstDay','moment'],
+    data() {
+        return {
+            date: this.startDate
+        }
+    },
     components: {
         CalendarDay
     },
-    created() {
-        console.log(this.week)
-    },
-    props: {
-        'week': Array,
+    computed: {
+        fullDate: function() {
+            return moment(this.day).format('DD-MM-YYYY')
+        }
     }
 }
 </script>
