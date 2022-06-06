@@ -15,7 +15,7 @@ const calendar = {
         .clone()
         .startOf('month')
         .startOf('isoWeek');
-        const endDate = moment([year,month]).clone().endOf('month').endOf('week');
+        const endDate = moment([year,month]).clone().endOf('month').endOf('week')
         const day = startDate.clone().subtract(1,'days')
     while(day.isBefore(endDate,"day")) {
         this.calendarArr.push(

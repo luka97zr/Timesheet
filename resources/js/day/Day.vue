@@ -8,59 +8,7 @@
 						<span class="table-navigation__center">September 06 - September 12, 2021 (week 36)</span>
 						<a href="javascript:;" class="table-navigation__next"><span>next week</span></a>
 					</div>
-					<div class="day-table">
-						<ul class="day-table__wrap">
-							<li class="day-table__list day-table__list--active">
-								<a href="javascript:;" class="day-table__link">
-								<b class="day-table__month">Sep 06</b> <i class="day-table__day">0</i>
-								<span class="day-table__span hide-on-mob">Monday</span>
-								<span class="day-table__span show-on-mob">Mon</span>
-								</a>
-							</li>
-							<li class="day-table__list">
-								<a href="javascript:;" class="day-table__link">
-								<b class="day-table__month">Sep 07</b> <i class="day-table__day">0</i>
-								<span class="day-table__span hide-on-mob">Tuesday</span>
-								<span class="day-table__span show-on-mob">Tue</span>
-								</a>
-							</li>
-							<li class="day-table__list">
-								<a href="javascript:;" class="day-table__link">
-								<b class="day-table__month">Sep 08</b> <i class="day-table__day">0</i>
-								<span class="day-table__span hide-on-mob">Wednesday</span>
-								<span class="day-table__span show-on-mob">Wed</span>
-								</a>
-							</li>
-							<li class="day-table__list">
-								<a href="javascript:;" class="day-table__link">
-								<b class="day-table__month">Sep 09</b> <i class="day-table__day">0</i>
-								<span class="day-table__span hide-on-mob">Thursday</span>
-								<span class="day-table__span show-on-mob">Thu</span>
-								</a>
-							</li>
-							<li class="day-table__list">
-								<a href="javascript:;" class="day-table__link">
-								<b class="day-table__month">Sep 10</b> <i class="day-table__day">0</i>
-								<span class="day-table__span hide-on-mob">Friday</span>
-								<span class="day-table__span show-on-mob">Fri</span>
-								</a>
-							</li>
-							<li class="day-table__list">
-								<a href="javascript:;" class="day-table__link">
-								<b class="day-table__month">Sep 11</b> <i class="day-table__day">0</i>
-								<span class="day-table__span hide-on-mob">Saturday</span>
-								<span class="day-table__span show-on-mob">Mon</span>
-								</a>
-							</li>
-							<li class="day-table__list">
-								<a href="javascript:;" class="day-table__link">
-								<b class="day-table__month">Sep 12</b> <i class="day-table__day">0</i>
-								<span class="day-table__span hide-on-mob">Sunday</span>
-								<span class="day-table__span show-on-mob">Mon</span>
-								</a>
-							</li>
-						</ul>
-					</div>
+					<week-label></week-label>
 					<table class="project-table">
 						<thead>
 							<tr class="project-table__top">
@@ -142,7 +90,7 @@
 						</tbody>
 					</table>
 					<div class="table-navigation">
-						<a href="javascript:;" class="table-navigation__prev"><span>back to monthly view</span></a>
+						<router-link to="/" class="table-navigation__prev"><span>back to monthly view</span></router-link>
 						<div class="table-navigation__next">
 							<span class="table-navigation__text">Total:</span>
 							<span>7.5</span>
@@ -157,8 +105,14 @@
 </template>
 
 <script>
+import WeekLabel from './WeekLabel.vue'
 export default {
-
+	components: {
+		WeekLabel
+	},
+	created() {
+		console.log(this.$route.params.day);
+	}
 }
 </script>
 

@@ -11,7 +11,7 @@
                 <table class="month-table">
                     <calendar-weekdays ></calendar-weekdays>
                     <tbody>
-                        <calendar-row v-for="(date, index) in getDate" :key="'week' + index" :week="date"></calendar-row>
+                        <calendar-row v-for="(date, index) in getDate" :key="'week' + index" :week="date" :first-day="firstDayOfMonth" :last-day="lastDayOfMonth"></calendar-row>
                     </tbody>
                 </table>
             </div>
@@ -36,6 +36,7 @@
                 firstDay: this.daysInMonth,
                 today: moment(),
                 dateContext: moment(),
+                getDate: []
             }
         },
         components: {
@@ -57,12 +58,36 @@
                 return this.dateContext.get('date');
             },
             firstDayOfMonth: function () {
-                return moment([this.dateContext.format('Y'),this.dateContext.format('M')-1]).clone().startOf('month').startOf('isoWeek').format('D');
+                return moment([this.dateContext.format('Y'),this.dateContext.format('M')-1]).clone().startOf('month');
             },
             lastDayOfMonth: function() {
-                return moment([this.dateContext.format('Y'),this.dateContext.format('M')-1]).clone().endOf('month').endOf('week');
+                return moment([this.dateContext.format('Y'),this.dateContext.format('M')-1]).clone().endOf('month');
             },
-            getDate: function() {
+            //Previous Code Above
+            initialDate: function () {
+                return this.today.get('date');
+            },
+            initialMonth: function () {
+                return this.today.format('MMMM');
+            },
+            initialYear: function () {
+                return this.today.format('YYYY');
+            }
+    },
+    created() {
+        this.calculateCalendar();
+    },
+    methods: {
+        previousMonth: function() {
+            this.dateContext = moment(this.dateContext).subtract(1, 'month');
+            this.calculateCalendar();
+        },
+        nextMonth: function() {
+            this.dateContext = moment(this.dateContext).add(1, 'month');
+            this.calculateCalendar();
+        console.log(this.getDate)
+        },
+        calculateCalendar: function() {
             const calendarArr = []
             const startDate = moment([this.dateContext.format('Y'),this.dateContext.format('M')-1])
             .clone()
@@ -85,26 +110,7 @@
                     .map(()=>day.add(1,"day").clone()))
                 }
             }
-            return calendarArr
-        },
-        //Previous Code Above
-        initialDate: function () {
-            return this.today.get('date');
-        },
-        initialMonth: function () {
-            return this.today.format('MMMM');
-        },
-        initialYear: function () {
-            return this.today.format('YYYY');
-        }
-    },
-    methods: {
-        previousMonth: function() {
-            this.dateContext = moment(this.dateContext).subtract(1, 'month');
-        },
-        nextMonth: function() {
-            this.dateContext = moment(this.dateContext).add(1, 'month');
-        console.log(this.getDate)
+            this.getDate = calendarArr;
         }
     }
 

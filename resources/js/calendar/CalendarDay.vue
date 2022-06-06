@@ -1,11 +1,11 @@
 <template>
-        <td  class="month-table__regular">
+        <td  :class="(isDisabled)? 'month-table__regular--disabled' : '' + 'month-table__regular'">
             <div class="month-table__date">
-                <span>{{Day}}</span>
+                <span>{{dayNumber}}</span>
                 <i></i>
             </div>
             <div class="month-table__hours">
-                <router-link class=" month-table__day" :to="{name: 'day' , params: {fullDate}}"><span>Hours: </span><span>7.5</span></router-link>
+                <router-link class=" month-table__day" :to="'/date/' + dayData"><span>Hours: </span><span>7.5</span></router-link>
             </div>
         </td>
 </template>
@@ -13,17 +13,23 @@
 <script>
 import moment from 'moment'
 export default {
-    props: ['day','firstDay','endDate','fullDate'],
+    props: ['day','firstDay','lastDay','fullDate'],
     data() {
         return {
             dayData: moment(this.day).format('DD-MM-YYYY')
         }
     },
     computed: {
-        Day: function() {
+        dayNumber: function() {
             return moment(this.day).format('DD')
         },
+        isDisabled() {
+            return moment(this.day).isBefore(this.firstDay) || moment(this.day).isAfter(this.lastDay)
+        }
     },
+    created() {
+        console.log(this.isDisabled)
+    }
 }
 </script>
 
