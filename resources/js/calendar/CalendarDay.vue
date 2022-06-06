@@ -16,7 +16,7 @@ export default {
     props: ['day','firstDay','lastDay','fullDate'],
     data() {
         return {
-            dayData: moment(this.day).format('DD-MM-YYYY')
+            dayData: moment(this.day).format('MM-DD-YYYY')
         }
     },
     computed: {
@@ -27,9 +27,6 @@ export default {
             return moment(this.day).isBefore(this.firstDay) || moment(this.day).isAfter(this.lastDay)
         }
     },
-    created() {
-        console.log(this.isDisabled)
-    }
 }
 </script>
 

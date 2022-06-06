@@ -56,7 +56,7 @@
 
 <script>
 export default {
-
+    props: ['day']
 }
 </script>
 

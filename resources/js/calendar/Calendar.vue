@@ -45,9 +45,9 @@
             CalendarRow,
         },
         computed: {
-            year: function () {
-                return this.dateContext.format('YYYY');
-            },
+            year() {
+			return moment(this.day).format('YYYY');
+		    },
             month: function () {
                 return this.dateContext.format('MMMM');
             },
@@ -85,7 +85,6 @@
         nextMonth: function() {
             this.dateContext = moment(this.dateContext).add(1, 'month');
             this.calculateCalendar();
-        console.log(this.getDate)
         },
         calculateCalendar: function() {
             const calendarArr = []

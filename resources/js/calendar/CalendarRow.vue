@@ -20,7 +20,7 @@ export default {
         fullDate: function() {
             return moment(this.day).format('DD-MM-YYYY')
         }
-    }
+    },
 }
 </script>
 

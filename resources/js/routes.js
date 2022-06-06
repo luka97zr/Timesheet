@@ -1,6 +1,6 @@
 import VueRouter from 'vue-router'
 import Calendar from './calendar/Calendar'
-import Day from './day/Day'
+import EditDay from './day/EditDay'
 const routes = [
     {
         path: '/',
@@ -10,7 +10,7 @@ const routes = [
     {
         path: '/date/:day',
         name: 'day',
-        component: Day
+        component: EditDay
     }
 ]
 const router = new VueRouter({

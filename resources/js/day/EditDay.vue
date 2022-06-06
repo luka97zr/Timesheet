@@ -4,11 +4,11 @@
 				<form id="mainContent" class="main-content" action="javascript">
 					<h2 class="main-content__title">Timesheet</h2>
 					<div class="table-navigation">
-						<a href="javascript:;" class="table-navigation__prev"><span>previous week</span></a>
-						<span class="table-navigation__center">September 06 - September 12, 2021 (week 36)</span>
-						<a href="javascript:;" class="table-navigation__next"><span>next week</span></a>
+						<a href="javascript:;" class="table-navigation__prev" @click="prevWeek"><span>previous week</span></a>
+						<span class="table-navigation__center">{{getDay}} - {{endDate}}, {{year}} ({{getWeek}} week)</span>
+						<a href="javascript:;" class="table-navigation__next" @click="nextWeek"><span>next week</span></a>
 					</div>
-					<week-label></week-label>
+					<week-label :day="day"></week-label>
 					<table class="project-table">
 						<thead>
 							<tr class="project-table__top">
@@ -105,14 +105,46 @@
 </template>
 
 <script>
+import moment from 'moment'
 import WeekLabel from './WeekLabel.vue'
 export default {
+	data() {
+		return {
+			day: moment(this.$route.params.day).format('DD MMMM'),
+			dayYearFormat: moment(this.$route.params.day)
+		}
+	},
 	components: {
 		WeekLabel
 	},
+	computed: {
+		getWeek() {
+			return moment(this.day).week()
+		},
+		endDate() {
+			return  moment(this.day).add(1,'week').format('DD MMMM')
+		},
+		year() {
+			return moment(this.dayYearFormat).year();
+		},
+		getDay() {
+			return  moment(this.$route.params.day).format('DD MMM')
+		}
+	},
 	created() {
-		console.log(this.$route.params.day);
-	}
+		console.log(this.day)
+	},
+	methods: {
+        nextWeek() {
+            this.day = moment(this.day).add(1,'week').format('DD MMMM')
+			this.dayYearFormat = moment(this.dayYearFormat).add(1,'week');
+        },
+		prevWeek() {
+			this.day = moment(this.day).subtract(1,'week').format('DD MMMM')
+			this.dayYearFormat = moment(this.dayYearFormat).subtract(1,'week');
+		}
+    }
+
 }
 </script>
 
