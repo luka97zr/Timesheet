@@ -1,62 +1,53 @@
 <template>
   <div class="day-table">
     <ul class="day-table__wrap">
-        <li class="day-table__list day-table__list--active">
-            <a href="javascript:;" class="day-table__link">
-            <b class="day-table__month">Sep 06</b> <i class="day-table__day">0</i>
-            <span class="day-table__span hide-on-mob">Monday</span>
-            <span class="day-table__span show-on-mob">Mon</span>
-            </a>
-        </li>
-        <li class="day-table__list">
-            <a href="javascript:;" class="day-table__link">
-            <b class="day-table__month">Sep 07</b> <i class="day-table__day">0</i>
-            <span class="day-table__span hide-on-mob">Tuesday</span>
-            <span class="day-table__span show-on-mob">Tue</span>
-            </a>
-        </li>
-        <li class="day-table__list">
-            <a href="javascript:;" class="day-table__link">
-            <b class="day-table__month">Sep 08</b> <i class="day-table__day">0</i>
-            <span class="day-table__span hide-on-mob">Wednesday</span>
-            <span class="day-table__span show-on-mob">Wed</span>
-            </a>
-        </li>
-        <li class="day-table__list">
-            <a href="javascript:;" class="day-table__link">
-            <b class="day-table__month">Sep 09</b> <i class="day-table__day">0</i>
-            <span class="day-table__span hide-on-mob">Thursday</span>
-            <span class="day-table__span show-on-mob">Thu</span>
-            </a>
-        </li>
-        <li class="day-table__list">
-            <a href="javascript:;" class="day-table__link">
-            <b class="day-table__month">Sep 10</b> <i class="day-table__day">0</i>
-            <span class="day-table__span hide-on-mob">Friday</span>
-            <span class="day-table__span show-on-mob">Fri</span>
-            </a>
-        </li>
-        <li class="day-table__list">
-            <a href="javascript:;" class="day-table__link">
-            <b class="day-table__month">Sep 11</b> <i class="day-table__day">0</i>
-            <span class="day-table__span hide-on-mob">Saturday</span>
-            <span class="day-table__span show-on-mob">Mon</span>
-            </a>
-        </li>
-        <li class="day-table__list">
-            <a href="javascript:;" class="day-table__link">
-            <b class="day-table__month">Sep 12</b> <i class="day-table__day">0</i>
-            <span class="day-table__span hide-on-mob">Sunday</span>
-            <span class="day-table__span show-on-mob">Mon</span>
-            </a>
+        <li class="day-table__list" v-for="(day,index) in WholeWeek" :key="index" @click="addClass(index, $event)" :class="{ 'day-table__list--active' : isActive }">
+            <router-link :to="'/date/'+getRoute(day)" class="day-table__link">
+            <b class="day-table__month">{{getDayFormat(day)}}</b> <i class="day-table__day">0</i>
+            <span class="day-table__span hide-on-mob">{{getDayName(day)}}</span>
+            <span class="day-table__span show-on-mob">{{getDayNameMobile(day)}}</span>
+            </router-link>
         </li>
     </ul>
 </div>
 </template>
 
 <script>
+import moment from 'moment'
 export default {
-    props: ['day']
+    props: ['WholeWeek','year'],
+    data() {
+            return {
+                dayRoute: this.$route.params.day,
+                isActive: false
+            }
+        },
+    methods: {
+        getDayName(day) {
+            return moment(day).format('dddd')
+        },
+        getDayNameMobile(day) {
+            return moment(day).format('ddd')
+        },
+        getRoute(day) {
+            return moment(day).format('MM-DD-YYYY')
+        },
+        getDayFormat(day) {
+            return moment(day).format('MMM DD')
+        },
+        addClass(e, item) {
+			if (e.ctrlKey) {
+                this.isActive = !this.isActive
+            }else {
+                this.WholeWeek.forEach(element => {
+                    isActive = false
+                });
+                    isActive = true
+
+            }
+            }
+    }
+
 }
 </script>
 

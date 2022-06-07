@@ -8,7 +8,7 @@
 						<span class="table-navigation__center">{{getDay}} - {{endDate}}, {{year}} ({{getWeek}} week)</span>
 						<a href="javascript:;" class="table-navigation__next" @click="nextWeek"><span>next week</span></a>
 					</div>
-					<week-label :day="day"></week-label>
+					<week-label :day="day" :whole-week="weekdays" :year="year"></week-label>
 					<table class="project-table">
 						<thead>
 							<tr class="project-table__top">
@@ -111,7 +111,9 @@ export default {
 	data() {
 		return {
 			day: moment(this.$route.params.day).format('DD MMMM'),
-			dayYearFormat: moment(this.$route.params.day)
+			dayYearFormat: moment(this.$route.params.day),
+			endDay: moment(this.$route.params.day).add(7,'days'),
+			weekdays: [],
 		}
 	},
 	components: {
@@ -128,21 +130,38 @@ export default {
 			return moment(this.dayYearFormat).year();
 		},
 		getDay() {
-			return  moment(this.$route.params.day).format('DD MMM')
-		}
+			return  moment(this.day).format('DD MMM')
+		},
+
 	},
 	created() {
-		console.log(this.day)
+		this.getWholeWeek();
 	},
 	methods: {
         nextWeek() {
             this.day = moment(this.day).add(1,'week').format('DD MMMM')
 			this.dayYearFormat = moment(this.dayYearFormat).add(1,'week');
+			this.endDay =  moment(this.dayYearFormat).add(7,'day');
+			this.getWholeWeek();
         },
 		prevWeek() {
 			this.day = moment(this.day).subtract(1,'week').format('DD MMMM')
 			this.dayYearFormat = moment(this.dayYearFormat).subtract(1,'week');
-		}
+			this.endDay =  moment(this.dayYearFormat).add(1,'week');
+			this.getWholeWeek();
+		},
+		getWholeWeek() {
+            const now = this.dayYearFormat.clone();
+            const dates = [];
+
+				while( now.isSameOrBefore(this.endDay)) {
+					dates.push(now.format('MMMM DD YYYY'));
+					now.add(1,'days')
+					this.weekdays = dates;
+				}
+            this.weekdays = dates;
+        },
+
     }
 
 }

@@ -9,7 +9,7 @@ const routes = [
     },
     {
         path: '/date/:day',
-        name: 'day',
+        name: 'dayEdit',
         component: EditDay
     }
 ]
