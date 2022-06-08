@@ -18,6 +18,10 @@ class CreateCalendarTable extends Migration
             $table->date('date');
             $table->integer('hours');
             $table->timestamps();
+            $table->unsignedBigInteger('clients_id')->index();
+            $table->unsignedBigInteger('projects_id')->index();
+            $table->foreign('clients_id')->references('id')->on('clients');
+            $table->foreign('projects_id')->references('id')->on('projects');
         });
     }
 

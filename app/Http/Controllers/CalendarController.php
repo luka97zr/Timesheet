@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Calendar;
 use Illuminate\Http\Request;
 
 class CalendarController extends Controller
@@ -10,9 +11,9 @@ class CalendarController extends Controller
         return view('index');
     }
 
-    public function store() {
-        $test = request()->all();
-        $markup = view('components.table._body',compact('test'))->render();
-        return response()->json(['html' => $markup]);
+    public function show($date) {
+        return Calendar::findOrFail($date);
     }
+
+
 }

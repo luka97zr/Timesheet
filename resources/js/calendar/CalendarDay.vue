@@ -1,5 +1,5 @@
 <template>
-        <td  :class="(isDisabled)? 'month-table__regular--disabled' : '' + 'month-table__regular'">
+        <td :class="(isDisabled)? 'month-table__regular--disabled' : '' + 'month-table__regular'">
             <div class="month-table__date">
                 <span>{{dayNumber}}</span>
                 <i></i>

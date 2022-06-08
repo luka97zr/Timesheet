@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
-class ClientsFactory extends Factory
+class ProjectsFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,17 +14,17 @@ class ClientsFactory extends Factory
      */
     public function definition()
     {
-        $suffix = [
-            'Media Monks',
-            'Emakina',
-            'Bright Marbles',
-            'TeachFirst',
-            'Broadcast Media',
-            'Tink',
-            'Bank of Cyprus'
+        $arr = [
+            'Software Development',
+            'Testing',
+            'Intern',
+            'Meeting with clients',
+            'Learning',
+            'Drupal',
+            'WP'
         ];
         return [
-            'name'  => $this->faker->city()
+            'name'  => $this->faker->unique()->name()
         ];
     }
 }
