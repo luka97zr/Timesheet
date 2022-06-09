@@ -18,7 +18,7 @@ export default {
     },
     computed: {
         fullDate: function() {
-            return moment(this.day).format('DD-MM-YYYY')
+            return moment(this.day).format('YYYY-MM_DD')
         }
     },
 }

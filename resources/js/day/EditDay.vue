@@ -11,82 +11,14 @@
 					<week-label :day="day" :whole-week="weekdays" :year="year"></week-label>
 					<table class="project-table">
 						<thead>
-							<tr class="project-table__top">
-								<th class="project-table__title">Client *</th>
-								<th class="project-table__title">Project *</th>
-								<th class="project-table__title">Category *</th>
-								<th class="project-table__title project-table__title--large">Description</th>
-								<th class="project-table__title project-table__title--small">Hours *</th>
-								<th class="project-table__title project-table__title--small">Overtime</th>
-							</tr>
+							<project-head></project-head>
 						</thead>
 						<tbody>
-							<tr>
-								<td class="project-table__name">
-									<select class="project-table__select">
-										<option>Choose client</option>
-										<option>Client name 1</option>
-										<option>Client name 2</option>
-										<option>Client name 3</option>
-										<option>Client name 4</option>
-									</select>
-								</td>
-								<td class="project-table__name">
-									<select class="project-table__select">
-										<option value="">Choose project</option>
-										<option value="">Choose category</option>
-									</select>
-								</td>
-								<td class="project-table__name">
-									<select class="project-table__select">
-										<option value="">Choose category</option>
-										<option value="">Choose category</option>
-									</select>
-									<span class="validationMessage" style="display: none;"></span>
-								</td>
-								<td class="project-table__name">
-									<input type="text" class="in-text medium">
-								</td>
-								<td class="project-table__name">
-									<input type="text" class="in-text">
-								</td>
-								<td class="project-table__name">
-									<input type="text" class="in-text">
-								</td>
-							</tr>
-							<tr>
-								<td class="project-table__name">
-									<select class="project-table__select">
-										<option>Choose client</option>
-										<option>Client name 1</option>
-										<option>Client name 2</option>
-										<option>Client name 3</option>
-										<option>Client name 4</option>
-									</select>
-								</td>
-								<td class="project-table__name">
-									<select class="project-table__select">
-										<option value="">Choose project</option>
-										<option value="">Choose category</option>
-									</select>
-								</td>
-								<td class="project-table__name">
-									<select class="project-table__select">
-										<option value="">Choose category</option>
-										<option value="">Choose category2</option>
-									</select>
-									<span class="validationMessage" style="display: none;"></span>
-								</td>
-								<td class="project-table__name">
-									<input type="text" class="in-text medium">
-								</td>
-								<td class="project-table__name">
-									<input type="text" class="in-text">
-								</td>
-								<td class="project-table__name">
-									<input type="text" class="in-text">
-								</td>
-							</tr>
+							<project-label ref="projectlabel"></project-label>
+							<project-label ref="projectlabel"></project-label>
+							<project-label ref="projectlabel"></project-label>
+							<project-label ref="projectlabel"></project-label>
+							<project-label ref="projectlabel"></project-label>
 						</tbody>
 					</table>
 					<div class="table-navigation">
@@ -97,7 +29,7 @@
 						</div>
 					</div>
 					<div class="btn-wrap">
-						<button type="submit" class="btn btn--green"><span>Save changes</span></button>
+						<a href="javascript:;" class="btn btn--green" @click="saveData()"><span>Save changes</span></a>
 					</div>
 				</form>
 			</section>
@@ -107,6 +39,8 @@
 <script>
 import moment from 'moment'
 import WeekLabel from './WeekLabel.vue'
+import ProjectLabel from './ProjectLabel.vue'
+import ProjectHead from './ProjectHead.vue'
 export default {
 	data() {
 		return {
@@ -114,10 +48,17 @@ export default {
 			dayYearFormat: moment(this.$route.params.day),
 			endDay: moment(this.$route.params.day).add(7,'days'),
 			weekdays: [],
+			category: 1,
+			description: null,
+			user_id: 1,
+			category_id:1,
+			hours: null,
 		}
 	},
 	components: {
-		WeekLabel
+		WeekLabel,
+		ProjectLabel,
+		ProjectHead
 	},
 	computed: {
 		getWeek() {
@@ -134,8 +75,8 @@ export default {
 		},
 
 	},
-	created() {
-		this.getWholeWeek();
+	mounted() {
+		console.log(this.$refs.projectlabel)
 	},
 	methods: {
         nextWeek() {
@@ -161,6 +102,18 @@ export default {
 				}
             this.weekdays = dates;
         },
+		saveData() {
+			axios.post('/api/logs',{
+				date: '2022-02-03',
+				description: this.$refs.projectlabel.description,
+				user_id: 1,
+				category_id:1,
+				hours:this.$refs.projectlabel.hours+this.$refs.projectlabel.overtime,
+			}).then(response=>{
+				console.log( this.$refs.projectlabel.description)
+				this.$refs.projectlabel.description = this.$refs.projectlabel.hours = this.$refs.projectlabel.overtime = null
+			})
+		}
 
     }
 

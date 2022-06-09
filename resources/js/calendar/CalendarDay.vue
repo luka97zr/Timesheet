@@ -16,7 +16,7 @@ export default {
     props: ['day','firstDay','lastDay','fullDate'],
     data() {
         return {
-            dayData: moment(this.day).format('MM-DD-YYYY')
+            dayData: moment(this.day).format('YYYY-MM-DD')
         }
     },
     computed: {
