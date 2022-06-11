@@ -78,6 +78,9 @@ export default {
 	mounted() {
 		console.log(this.$refs.projectlabel)
 	},
+	created() {
+		getWholeWeek();
+	},
 	methods: {
         nextWeek() {
             this.day = moment(this.day).add(1,'week').format('DD MMMM')

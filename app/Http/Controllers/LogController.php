@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class LogController extends Controller
 {
-    public function get() {
+    public function index() {
         return view('index');
     }
 
@@ -21,12 +21,12 @@ class LogController extends Controller
             'date'          => ['required','date_format:Y-m-d'],
             'hours'         => ['required'],
             'description'   => ['max: 255'],
-            'category_id'   => ['required'],
-            'user_id'       => ['required'],
+            // 'category_id'   => ['required'],
+            // 'user_id'       => ['required'],
         ]);
-
-        $log = Log::create($data);
-        return response()->json(['success' => $log]);
+        
+        // $log = Log::create($data);
+        return response()->json(['success' => true]);
     }
 
 }

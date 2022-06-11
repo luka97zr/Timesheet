@@ -1,6 +1,7 @@
 import router from './routes'
 import index from './index'
 import VueRouter from "vue-router";
+import axios from 'axios';
 require('./bootstrap');
 
 window.Vue = require('vue').default;
@@ -13,5 +14,9 @@ const app = new Vue({
     router,
     components: {
         'index': index
+    },
+    async beforeCreate() {
+        
+        // await axios.get('/user');
     }
 });
