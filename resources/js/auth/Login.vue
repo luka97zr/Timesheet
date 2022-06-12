@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import {logIn} from '../shared/utils/auth';
 export default {
     data() {
         return {
@@ -55,6 +56,12 @@ export default {
                     email: this.email,
                     password: this.password
                 });
+                
+                const user = await axios.get('/user');
+                logIn(user)
+                // console.log(user)
+
+
             } catch(error) {
                     this.errors = error.response?.data.errors
             }

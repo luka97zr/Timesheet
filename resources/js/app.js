@@ -17,6 +17,5 @@ const app = new Vue({
     },
     async beforeCreate() {
         
-        // await axios.get('/user');
     }
 });
