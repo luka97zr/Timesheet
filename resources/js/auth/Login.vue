@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import {logIn} from '../shared/utils/auth';
+import {logIn} from '../shared/utils/auth'
 export default {
     data() {
         return {
@@ -56,11 +56,9 @@ export default {
                     email: this.email,
                     password: this.password
                 });
-                
-                const user = await axios.get('/user');
-                logIn(user)
-                // console.log(user)
-
+                logIn()
+				this.$store.dispatch('loadUser');
+				this.$router.push({name: 'home'});
 
             } catch(error) {
                     this.errors = error.response?.data.errors

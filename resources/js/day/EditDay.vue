@@ -15,10 +15,6 @@
 						</thead>
 						<tbody>
 							<project-label ref="projectlabel"></project-label>
-							<project-label ref="projectlabel"></project-label>
-							<project-label ref="projectlabel"></project-label>
-							<project-label ref="projectlabel"></project-label>
-							<project-label ref="projectlabel"></project-label>
 						</tbody>
 					</table>
 					<div class="table-navigation">
@@ -41,6 +37,7 @@ import moment from 'moment'
 import WeekLabel from './WeekLabel.vue'
 import ProjectLabel from './ProjectLabel.vue'
 import ProjectHead from './ProjectHead.vue'
+import store from '../store'
 export default {
 	data() {
 		return {
@@ -75,11 +72,9 @@ export default {
 		},
 
 	},
-	mounted() {
-		console.log(this.$refs.projectlabel)
-	},
 	created() {
-		getWholeWeek();
+		this.getWholeWeek();
+		console.log(this.$store.state.user);
 	},
 	methods: {
         nextWeek() {
@@ -109,12 +104,12 @@ export default {
 			axios.post('/api/logs',{
 				date: '2022-02-03',
 				description: this.$refs.projectlabel.description,
-				user_id: 1,
+				user_id: this.$store.user.id,
 				category_id:1,
 				hours:this.$refs.projectlabel.hours+this.$refs.projectlabel.overtime,
 			}).then(response=>{
-				console.log( this.$refs.projectlabel.description)
 				this.$refs.projectlabel.description = this.$refs.projectlabel.hours = this.$refs.projectlabel.overtime = null
+				console.log(response)
 			})
 		}
 
