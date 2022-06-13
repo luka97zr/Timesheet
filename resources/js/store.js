@@ -20,7 +20,6 @@ export default {
 			if(isLoggedIn()) {
 				try {
 					const user = (await axios.get('/user')).data
-					console.log(user);
 					commit('setUser',user);
 					commit('setLoggedIn', true)
 				} catch(error) {

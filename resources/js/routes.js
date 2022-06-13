@@ -16,13 +16,16 @@ const routes = [
         name: 'dayEdit',
         component: EditDay,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
         }
     },
     {
         path: '/auth/login',
         name: 'login',
-        component: Login
+        component: Login,
+        meta: {
+            hideNavbar: true
+        }
     }
 ]
 const router = new VueRouter({

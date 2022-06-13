@@ -1,12 +1,5 @@
 <template>
   <div class="container">
-		<header class="header">
-			<div class="inner-wrap">
-				<a href="./index.html" class="logo">
-				<img src="images/logo/logo-white.png" alt="">
-				</a>
-			</div>
-		</header>
 		<div class="initial-form">
 			<div class="wrapper">
 				<div class="main-content">
@@ -22,6 +15,7 @@
 								<input type="password" class="in-text" v-model="password">
 							</li>
 						</ul>
+						<div class="invalid-feedback" v-if="errors">{{errors}}</div>
 						<div class="btn-wrap">
 							<label class="initial-form__checkbox"><input type="checkbox" name="remember-me">Remember me</label>
 							<a href="./forgot-password.html" class="btn btn--transparent"><span>Forgot password</span></a>
@@ -46,6 +40,11 @@ export default {
             errors: null
         }
     },
+	created() {
+		if(localStorage.getItem('isLoggedIn')) {
+			this.$router.back();
+		}
+	},
     methods: {
         async login() {
             this.loading = true;
@@ -53,7 +52,7 @@ export default {
 
             try {
                 await axios.get('/sanctum/csrf-cookie');
-                await axios.post('/login',{
+                 await axios.post('/login',{
                     email: this.email,
                     password: this.password
                 });
@@ -62,7 +61,7 @@ export default {
 				this.$router.push({name: 'home'});
 
             } catch(error) {
-                    this.errors = error.response?.data.errors
+                    this.errors = error.response?.data.message
             }
 
             this.loading = false
@@ -71,6 +70,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+ .invalid-feedback {
+	color: red;
+ }
 </style>
