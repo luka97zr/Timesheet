@@ -39,7 +39,7 @@ export default {
     expose: ['description', 'hours','overtime'],
     data() {
         return {
-            description: null,
+            description: '',
             overtime: null,
             hours: null,
         }

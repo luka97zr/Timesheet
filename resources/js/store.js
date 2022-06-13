@@ -35,6 +35,8 @@ export default {
 		}
 	},
 	getters: {
-		user: (state) => state.user
+		async getUser(state) {
+			return await state.user
+		}
 	}
 }

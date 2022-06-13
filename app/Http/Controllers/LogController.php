@@ -20,12 +20,12 @@ class LogController extends Controller
         $data = request()->validate([
             'date'          => ['required','date_format:Y-m-d'],
             'hours'         => ['required'],
-            'description'   => ['max: 255'],
-            // 'category_id'   => ['required'],
-            // 'user_id'       => ['required'],
+            'description'   => ['max: 255','string','nullable'],
+            'category_id'   => ['required'],
+            'user_id'       => ['required'],
         ]);
-        
-        // $log = Log::create($data);
+
+        Log::create($data);
         return response()->json(['success' => true]);
     }
 

@@ -36,6 +36,7 @@
 
 <script>
 import {logIn} from '../shared/utils/auth'
+import handleEror from './../shared/error'
 export default {
     data() {
         return {
@@ -56,8 +57,8 @@ export default {
                     email: this.email,
                     password: this.password
                 });
-                logIn()
-				this.$store.dispatch('loadUser');
+            	localStorage.setItem('isLoggedIn', true)
+				await this.$store.dispatch('loadUser');
 				this.$router.push({name: 'home'});
 
             } catch(error) {

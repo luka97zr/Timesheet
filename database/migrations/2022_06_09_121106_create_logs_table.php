@@ -18,7 +18,7 @@ class CreateLogsTable extends Migration
             $table->date('date');
             $table->integer('hours');
             $table->timestamps();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
         });

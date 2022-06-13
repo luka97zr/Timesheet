@@ -30,7 +30,7 @@
                     </nav>
                     <div class="user">
                         <div class="user__nav">
-                            <h2 class="user__name">Ognjen Adamović</h2>
+                            <h2 class="user__name">{{userName}}</h2>
                             <ul class="user__dropdown">
                                 <li class="user__list"><a class="user__link" href="javascript:;">Change password</a></li>
                                 <li class="user__list"><a class="user__link" href="javascript:;">Settings</a></li>
@@ -57,3 +57,13 @@
         </footer>
     </div>
 </template>
+<script>
+
+export default {
+    computed: {
+        userName() {
+            return this.$store.state.user.name
+        }
+    }
+}
+</script>

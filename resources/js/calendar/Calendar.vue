@@ -3,9 +3,9 @@
         <section class="main-content">
             <h2 class="main-content__title">Timesheet</h2>
             <div class="table-navigation">
-                <a href="javascript:;" class="table-navigation__prev" @click="previousMonth"><span>previous month</span></a>
+                <a href="javascript:;" class="table-navigation__prev" @click.prevent="previousMonth"><span>previous month</span></a>
                     <span class="table-navigation__center">{{month}},{{year}}</span>
-                <a href="javascript:;" class="table-navigation__next" @click="nextMonth"><span>next month</span></a>
+                <a href="javascript:;" class="table-navigation__next" @click.prevent="nextMonth"><span>next month</span></a>
             </div>
             <div class="table-wrapper">
                 <table class="month-table">
@@ -28,7 +28,6 @@
 <script>
     import moment from "moment"
     import CalendarWeekdays from './CalendarWeekdays'
-    import CalendarMonth from './CalendarMonth'
     import CalendarRow from './CalendarRow'
     export default {
         data() {
@@ -41,7 +40,6 @@
         },
         components: {
             CalendarWeekdays,
-            CalendarMonth,
             CalendarRow,
         },
         computed: {
@@ -63,7 +61,6 @@
             lastDayOfMonth: function() {
                 return moment([this.dateContext.format('Y'),this.dateContext.format('M')-1]).clone().endOf('month');
             },
-            //Previous Code Above
             initialDate: function () {
                 return this.today.get('date');
             },
@@ -73,46 +70,46 @@
             initialYear: function () {
                 return this.today.format('YYYY');
             }
-    },
-    created() {
-        this.calculateCalendar();
-    },
-    methods: {
-        previousMonth: function() {
-            this.dateContext = moment(this.dateContext).subtract(1, 'month');
+        },
+        created() {
             this.calculateCalendar();
         },
-        nextMonth: function() {
-            this.dateContext = moment(this.dateContext).add(1, 'month');
-            this.calculateCalendar();
-        },
-        calculateCalendar: function() {
-            const calendarArr = []
-            const startDate = moment([this.dateContext.format('Y'),this.dateContext.format('M')-1])
-            .clone()
-            .startOf('month')
-            .startOf('isoWeek');
-            const endDate = moment([this.dateContext.format('Y'),this.dateContext.format('M')-1]).clone().endOf('month').endOf('week');
-            const day = startDate.clone().subtract(1,'days')
-            while(day.isBefore(endDate,"day")) {
-                calendarArr.push(
-                    Array(7)
-                    .fill(0)
-                    .map(()=>day.add(1,"day").clone())
-                );
-            }
-            if(calendarArr.length < 6) {
-                for(let i=0; i< 6-calendarArr.length; i++) {
+        methods: {
+            previousMonth: function() {
+                this.dateContext = moment(this.dateContext).subtract(1, 'month');
+                this.calculateCalendar();
+            },
+            nextMonth: function() {
+                this.dateContext = moment(this.dateContext).add(1, 'month');
+                this.calculateCalendar();
+            },
+            calculateCalendar: function() {
+                const calendarArr = []
+                const startDate = moment([this.dateContext.format('Y'),this.dateContext.format('M')-1])
+                .clone()
+                .startOf('month')
+                .startOf('isoWeek');
+                const endDate = moment([this.dateContext.format('Y'),this.dateContext.format('M')-1]).clone().endOf('month').endOf('week');
+                const day = startDate.clone().subtract(1,'days')
+                while(day.isBefore(endDate,"day")) {
                     calendarArr.push(
-                    Array(7)
-                    .fill(0)
-                    .map(()=>day.add(1,"day").clone()))
+                        Array(7)
+                        .fill(0)
+                        .map(()=>day.add(1,"day").clone())
+                    );
                 }
+                if(calendarArr.length < 6) {
+                    for(let i=0; i< 6-calendarArr.length; i++) {
+                        calendarArr.push(
+                        Array(7)
+                        .fill(0)
+                        .map(()=>day.add(1,"day").clone()))
+                    }
+                }
+                this.getDate = calendarArr;
             }
-            this.getDate = calendarArr;
         }
-    }
 
-}
+    }
 </script>
 

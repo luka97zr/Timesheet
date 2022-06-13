@@ -1,7 +1,7 @@
 <template>
   <div class="day-table">
     <ul class="day-table__wrap">
-        <li class="day-table__list" v-for="(day,index) in WholeWeek" :key="index" @click="addClass(index, $event)" :class="{ 'day-table__list--active' : isActive }">
+        <li class="day-table__list" v-for="(day,index) in WholeWeek" :key="index" @click="addClass(index, $event)">
             <router-link :to="'/date/'+getRoute(day)" class="day-table__link">
             <b class="day-table__month">{{getDayFormat(day)}}</b> <i class="day-table__day">0</i>
             <span class="day-table__span hide-on-mob">{{getDayName(day)}}</span>
@@ -19,7 +19,6 @@ export default {
     data() {
             return {
                 dayRoute: this.$route.params.day,
-                isActive: false
             }
         },
     methods: {
@@ -30,22 +29,11 @@ export default {
             return moment(day).format('ddd')
         },
         getRoute(day) {
-            return moment(day).format('MM-DD-YYYY')
+            return moment(day).format('YYYY-MM-DD')
         },
         getDayFormat(day) {
             return moment(day).format('MMM DD')
         },
-        addClass(e, item) {
-			if (e.ctrlKey) {
-                this.isActive = !this.isActive
-            }else {
-                this.WholeWeek.forEach(element => {
-                    isActive = false
-                });
-                    isActive = true
-
-            }
-            }
     }
 
 }

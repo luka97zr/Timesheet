@@ -1,35 +1,35 @@
 <template>
-  <div class="wrapper">
-			<section class="content">
-				<form id="mainContent" class="main-content" action="javascript">
-					<h2 class="main-content__title">Timesheet</h2>
-					<div class="table-navigation">
-						<a href="javascript:;" class="table-navigation__prev" @click="prevWeek"><span>previous week</span></a>
-						<span class="table-navigation__center">{{getDay}} - {{endDate}}, {{year}} ({{getWeek}} week)</span>
-						<a href="javascript:;" class="table-navigation__next" @click="nextWeek"><span>next week</span></a>
+  	<div class="wrapper">
+		<section class="content">
+			<form id="mainContent" class="main-content" action="javascript">
+				<h2 class="main-content__title">Timesheet</h2>
+				<div class="table-navigation">
+					<a href="javascript:;" class="table-navigation__prev" @click="prevWeek"><span>previous week</span></a>
+					<span class="table-navigation__center">{{getDay}} - {{endDate}}, {{year}} ({{getWeek}} week)</span>
+					<a href="javascript:;" class="table-navigation__next" @click="nextWeek"><span>next week</span></a>
+				</div>
+				<week-label :day="day" :whole-week="weekdays" :year="year"></week-label>
+				<table class="project-table">
+					<thead>
+						<project-head></project-head>
+					</thead>
+					<tbody>
+						<project-label ref="projectlabel"></project-label>
+					</tbody>
+				</table>
+				<div class="table-navigation">
+					<router-link to="/" class="table-navigation__prev"><span>back to monthly view</span></router-link>
+					<div class="table-navigation__next">
+						<span class="table-navigation__text">Total:</span>
+						<span>7.5</span>
 					</div>
-					<week-label :day="day" :whole-week="weekdays" :year="year"></week-label>
-					<table class="project-table">
-						<thead>
-							<project-head></project-head>
-						</thead>
-						<tbody>
-							<project-label ref="projectlabel"></project-label>
-						</tbody>
-					</table>
-					<div class="table-navigation">
-						<router-link to="/" class="table-navigation__prev"><span>back to monthly view</span></router-link>
-						<div class="table-navigation__next">
-							<span class="table-navigation__text">Total:</span>
-							<span>7.5</span>
-						</div>
-					</div>
-					<div class="btn-wrap">
-						<a href="javascript:;" class="btn btn--green" @click="saveData()"><span>Save changes</span></a>
-					</div>
-				</form>
-			</section>
-		</div>
+				</div>
+				<div class="btn-wrap">
+					<button href="javascript:;" class="btn btn--green" @click.prevent="saveData()"><span>Save changes</span></button>
+				</div>
+			</form>
+		</section>
+	</div>
 </template>
 
 <script>
@@ -37,7 +37,6 @@ import moment from 'moment'
 import WeekLabel from './WeekLabel.vue'
 import ProjectLabel from './ProjectLabel.vue'
 import ProjectHead from './ProjectHead.vue'
-import store from '../store'
 export default {
 	data() {
 		return {
@@ -70,11 +69,16 @@ export default {
 		getDay() {
 			return  moment(this.day).format('DD MMM')
 		},
+		userId() {
+			return this.$store.state.user.id;
+		},
+		test() {
+			console.log(localStorage.getItem('isLoggedIn'))
+		}
 
 	},
 	created() {
 		this.getWholeWeek();
-		console.log(this.$store.state.user);
 	},
 	methods: {
         nextWeek() {
@@ -94,17 +98,19 @@ export default {
             const dates = [];
 
 				while( now.isSameOrBefore(this.endDay)) {
-					dates.push(now.format('MMMM DD YYYY'));
+					dates.push(now.format('YYYY-MMMM-DD'));
 					now.add(1,'days')
 					this.weekdays = dates;
 				}
             this.weekdays = dates;
         },
 		saveData() {
+			console.log(this.$refs.projectlabel.description),
+			console.log( this.$route.params.day)
 			axios.post('/api/logs',{
-				date: '2022-02-03',
+				date: this.$route.params.day,
 				description: this.$refs.projectlabel.description,
-				user_id: this.$store.user.id,
+				user_id: this.userId,
 				category_id:1,
 				hours:this.$refs.projectlabel.hours+this.$refs.projectlabel.overtime,
 			}).then(response=>{

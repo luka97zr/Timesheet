@@ -10,7 +10,17 @@ window.Vue = require('vue').default;
 Vue.use(VueRouter);
 Vue.use(Vuex)
 
-
+window.axios.interceptors.response.use(
+    response => {
+        return response;
+    },
+    error => {
+        if (error.response.status === 401) {
+            store.dispatch('logout');
+        }
+        return Promise.reject(error)
+    }
+)
 
 const store = new Vuex.Store(storeDefinition);
 
