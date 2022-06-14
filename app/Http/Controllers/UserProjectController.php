@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
+use App\Models\Project;
+use App\Models\User;
+use App\Models\UserProject;
 use Illuminate\Http\Request;
 
-class ClientController extends Controller
+class UserProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return Client::all();
+        //
     }
 
     /**
@@ -41,21 +43,22 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Client  $clients
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $clients)
+    public function show($id)
     {
-        //
+      $user = UserProject::with(['project'])->get();
+      return $user;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Client  $clients
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Client $clients)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +67,10 @@ class ClientController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Clients  $clients
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $clients)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +78,10 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Clients  $clients
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $clients)
+    public function destroy($id)
     {
         //
     }

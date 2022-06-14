@@ -79,6 +79,7 @@ export default {
 	},
 	created() {
 		this.getWholeWeek();
+		this.projectsData();
 	},
 	methods: {
         nextWeek() {
@@ -117,6 +118,9 @@ export default {
 				this.$refs.projectlabel.description = this.$refs.projectlabel.hours = this.$refs.projectlabel.overtime = null
 				console.log(response)
 			})
+		},
+		projectsData() {
+			axios.get(`/api/usersprojects/1`).then(response => console.log(response));
 		}
 
     }

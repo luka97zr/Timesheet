@@ -12,4 +12,8 @@ class Project extends Model
     public function clients() {
         return $this->belongsTo(Calendar::class);
     }
+
+    public function userProject() {
+        return $this->hasMany(UserProject::class);
+    }
 }

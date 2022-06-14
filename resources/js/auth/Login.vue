@@ -30,7 +30,6 @@
 
 <script>
 import {logIn} from '../shared/utils/auth'
-import handleEror from './../shared/error'
 export default {
     data() {
         return {
@@ -40,11 +39,6 @@ export default {
             errors: null
         }
     },
-	created() {
-		if(localStorage.getItem('isLoggedIn')) {
-			this.$router.back();
-		}
-	},
     methods: {
         async login() {
             this.loading = true;
