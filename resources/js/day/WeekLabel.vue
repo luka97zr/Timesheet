@@ -1,7 +1,7 @@
 <template>
   <div class="day-table">
     <ul class="day-table__wrap">
-        <li class="day-table__list" v-for="(day,index) in WholeWeek" :key="index" @click="addClass(index, $event)">
+        <li class="day-table__list" v-for="(day,index) in WholeWeek" :key="index" :class="addClass(day)" @click="checkClass(day)">
             <router-link :to="'/date/'+getRoute(day)" class="day-table__link">
             <b class="day-table__month">{{getDayFormat(day)}}</b> <i class="day-table__day">0</i>
             <span class="day-table__span hide-on-mob">{{getDayName(day)}}</span>
@@ -19,6 +19,7 @@ export default {
     data() {
             return {
                 dayRoute: this.$route.params.day,
+                current: null
             }
         },
     methods: {
@@ -34,6 +35,20 @@ export default {
         getDayFormat(day) {
             return moment(day).format('MMM DD')
         },
+        addClass(day) {
+            return (this.current === day)? 'day-table__list--active' : ''
+        },
+        checkClass(day) {
+            this.current = day
+        },
+    },
+    computed: {
+        asignDate() {
+            this.current = moment(this.dayRoute).format('YYYY-MMMM-DD');
+        },
+    },
+    created() {
+           this.asignDate
     }
 
 }

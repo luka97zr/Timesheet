@@ -26,7 +26,8 @@ const routes = [
         meta: {
             hideNavbar: true
         }
-    }
+    },
+
 ]
 const router = new VueRouter({
     routes,
@@ -36,7 +37,7 @@ const router = new VueRouter({
 
 router.beforeEach((to,from,next)=>{
     if(to.matched.some(record => record.meta.requiresAuth)) {
-        if(!localStorage.getItem('isLoggedIn')) {
+        if(localStorage.getItem('isLoggedIn') === 'false') {
             next({name: 'login'})
         } else {
             next();

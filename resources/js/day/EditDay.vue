@@ -4,9 +4,9 @@
 			<form id="mainContent" class="main-content" action="javascript">
 				<h2 class="main-content__title">Timesheet</h2>
 				<div class="table-navigation">
-					<a href="javascript:;" class="table-navigation__prev" @click="prevWeek"><span>previous week</span></a>
+					<a href="javascript:;" class="table-navigation__prev" @click.prevent="prevWeek"><span>previous week</span></a>
 					<span class="table-navigation__center">{{getDay}} - {{endDate}}, {{year}} ({{getWeek}} week)</span>
-					<a href="javascript:;" class="table-navigation__next" @click="nextWeek"><span>next week</span></a>
+					<a href="javascript:;" class="table-navigation__next" @click.prevent="nextWeek"><span>next week</span></a>
 				</div>
 				<week-label :day="day" :whole-week="weekdays" :year="year"></week-label>
 				<table class="project-table">
@@ -25,10 +25,12 @@
 					</div>
 				</div>
 				<div class="btn-wrap">
-					<button href="javascript:;" class="btn btn--green" @click.prevent="saveData()"><span>Save changes</span></button>
+					<button type="submit" class="btn btn--green" @click.prevent="saveData()" :disabled="disabled" :class="{'is-disabled' : disabled}"><span>Save changes</span></button>
 				</div>
 			</form>
 		</section>
+		<div class="msg msg-success" v-if="success">Data Successfuly saved</div>
+		<div class="msg msg-error" v-if="error">Error occured</div>
 	</div>
 </template>
 
@@ -44,11 +46,12 @@ export default {
 			dayYearFormat: moment(this.$route.params.day),
 			endDay: moment(this.$route.params.day).add(7,'days'),
 			weekdays: [],
-			category: 1,
 			description: null,
-			user_id: 1,
 			category_id:1,
 			hours: null,
+			success: null,
+			error:null,
+			disabled: true
 		}
 	},
 	components: {
@@ -72,14 +75,12 @@ export default {
 		userId() {
 			return this.$store.state.user.id;
 		},
-		test() {
-			console.log(localStorage.getItem('isLoggedIn'))
-		}
-
+		validateFields() {
+        	return (this.$refs.projectlabel.client && this.$refs.projectlabel.category && this.$refs.projectlabel.project && this.$refs.projectlabel.hours)? true : false
+    	}
 	},
 	created() {
 		this.getWholeWeek();
-		this.projectsData();
 	},
 	methods: {
         nextWeek() {
@@ -95,10 +96,11 @@ export default {
 			this.getWholeWeek();
 		},
 		getWholeWeek() {
-            const now = this.dayYearFormat.clone();
+            const now = moment(this.dayYearFormat.clone()).startOf('isoWeek');
+			const end = moment(this.dayYearFormat.clone()).endOf('isoWeek')
             const dates = [];
 
-				while( now.isSameOrBefore(this.endDay)) {
+				while( now.isSameOrBefore(end)) {
 					dates.push(now.format('YYYY-MMMM-DD'));
 					now.add(1,'days')
 					this.weekdays = dates;
@@ -106,28 +108,50 @@ export default {
             this.weekdays = dates;
         },
 		saveData() {
-			console.log(this.$refs.projectlabel.description),
-			console.log( this.$route.params.day)
+			this.success = null
 			axios.post('/api/logs',{
 				date: this.$route.params.day,
 				description: this.$refs.projectlabel.description,
 				user_id: this.userId,
-				category_id:1,
+				category_id:this.$refs.projectlabel.category,
 				hours:this.$refs.projectlabel.hours+this.$refs.projectlabel.overtime,
 			}).then(response=>{
 				this.$refs.projectlabel.description = this.$refs.projectlabel.hours = this.$refs.projectlabel.overtime = null
-				console.log(response)
+				if(response.status === 200){
+					 this.success = true
+					setTimeout(()=> this.success = false, 2000)
+				}
+			}).catch(error => {
+				this.error=true
+				setTimeout(()=> this.error = false, 2000)
 			})
-		},
-		projectsData() {
-			axios.get(`/api/usersprojects/1`).then(response => console.log(response));
-		}
 
-    }
+		},
+    },
 
 }
 </script>
 
-<style>
+<style scoped>
+	.msg {
+		position: fixed;
+		bottom: 5%;
+		right: 0;
+		font-size: 18px;
+		padding: 10px;
+		border-radius: 12px;
+		color: white;
+	}
+	.msg-error {
+		background: red;
 
+	}
+	.msg-success {
+		background: green;
+
+	}
+	.is-disabled {
+		opacity: .8;
+		cursor: not-allowed;
+	}
 </style>

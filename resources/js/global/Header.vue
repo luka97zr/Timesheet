@@ -38,7 +38,7 @@
                 </div>
                 <ul>
                     <li class="logout">
-                        <a class="logout__link" href="javascript:;">Logout</a>
+                        <router-link :to="{name: 'login'}" class="logout__link" @click.native.prevent="logout">Logout</router-link>
                     </li>
                 </ul>
             </div>
@@ -51,6 +51,20 @@ export default {
     computed: {
         userName() {
             return this.$store.state.user.name
+        },
+        userId() {
+            return this.$store.state.user.id;
+        }
+        
+    },
+    methods: {
+        async logout() {
+            try {
+                axios.post('/logout');
+                this.$store.dispatch('logout')
+            } catch(error) {
+
+            }
         }
     }
 }

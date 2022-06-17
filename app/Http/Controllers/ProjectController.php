@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
@@ -44,9 +45,11 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project)
+    public function show($user_id)
     {
-        //
+        return Project::whereHas('userProject', function (Builder $query) use ($user_id) {
+            $query->where('user_id', '=', $user_id);
+          })->with(['client','category'])->get();
     }
 
     /**

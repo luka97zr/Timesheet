@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import {logIn} from '../shared/utils/auth'
 export default {
     data() {
         return {

@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserProjectController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,5 +21,5 @@ use Illuminate\Support\Facades\Route;
 // Route::post('calendar/{date}',[LogController::class,'show']);
 Route::resource('logs',LogController::class);
 Route::resource('client',ClientController::class);
-Route::resource('usersprojects',UserProjectController::class);
+Route::resource('projects',ProjectController::class);
 

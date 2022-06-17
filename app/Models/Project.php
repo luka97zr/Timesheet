@@ -9,11 +9,15 @@ class Project extends Model
 {
     use HasFactory;
 
-    public function clients() {
-        return $this->belongsTo(Calendar::class);
+    public function client() {
+        return $this->belongsTo(Client::class);
     }
 
     public function userProject() {
         return $this->hasMany(UserProject::class);
+    }
+
+    public function category() {
+        return $this->hasMany(Category::class);
     }
 }

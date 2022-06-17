@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
-use App\Models\User;
-use App\Models\UserProject;
 use Illuminate\Http\Request;
 
 class UserProjectController extends Controller
@@ -48,8 +45,7 @@ class UserProjectController extends Controller
      */
     public function show($id)
     {
-      $user = UserProject::with(['project'])->get();
-      return $user;
+      //
     }
 
     /**

@@ -16,4 +16,8 @@ class Category extends Model
     public function log() {
         return $this->hasMany(Log::class);
     }
+
+    public function project() {
+        return $this->belongsTo(Project::class);
+    }
 }
