@@ -4,7 +4,6 @@ import VueRouter from "vue-router";
 import Vue from 'vue';
 import Vuex from 'vuex'
 import storeDefinition from './store'
-import { isLoggedIn } from './shared/utils/auth';
 require('./bootstrap');
 
 window.Vue = require('vue').default;

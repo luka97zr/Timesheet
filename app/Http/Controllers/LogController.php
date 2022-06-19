@@ -19,7 +19,7 @@ class LogController extends Controller
     public function store() {
         $data = request()->validate([
             'date'          => ['required','date_format:Y-m-d'],
-            'hours'         => ['required'],
+            'hours'         => ['required','numeric','gt:0'],
             'description'   => ['max: 255','string','nullable'],
             'category_id'   => ['required'],
             'user_id'       => ['required'],

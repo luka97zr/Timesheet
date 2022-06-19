@@ -2,38 +2,41 @@
     <tr>
         <td class="project-table__name">
             <select class="project-table__select" v-model="client">
-                <option  value="">Choose client</option>
-                <option  v-for="(client,index) in clientName" :key="index" >{{ client}}</option>
+                <option  :value=null >Choose client</option>
+                <option  v-for="(client,index) in clientName" :key="index" >{{ client }}</option>
             </select>
+            <v-errors v-if="errors" :errorData="errorFor('category_id')" ></v-errors>
         </td>
         <td class="project-table__name">
-            <select class="project-table__select" v-model="project"  ref="project">
-                <option value="">Choose project</option>
-                <option  v-for="(project,index) in filterProjects" :key="index" :value="project.id">{{project.name}}</option>
+            <select class="project-table__select" v-model="project">
+                <option :value=null>Choose project</option>
+                <option  v-for="(project,index) in filteredProjects" :key="index" :value="project.id">{{ project.name }}</option>
             </select>
         </td>
         <td class="project-table__name">
             <select class="project-table__select" v-model="category">
-                <option value="">Choose category</option>
-                <option  v-for="(category,index) in filterCategories" :key="index" :value="category.id" >{{category.name}}</option>
+                <option :value=null>Choose category</option>
+                <option  v-for="(category,index) in filteredCategories" :key="index" :value="category.id" >{{ category.name }}</option>
             </select>
             <span class="validationMessage" style="display: none;"></span>
         </td>
         <td class="project-table__name">
-            <input type="text"  class="in-text medium" v-model="description" ref="description">
+            <input type="text"  class="in-text medium" v-model="description" >
         </td>
         <td class="project-table__name">
-            <input type="text" class="in-text" v-model.number="hours" ref="hours" required>
+            <input type="text" class="in-text" v-model.number="hours">
         </td>
         <td class="project-table__name">
-            <input type="text" class="in-text" v-model.number="overtime" ref="overtime">
+            <input type="text" class="in-text" v-model.number="overtime">
         </td>
     </tr>
 </template>
 
 <script>
+import errorHandle from './../shared/mixins/errorHandle'
 export default {
-    props: ['clients'],
+    props: ['errors'],
+    mixins: [errorHandle],
     expose: ['description','hours','overtime','category','project','client'],
     data() {
         return {
@@ -42,7 +45,7 @@ export default {
             hours: null,
             userProjectData: [],
             clientName: '',
-            client: [],
+            client: null,
             project: null,
             category: null,
         }
@@ -51,14 +54,14 @@ export default {
         userId() {
 			return this.$store.state.user.id;
 		},
-        filterClients() {
+        filteredClients() {
             this.clientName = new Set(this.userProjectData.map(item => item.client.name))
             if(!this.client){
                 this.project = null;
                 this.category = null;
             }
         },
-        filterProjects() {
+        filteredProjects() {
             if(!this.project) this.category=null
             const projects = []
              this.userProjectData.forEach(project => {
@@ -67,7 +70,7 @@ export default {
             })
            return projects
         },
-        filterCategories() {
+        filteredCategories() {
             const categories=[];
                 this.userProjectData.forEach(project => {
                     if(this.project)
@@ -87,7 +90,7 @@ export default {
         },
         userProjectData: {
             handler() {
-                this.filterClients
+                this.filteredClients
             },
             immediate: true
         },

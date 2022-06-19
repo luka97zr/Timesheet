@@ -14,7 +14,7 @@
 						<project-head></project-head>
 					</thead>
 					<tbody>
-						<project-label ref="projectlabel"></project-label>
+						<project-label ref="projectlabel" :errors="errorData"></project-label>
 					</tbody>
 				</table>
 				<div class="table-navigation">
@@ -25,7 +25,7 @@
 					</div>
 				</div>
 				<div class="btn-wrap">
-					<button type="submit" class="btn btn--green" @click.prevent="saveData()" :disabled="disabled" :class="{'is-disabled' : disabled}"><span>Save changes</span></button>
+					<button type="submit" class="btn btn--green" @click.prevent="saveData()"><span>Save changes</span></button>
 				</div>
 			</form>
 		</section>
@@ -51,7 +51,7 @@ export default {
 			hours: null,
 			success: null,
 			error:null,
-			disabled: true
+			errorData: null
 		}
 	},
 	components: {
@@ -75,9 +75,6 @@ export default {
 		userId() {
 			return this.$store.state.user.id;
 		},
-		validateFields() {
-        	return (this.$refs.projectlabel.client && this.$refs.projectlabel.category && this.$refs.projectlabel.project && this.$refs.projectlabel.hours)? true : false
-    	}
 	},
 	created() {
 		this.getWholeWeek();
@@ -107,8 +104,16 @@ export default {
 				}
             this.weekdays = dates;
         },
+		clearInputFields() {
+			this.$refs.projectlabel.description = this.$refs.projectlabel.hours = this.$refs.projectlabel.overtime = this.$refs.projectlabel.client = this.$refs.projectlabel.project = this.$refs.projectlabel.category = null
+
+		},
+		renderError(field) {
+			(this.errorData)? this.errorData[field] : null;
+		},
 		saveData() {
 			this.success = null
+			this.error = null
 			axios.post('/api/logs',{
 				date: this.$route.params.day,
 				description: this.$refs.projectlabel.description,
@@ -116,12 +121,14 @@ export default {
 				category_id:this.$refs.projectlabel.category,
 				hours:this.$refs.projectlabel.hours+this.$refs.projectlabel.overtime,
 			}).then(response=>{
-				this.$refs.projectlabel.description = this.$refs.projectlabel.hours = this.$refs.projectlabel.overtime = null
+				console.log()
+				this.clearInputFields();
 				if(response.status === 200){
 					 this.success = true
 					setTimeout(()=> this.success = false, 2000)
 				}
 			}).catch(error => {
+				this.errorData=error.response.data.errors
 				this.error=true
 				setTimeout(()=> this.error = false, 2000)
 			})
