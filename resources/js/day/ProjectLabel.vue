@@ -5,7 +5,6 @@
                 <option  :value=null >Choose client</option>
                 <option  v-for="(client,index) in clientName" :key="index" >{{ client }}</option>
             </select>
-            <v-errors v-if="errors" :errorData="errorFor('category_id')" ></v-errors>
         </td>
         <td class="project-table__name">
             <select class="project-table__select" v-model="project">
@@ -18,7 +17,6 @@
                 <option :value=null>Choose category</option>
                 <option  v-for="(category,index) in filteredCategories" :key="index" :value="category.id" >{{ category.name }}</option>
             </select>
-            <span class="validationMessage" style="display: none;"></span>
         </td>
         <td class="project-table__name">
             <input type="text"  class="in-text medium" v-model="description" >
@@ -35,7 +33,7 @@
 <script>
 import errorHandle from './../shared/mixins/errorHandle'
 export default {
-    props: ['errors'],
+    props: ['errors','userProjectData'],
     mixins: [errorHandle],
     expose: ['description','hours','overtime','category','project','client'],
     data() {
@@ -43,7 +41,6 @@ export default {
             description: '',
             overtime: null,
             hours: null,
-            userProjectData: [],
             clientName: '',
             client: null,
             project: null,
@@ -82,24 +79,12 @@ export default {
         },
     },
     watch: {
-        userId: {
-            handler() {
-                this.getUserProjectData();
-            },
-            immediate:true
-        },
         userProjectData: {
             handler() {
                 this.filteredClients
             },
             immediate: true
         },
-    },
-    methods: {
-      async getUserProjectData() {
-		    const response = await axios.get(`/api/projects/${this.userId}`);
-            this.userProjectData = response.data;
-		},
     },
 }
 </script>

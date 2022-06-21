@@ -14,7 +14,7 @@
 						<project-head></project-head>
 					</thead>
 					<tbody>
-						<project-label ref="projectlabel" :errors="errorData"></project-label>
+						<project-label v-for="(row,index) in numberOfRows" :key="index" :ref="`projectlabel`+row" :errors="errorData" :userProjectData="userProjectData"></project-label>
 					</tbody>
 				</table>
 				<div class="table-navigation">
@@ -30,7 +30,6 @@
 			</form>
 		</section>
 		<div class="msg msg-success" v-if="success">Data Successfuly saved</div>
-		<div class="msg msg-error" v-if="error">Error occured</div>
 	</div>
 </template>
 
@@ -50,8 +49,13 @@ export default {
 			category_id:1,
 			hours: null,
 			success: null,
-			error:null,
-			errorData: null
+			errorData: null,
+			log: null,
+			numberOfRows: 10,
+			projectObject: [],
+			userProjectData: [],
+			logData: null
+
 		}
 	},
 	components: {
@@ -75,6 +79,12 @@ export default {
 		userId() {
 			return this.$store.state.user.id;
 		},
+		dayRoute() {
+			return this.$route.params.day
+		},
+		calculateHours() {
+			this.getDateLog()
+		}
 	},
 	created() {
 		this.getWholeWeek();
@@ -108,34 +118,73 @@ export default {
 			this.$refs.projectlabel.description = this.$refs.projectlabel.hours = this.$refs.projectlabel.overtime = this.$refs.projectlabel.client = this.$refs.projectlabel.project = this.$refs.projectlabel.category = null
 
 		},
-		renderError(field) {
-			(this.errorData)? this.errorData[field] : null;
-		},
 		saveData() {
+			this.validateFields()
 			this.success = null
 			this.error = null
-			axios.post('/api/logs',{
-				date: this.$route.params.day,
-				description: this.$refs.projectlabel.description,
-				user_id: this.userId,
-				category_id:this.$refs.projectlabel.category,
-				hours:this.$refs.projectlabel.hours+this.$refs.projectlabel.overtime,
-			}).then(response=>{
-				console.log()
-				this.clearInputFields();
-				if(response.status === 200){
-					 this.success = true
-					setTimeout(()=> this.success = false, 2000)
-				}
-			}).catch(error => {
-				this.errorData=error.response.data.errors
-				this.error=true
-				setTimeout(()=> this.error = false, 2000)
-			})
-
+			if (this.projectObject)
+				axios.post('/api/logs',{
+					data: this.projectObject
+				}).then(response=>{
+					console.log()
+					this.clearInputFields();
+					if(response.status === 200){
+						this.success = true
+						setTimeout(()=> this.success = false, 2000)
+					}
+				}).catch(error => {
+					this.errorData=error.response.data.errors
+				})
 		},
-    },
+		async getDateLog() {
+			try {
+			 const response = await axios.get(`/api/logs/${this.dayRoute}`)
+			 this.logData = response.data
 
+			} catch(err) {
+				console.log(err)
+			}
+		},
+		validateFields() {
+			this.projectObject = [];
+			Object.values(this.$refs).forEach((row,index) => {
+				if(row[0].project && row[0].category && row[0].client && row[0].hours)
+					this.projectObject[index] = {
+						date: this.$route.params.day,
+						description: row[0].description,
+						user_id: this.userId,
+						category_id: row[0].category,
+						hours: row[0].hours + row[0].overtime
+					}
+
+			});
+		},
+		async getUserProjectData() {
+		    const response = await axios.get(`/api/projects/${this.userId}`);
+            this.userProjectData = response.data;
+		},
+
+    },
+	watch: {
+		userId: {
+            handler() {
+                this.getUserProjectData();
+            },
+            immediate:true
+        },
+		dayRoute: {
+			handler() {
+				this.getDateLog()
+			},
+            immediate:true
+		},
+		calculateHours: {
+			handler() {
+				console.log(this.totalHours)
+			},
+			immediate:true
+		}
+	}
 }
 </script>
 

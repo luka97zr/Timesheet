@@ -2,30 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Log;
 use Illuminate\Http\Request;
 
 class LogController extends Controller
 {
     public function index() {
-        return view('index');
     }
 
     public function show($date) {
-        return Log::where('date', $date)->first();
+        return Log::where('date', $date)->get();
     }
 
-    public function store() {
-        $data = request()->validate([
-            'date'          => ['required','date_format:Y-m-d'],
-            'hours'         => ['required','numeric','gt:0'],
-            'description'   => ['max: 255','string','nullable'],
-            'category_id'   => ['required'],
-            'user_id'       => ['required'],
+    public function store(Request $request) {
+        $data = $request->validate([
+            'data.*.date'          => ['required','date_format:Y-m-d'],
+            'data.*.hours'         => ['required','numeric','gt:0'],
+            'data.*.description'   => ['max: 255','string','nullable'],
+            'data.*.category_id'   => ['required'],
+            'data.*.user_id'       => ['required'],
         ]);
 
-        Log::create($data);
+        (Log::where('date',$data['data']))? Log::where('date',$data['data'])->delete() : null;
+
+       collect($data['data'])->each(function($singleData) {
+            Log::create($singleData);
+        });
+
         return response()->json(['success' => true]);
     }
 
