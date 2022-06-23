@@ -3,7 +3,7 @@
     <ul class="day-table__wrap">
         <li class="day-table__list" v-for="(day,index) in WholeWeek" :key="index" :class="addClass(day)" @click="checkClass(day)">
             <router-link :to="'/date/'+getRoute(day)" class="day-table__link">
-            <b class="day-table__month">{{getDayFormat(day)}}</b> <i class="day-table__day">0</i>
+            <b class="day-table__month">{{getDayFormat(day)}}</b> <i class="day-table__day">{{hour}}</i>
             <span class="day-table__span hide-on-mob">{{getDayName(day)}}</span>
             <span class="day-table__span show-on-mob">{{getDayNameMobile(day)}}</span>
             </router-link>
@@ -15,7 +15,7 @@
 <script>
 import moment from 'moment'
 export default {
-    props: ['WholeWeek','year'],
+    props: ['WholeWeek','year','hour'],
     data() {
             return {
                 dayRoute: this.$route.params.day,

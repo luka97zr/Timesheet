@@ -74,7 +74,7 @@ export default {
                         project.category.forEach(category => {
                         categories.push(category)
                         })
-            })
+                })
            return categories
         },
     },

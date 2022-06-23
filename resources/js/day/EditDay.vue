@@ -8,7 +8,7 @@
 					<span class="table-navigation__center">{{getDay}} - {{endDate}}, {{year}} ({{getWeek}} week)</span>
 					<a href="javascript:;" class="table-navigation__next" @click.prevent="nextWeek"><span>next week</span></a>
 				</div>
-				<week-label :day="day" :whole-week="weekdays" :year="year"></week-label>
+				<week-label :day="day" :whole-week="weekdays" :year="year" :hour="totalHours"></week-label>
 				<table class="project-table">
 					<thead>
 						<project-head></project-head>
@@ -21,7 +21,7 @@
 					<router-link to="/" class="table-navigation__prev"><span>back to monthly view</span></router-link>
 					<div class="table-navigation__next">
 						<span class="table-navigation__text">Total:</span>
-						<span>7.5</span>
+						<span>{{totalHours}}</span>
 					</div>
 				</div>
 				<div class="btn-wrap">
@@ -54,7 +54,8 @@ export default {
 			numberOfRows: 10,
 			projectObject: [],
 			userProjectData: [],
-			logData: null
+			logData: [],
+			totalHours: 0
 
 		}
 	},
@@ -82,8 +83,13 @@ export default {
 		dayRoute() {
 			return this.$route.params.day
 		},
+		// saveLogData() {
+		// 	this.getDateLog()
+		// },
 		calculateHours() {
-			this.getDateLog()
+			// this.logData.forEach(log => {
+			// 	this.totalHours += log.hours
+			// })
 		}
 	},
 	created() {
@@ -126,7 +132,6 @@ export default {
 				axios.post('/api/logs',{
 					data: this.projectObject
 				}).then(response=>{
-					console.log()
 					this.clearInputFields();
 					if(response.status === 200){
 						this.success = true
@@ -138,6 +143,7 @@ export default {
 		},
 		async getDateLog() {
 			try {
+				this.totalHours = 0;
 			 const response = await axios.get(`/api/logs/${this.dayRoute}`)
 			 this.logData = response.data
 
@@ -178,9 +184,9 @@ export default {
 			},
             immediate:true
 		},
-		calculateHours: {
+		logData: {
 			handler() {
-				console.log(this.totalHours)
+				
 			},
 			immediate:true
 		}

@@ -35,7 +35,11 @@
                 firstDay: this.daysInMonth,
                 today: moment(),
                 dateContext: moment(),
-                getDate: []
+                getDate: [],
+                startDate: null,
+                endDate: null,
+                lastDay: null,
+                logData: null
             }
         },
         components: {
@@ -69,10 +73,14 @@
             },
             initialYear: function () {
                 return this.today.format('YYYY');
-            }
+            },
+            calendarLogs() {
+                 this.getDateLog();
+            },
         },
         created() {
             this.calculateCalendar();
+
         },
         methods: {
             previousMonth: function() {
@@ -85,13 +93,13 @@
             },
             calculateCalendar: function() {
                 const calendarArr = []
-                const startDate = moment([this.dateContext.format('Y'),this.dateContext.format('M')-1])
+                this.startDate = moment([this.dateContext.format('Y'),this.dateContext.format('M')-1])
                 .clone()
                 .startOf('month')
                 .startOf('isoWeek');
-                const endDate = moment([this.dateContext.format('Y'),this.dateContext.format('M')-1]).clone().endOf('month').endOf('week');
-                const day = startDate.clone().subtract(1,'days')
-                while(day.isBefore(endDate,"day")) {
+                this.endDate = moment([this.dateContext.format('Y'),this.dateContext.format('M')-1]).clone().endOf('month').endOf('week');
+                const day = this.startDate.clone().subtract(1,'days')
+                while(day.isBefore(this.endDate,"day")) {
                     calendarArr.push(
                         Array(7)
                         .fill(0)
@@ -107,9 +115,29 @@
                     }
                 }
                 this.getDate = calendarArr;
+                this.lastDay = calendarArr[5][6]
+
+            },
+            async getDateLog() {
+                try {
+                    this.totalHours = 0;
+                    const response = await axios.get(`/api/calendar/${this.startDate?.format('YYYY-MM-DD')}/${this.lastDay?.format('YYYY-MM-DD')}?id=1`)
+                    console.log(response)
+                    this.logData = response.data
+
+                } catch(err) {
+                    console.log(err)
+                }
+		    },
+        },
+        watch: {
+            logData: {
+                handler(){
+
+                },
+                immediate: true
             }
         }
-
     }
 </script>
 
