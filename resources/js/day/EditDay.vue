@@ -83,14 +83,6 @@ export default {
 		dayRoute() {
 			return this.$route.params.day
 		},
-		// saveLogData() {
-		// 	this.getDateLog()
-		// },
-		calculateHours() {
-			// this.logData.forEach(log => {
-			// 	this.totalHours += log.hours
-			// })
-		}
 	},
 	created() {
 		this.getWholeWeek();
@@ -120,10 +112,6 @@ export default {
 				}
             this.weekdays = dates;
         },
-		clearInputFields() {
-			this.$refs.projectlabel.description = this.$refs.projectlabel.hours = this.$refs.projectlabel.overtime = this.$refs.projectlabel.client = this.$refs.projectlabel.project = this.$refs.projectlabel.category = null
-
-		},
 		saveData() {
 			this.validateFields()
 			this.success = null
@@ -132,7 +120,6 @@ export default {
 				axios.post('/api/logs',{
 					data: this.projectObject
 				}).then(response=>{
-					this.clearInputFields();
 					if(response.status === 200){
 						this.success = true
 						setTimeout(()=> this.success = false, 2000)
@@ -140,16 +127,6 @@ export default {
 				}).catch(error => {
 					this.errorData=error.response.data.errors
 				})
-		},
-		async getDateLog() {
-			try {
-				this.totalHours = 0;
-			 const response = await axios.get(`/api/logs/${this.dayRoute}`)
-			 this.logData = response.data
-
-			} catch(err) {
-				console.log(err)
-			}
 		},
 		validateFields() {
 			this.projectObject = [];
@@ -178,18 +155,6 @@ export default {
             },
             immediate:true
         },
-		dayRoute: {
-			handler() {
-				this.getDateLog()
-			},
-            immediate:true
-		},
-		logData: {
-			handler() {
-				
-			},
-			immediate:true
-		}
 	}
 }
 </script>

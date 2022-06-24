@@ -8,22 +8,22 @@
                 <button id="navigation__link" type="button" class="navigation__link"><span id="navigation__text" class="nav-toggle"></span></button>
                 <ul class="navigation__menu">
                     <li class="navigation__list">
-                        <a href="./index.html" class="btn navigation__button navigation__button--active">Timesheet</a>
+                        <router-link to="/" class="btn navigation__button">Timesheet</router-link>
                     </li>
                     <li class="navigation__list">
-                        <a href="./clients.html" class="btn navigation__button">Clients</a>
+                        <router-link to="/clients" class="btn navigation__button">Clients</router-link>
                     </li>
                     <li class="navigation__list">
-                        <a href="./projects.html" class="btn navigation__button">Projects</a>
+                        <router-link to="/projects" class="btn navigation__button">Projects</router-link>
                     </li>
                     <li class="navigation__list">
-                        <a href="./categories.html" class="btn navigation__button">Categories</a>
+                        <router-link to="/categories" class="btn navigation__button">Categories</router-link>
                     </li>
                     <li class="navigation__list">
-                        <a href="./employees.html" class="btn navigation__button">Employees</a>
+                        <router-link to="/employees" class="btn navigation__button">Employees</router-link>
                     </li>
                     <li class="navigation__list">
-                        <a href="./reports.html" class="btn navigation__button">Reports</a>
+                        <router-link to="/reports" class="btn navigation__button">Reports</router-link>
                     </li>
                 </ul>
             </nav>

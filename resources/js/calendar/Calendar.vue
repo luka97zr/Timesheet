@@ -11,14 +11,14 @@
                 <table class="month-table">
                     <calendar-weekdays ></calendar-weekdays>
                     <tbody>
-                        <calendar-row v-for="(date, index) in getDate" :key="'week' + index" :week="date" :first-day="firstDayOfMonth" :last-day="lastDayOfMonth"></calendar-row>
+                        <calendar-row v-for="(date, index) in getDate" :key="'week' + index" :week="date" :first-day="firstDayOfMonth" :last-day="lastDayOfMonth" :logData="logData"></calendar-row>
                     </tbody>
                 </table>
             </div>
             <div class="table-navigation">
                 <div class="table-navigation__next">
                     <span class="table-navigation__text">Total:</span>
-                    <span>155</span>
+                    <span>{{totalHours}}</span>
                 </div>
             </div>
         </section>
@@ -39,7 +39,8 @@
                 startDate: null,
                 endDate: null,
                 lastDay: null,
-                logData: null
+                logData: null,
+                totalHours: 0
             }
         },
         components: {
@@ -75,8 +76,13 @@
                 return this.today.format('YYYY');
             },
             calendarLogs() {
-                 this.getDateLog();
+                 return this.getDateLog();
             },
+            calculateHours() {
+                return this.logData.forEach(log => {
+                    this.totalHours += log['hours'];
+                });
+            }
         },
         created() {
             this.calculateCalendar();
@@ -133,7 +139,7 @@
         watch: {
             logData: {
                 handler(){
-
+                    this.calculateHours
                 },
                 immediate: true
             }
