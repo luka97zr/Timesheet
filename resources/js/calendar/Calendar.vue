@@ -11,7 +11,7 @@
                 <table class="month-table">
                     <calendar-weekdays ></calendar-weekdays>
                     <tbody>
-                        <calendar-row v-for="(date, index) in getDate" :key="'week' + index" :week="date" :first-day="firstDayOfMonth" :last-day="lastDayOfMonth" :logData="logData"></calendar-row>
+                        <calendar-row v-for="(date, index) in getDate" :key="'week' + index" :week="date" :first-day="firstDayOfMonth" :last-day="lastDayOfMonth" :log-data="logData"></calendar-row>
                     </tbody>
                 </table>
             </div>
@@ -51,38 +51,30 @@
             year() {
 			return moment(this.day).format('YYYY');
 		    },
-            month: function () {
+            month() {
                 return this.dateContext.format('MMMM');
             },
-            daysInMonth: function () {
+            daysInMonth() {
                 return this.dateContext.daysInMonth();
             },
-            currentDate: function () {
+            currentDate() {
                 return this.dateContext.get('date');
             },
-            firstDayOfMonth: function () {
+            firstDayOfMonth() {
                 return moment([this.dateContext.format('Y'),this.dateContext.format('M')-1]).clone().startOf('month');
             },
-            lastDayOfMonth: function() {
+            lastDayOfMonth() {
                 return moment([this.dateContext.format('Y'),this.dateContext.format('M')-1]).clone().endOf('month');
             },
-            initialDate: function () {
+            initialDate() {
                 return this.today.get('date');
             },
-            initialMonth: function () {
+            initialMonth() {
                 return this.today.format('MMMM');
             },
-            initialYear: function () {
+            initialYear() {
                 return this.today.format('YYYY');
             },
-            calendarLogs() {
-                 return this.getDateLog();
-            },
-            calculateHours() {
-                return this.logData.forEach(log => {
-                    this.totalHours += log['hours'];
-                });
-            }
         },
         created() {
             this.calculateCalendar();
@@ -125,21 +117,30 @@
 
             },
             async getDateLog() {
+                console.log("test");
                 try {
-                    this.totalHours = 0;
                     const response = await axios.get(`/api/calendar/${this.startDate?.format('YYYY-MM-DD')}/${this.lastDay?.format('YYYY-MM-DD')}?id=1`)
-                    console.log(response)
                     this.logData = response.data
 
                 } catch(err) {
                     console.log(err)
                 }
+                this.getCalculatedHours();
 		    },
+            getCalculatedHours() {
+                this.totalHours = 0;
+                this.logData?.forEach(log => {
+                    this.totalHours += log['hours']
+                });
+            }
         },
         watch: {
-            logData: {
+            startDate: {
                 handler(){
-                    this.calculateHours
+                    if(this.startDate) {
+                        this.getDateLog();
+                    }
+                    // this.calcTotalHours;
                 },
                 immediate: true
             }
