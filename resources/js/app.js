@@ -33,5 +33,6 @@ const app = new Vue({
     },
      beforeCreate() {
         this.$store.dispatch('loadUser');
+        if (localStorage.getItem('isLoggedIn') === false) this.$route.push({name:'login'});
     }
 });

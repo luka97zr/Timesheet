@@ -6209,6 +6209,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 
@@ -6256,6 +6257,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     dayRoute: function dayRoute() {
       return this.$route.params.day;
+    },
+    propLogs: function propLogs() {
+      var _this$logData;
+
+      return (_this$logData = this.logData) === null || _this$logData === void 0 ? void 0 : _this$logData.forEach(function (log) {
+        return log;
+      });
     }
   },
   created: function created() {
@@ -6291,6 +6299,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       this.validateFields();
+      console.log(this.projectObject);
       this.success = null;
       this.error = null;
       if (this.projectObject) axios.post('/api/logs', {
@@ -6343,12 +6352,50 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    getDayLog: function getDayLog() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var response;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return axios.get("/api/logs/".concat(moment__WEBPACK_IMPORTED_MODULE_0___default()(_this4.dayRoute).format('YYYY-MM-DD')));
+
+              case 3:
+                response = _context2.sent;
+                _this4.logData = response.data;
+                _context2.next = 10;
+                break;
+
+              case 7:
+                _context2.prev = 7;
+                _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0);
+
+              case 10:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 7]]);
+      }))();
     }
   },
   watch: {
     userId: {
       handler: function handler() {
         this.getUserProjectData();
+      },
+      immediate: true
+    },
+    day: {
+      handler: function handler() {
+        this.getDayLog();
       },
       immediate: true
     }
@@ -6429,7 +6476,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['errors', 'userProjectData'],
+  props: ['errors', 'userProjectData', 'log'],
   mixins: [_shared_mixins_errorHandle__WEBPACK_IMPORTED_MODULE_0__["default"]],
   expose: ['description', 'hours', 'overtime', 'category', 'project', 'client'],
   data: function data() {
@@ -6440,7 +6487,8 @@ __webpack_require__.r(__webpack_exports__);
       clientName: '',
       client: null,
       project: null,
-      category: null
+      category: null,
+      day: null
     };
   },
   computed: {
@@ -6472,17 +6520,36 @@ __webpack_require__.r(__webpack_exports__);
 
       var categories = [];
       this.userProjectData.forEach(function (project) {
-        if (_this2.project) project.category.forEach(function (category) {
+        if (project.id === _this2.project) project.category.forEach(function (category) {
           categories.push(category);
         });
       });
       return categories;
+    },
+    todayDate: function todayDate() {
+      return this.$route.params.day;
+    }
+  },
+  methods: {
+    test: function test() {
+      if (!this.log) return;
+      console.log(this.log.category.project.name);
+      this.client = this.log.category.project.client.name;
+      this.project = this.log.category.project.id;
+      this.category = this.log.category.id;
+      this.hours = this.log.hours;
     }
   },
   watch: {
     userProjectData: {
       handler: function handler() {
         this.filteredClients;
+      },
+      immediate: true
+    },
+    todayDate: {
+      handler: function handler() {
+        this.test();
       },
       immediate: true
     }
@@ -7425,6 +7492,9 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_3__["default"]({
   },
   beforeCreate: function beforeCreate() {
     this.$store.dispatch('loadUser');
+    if (localStorage.getItem('isLoggedIn') === false) this.$route.push({
+      name: 'login'
+    });
   }
 });
 
@@ -55339,6 +55409,7 @@ var render = function () {
                   attrs: {
                     errors: _vm.errorData,
                     userProjectData: _vm.userProjectData,
+                    log: _vm.logData[index],
                   },
                 })
               }),

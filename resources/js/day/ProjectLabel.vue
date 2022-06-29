@@ -33,7 +33,7 @@
 <script>
 import errorHandle from './../shared/mixins/errorHandle'
 export default {
-    props: ['errors','userProjectData'],
+    props: ['errors','userProjectData','log'],
     mixins: [errorHandle],
     expose: ['description','hours','overtime','category','project','client'],
     data() {
@@ -45,6 +45,7 @@ export default {
             client: null,
             project: null,
             category: null,
+            day: null
         }
     },
     computed: {
@@ -70,13 +71,26 @@ export default {
         filteredCategories() {
             const categories=[];
                 this.userProjectData.forEach(project => {
-                    if(this.project)
+                    if(project.id === this.project)
                         project.category.forEach(category => {
                         categories.push(category)
                         })
                 })
            return categories
         },
+        todayDate() {
+           return this.$route.params.day
+        }
+    },
+    methods: {
+        test() {
+            if(!this.log) return
+            console.log(this.log.category.project.name)
+            this.client = this.log.category.project.client.name
+            this.project = this.log.category.project.id
+            this.category = this.log.category.id
+            this.hours = this.log.hours
+       }
     },
     watch: {
         userProjectData: {
@@ -85,6 +99,12 @@ export default {
             },
             immediate: true
         },
+        todayDate: {
+            handler() {
+                this.test()
+            },
+            immediate: true
+        }
     },
 }
 </script>

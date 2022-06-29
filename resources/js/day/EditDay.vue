@@ -14,7 +14,8 @@
 						<project-head></project-head>
 					</thead>
 					<tbody>
-						<project-label v-for="(row,index) in numberOfRows" :key="index" :ref="`projectlabel`+row" :errors="errorData" :userProjectData="userProjectData"></project-label>
+						<project-label v-for="(row,index) in numberOfRows" :key="index" :ref="`projectlabel`+row" :errors="errorData" :userProjectData="userProjectData" :log="logData[index]
+						"></project-label>
 					</tbody>
 				</table>
 				<div class="table-navigation">
@@ -55,8 +56,7 @@ export default {
 			projectObject: [],
 			userProjectData: [],
 			logData: [],
-			totalHours: 0
-
+			totalHours: 0,
 		}
 	},
 	components: {
@@ -83,6 +83,11 @@ export default {
 		dayRoute() {
 			return this.$route.params.day
 		},
+		propLogs() {
+			return this.logData?.forEach(log => {
+				return log
+			})
+		}
 	},
 	created() {
 		this.getWholeWeek();
@@ -114,6 +119,7 @@ export default {
         },
 		saveData() {
 			this.validateFields()
+			console.log(this.projectObject)
 			this.success = null
 			this.error = null
 			if (this.projectObject)
@@ -146,6 +152,14 @@ export default {
 		    const response = await axios.get(`/api/projects/${this.userId}`);
             this.userProjectData = response.data;
 		},
+		async getDayLog() {
+			try {
+				const response = await axios.get(`/api/logs/${moment(this.dayRoute).format('YYYY-MM-DD')}`)
+				this.logData = response.data
+			} catch(err) {
+				console.log(err)
+			}
+		},
 
     },
 	watch: {
@@ -155,6 +169,12 @@ export default {
             },
             immediate:true
         },
+		day: {
+			handler() {
+				this.getDayLog()
+			},
+			immediate: true
+		}
 	}
 }
 </script>
