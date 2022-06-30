@@ -5516,31 +5516,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log("test");
-                _context.prev = 1;
-                _context.next = 4;
+                _context.prev = 0;
+                _context.next = 3;
                 return axios.get("/api/calendar/".concat((_this$startDate = _this.startDate) === null || _this$startDate === void 0 ? void 0 : _this$startDate.format('YYYY-MM-DD'), "/").concat((_this$lastDay = _this.lastDay) === null || _this$lastDay === void 0 ? void 0 : _this$lastDay.format('YYYY-MM-DD'), "?id=1"));
 
-              case 4:
+              case 3:
                 response = _context.sent;
                 _this.logData = response.data;
-                _context.next = 11;
+                _context.next = 10;
                 break;
 
-              case 8:
-                _context.prev = 8;
-                _context.t0 = _context["catch"](1);
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](0);
                 console.log(_context.t0);
 
-              case 11:
+              case 10:
                 _this.getCalculatedHours();
 
-              case 12:
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 8]]);
+        }, _callee, null, [[0, 7]]);
       }))();
     },
     getCalculatedHours: function getCalculatedHours() {
@@ -5598,7 +5597,6 @@ __webpack_require__.r(__webpack_exports__);
   props: ['day', 'firstDay', 'lastDay', 'fullDate', 'logData', 'isToday'],
   data: function data() {
     return {
-      dayData: moment__WEBPACK_IMPORTED_MODULE_0___default()(this.day).format('YYYY-MM-DD'),
       hours: 0
     };
   },
@@ -5611,6 +5609,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     calculateHours: function calculateHours() {
       if (this.logData) return this.logData['hours'];else return 0;
+    },
+    dayData: function dayData() {
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.day).format('YYYY-MM-DD');
     }
   }
 });
@@ -6217,9 +6218,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      day: moment__WEBPACK_IMPORTED_MODULE_0___default()(this.$route.params.day).format('DD MMMM'),
       dayYearFormat: moment__WEBPACK_IMPORTED_MODULE_0___default()(this.$route.params.day),
-      endDay: moment__WEBPACK_IMPORTED_MODULE_0___default()(this.$route.params.day).add(7, 'days'),
       weekdays: [],
       description: null,
       category_id: 1,
@@ -6231,7 +6230,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       projectObject: [],
       userProjectData: [],
       logData: [],
-      totalHours: 0
+      total: 0
     };
   },
   components: {
@@ -6241,16 +6240,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     getWeek: function getWeek() {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.day).week();
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayRoute).week();
     },
     endDate: function endDate() {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.day).add(1, 'week').format('DD MMMM');
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayRoute).add(1, 'week').format('DD MMMM');
     },
     year: function year() {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayYearFormat).year();
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayRoute).year();
     },
     getDay: function getDay() {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.day).format('DD MMM');
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayRoute).format('DD MMM');
     },
     userId: function userId() {
       return this.$store.state.user.id;
@@ -6258,12 +6257,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     dayRoute: function dayRoute() {
       return this.$route.params.day;
     },
-    propLogs: function propLogs() {
-      var _this$logData;
-
-      return (_this$logData = this.logData) === null || _this$logData === void 0 ? void 0 : _this$logData.forEach(function (log) {
-        return log;
-      });
+    nextDateRoute: function nextDateRoute() {
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayRoute).add(7, 'days').format('YYYY-MM-DD');
+    },
+    prevDateRoute: function prevDateRoute() {
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayRoute).subtract(7, 'days').format('YYYY-MM-DD');
     }
   },
   created: function created() {
@@ -6271,20 +6269,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     nextWeek: function nextWeek() {
-      this.day = moment__WEBPACK_IMPORTED_MODULE_0___default()(this.day).add(1, 'week').format('DD MMMM');
-      this.dayYearFormat = moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayYearFormat).add(1, 'week');
-      this.endDay = moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayYearFormat).add(7, 'day');
       this.getWholeWeek();
+      this.$refs.weeklabel.asignDate();
     },
     prevWeek: function prevWeek() {
-      this.day = moment__WEBPACK_IMPORTED_MODULE_0___default()(this.day).subtract(1, 'week').format('DD MMMM');
-      this.dayYearFormat = moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayYearFormat).subtract(1, 'week');
-      this.endDay = moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayYearFormat).add(1, 'week');
       this.getWholeWeek();
+      this.$refs.weeklabel.asignDate();
     },
     getWholeWeek: function getWholeWeek() {
-      var now = moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayYearFormat.clone()).startOf('isoWeek');
-      var end = moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayYearFormat.clone()).endOf('isoWeek');
+      var now = moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayRoute).clone().startOf('isoWeek');
+      var end = moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayRoute).clone().endOf('isoWeek');
       var dates = [];
 
       while (now.isSameOrBefore(end)) {
@@ -6299,7 +6293,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       this.validateFields();
-      console.log(this.projectObject);
       this.success = null;
       this.error = null;
       if (this.projectObject) axios.post('/api/logs', {
@@ -6319,15 +6312,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       this.projectObject = [];
-      Object.values(this.$refs).forEach(function (row, index) {
-        if (row[0].project && row[0].category && row[0].client && row[0].hours) _this2.projectObject[index] = {
-          date: _this2.$route.params.day,
-          description: row[0].description,
-          user_id: _this2.userId,
-          category_id: row[0].category,
-          hours: row[0].hours + row[0].overtime
-        };
-      });
+
+      for (var i = 1; i < this.numberOfRows; i++) {
+        Object.values(this.$refs.projectlabel).forEach(function (row, index) {
+          if (row.project && row.category && row.client && row.hours) _this2.projectObject[index] = {
+            date: _this2.$route.params.day,
+            description: row.description,
+            user_id: _this2.userId,
+            category_id: row.category,
+            hours: row.hours + row.overtime
+          };
+        });
+      }
     },
     getUserProjectData: function getUserProjectData() {
       var _this3 = this;
@@ -6369,21 +6365,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context2.sent;
                 _this4.logData = response.data;
-                _context2.next = 10;
+
+                _this4.totalHours();
+
+                _context2.next = 11;
                 break;
 
-              case 7:
-                _context2.prev = 7;
+              case 8:
+                _context2.prev = 8;
                 _context2.t0 = _context2["catch"](0);
                 console.log(_context2.t0);
 
-              case 10:
+              case 11:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 7]]);
+        }, _callee2, null, [[0, 8]]);
       }))();
+    },
+    totalHours: function totalHours() {
+      var _this$logData,
+          _this5 = this;
+
+      this.total = 0;
+      (_this$logData = this.logData) === null || _this$logData === void 0 ? void 0 : _this$logData.forEach(function (log) {
+        _this5.total += log.hours;
+      });
     }
   },
   watch: {
@@ -6393,7 +6401,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       immediate: true
     },
-    day: {
+    dayRoute: {
       handler: function handler() {
         this.getDayLog();
       },
@@ -6531,9 +6539,16 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    test: function test() {
-      if (!this.log) return;
-      console.log(this.log.category.project.name);
+    logInputs: function logInputs() {
+      if (!this.log) this.clearInput();else this.populateInput();
+    },
+    clearInput: function clearInput() {
+      this.client = null;
+      this.project = null;
+      this.category = null;
+      this.hours = null;
+    },
+    populateInput: function populateInput() {
       this.client = this.log.category.project.client.name;
       this.project = this.log.category.project.id;
       this.category = this.log.category.id;
@@ -6547,9 +6562,9 @@ __webpack_require__.r(__webpack_exports__);
       },
       immediate: true
     },
-    todayDate: {
+    log: {
       handler: function handler() {
-        this.test();
+        this.logInputs();
       },
       immediate: true
     }
@@ -6590,7 +6605,6 @@ __webpack_require__.r(__webpack_exports__);
   props: ['WholeWeek', 'year', 'hour'],
   data: function data() {
     return {
-      dayRoute: this.$route.params.day,
       current: null
     };
   },
@@ -6608,19 +6622,22 @@ __webpack_require__.r(__webpack_exports__);
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(day).format('MMM DD');
     },
     addClass: function addClass(day) {
-      return this.current === day ? 'day-table__list--active' : '';
+      return this.current === moment__WEBPACK_IMPORTED_MODULE_0___default()(day).format('YYYY-MM-DD') ? 'day-table__list--active' : '';
     },
     checkClass: function checkClass(day) {
-      this.current = day;
+      this.current = this.dayRoute;
+    },
+    asignDate: function asignDate() {
+      this.current = this.dayRoute;
     }
   },
   computed: {
-    asignDate: function asignDate() {
-      this.current = moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayRoute).format('YYYY-MMMM-DD');
+    dayRoute: function dayRoute() {
+      return this.$route.params.day;
     }
   },
   created: function created() {
-    this.asignDate;
+    this.asignDate();
   }
 });
 
@@ -55342,57 +55359,61 @@ var render = function () {
             _vm._v("Timesheet"),
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "table-navigation" }, [
-            _c(
-              "a",
-              {
-                staticClass: "table-navigation__prev",
-                attrs: { href: "javascript:;" },
-                on: {
-                  click: function ($event) {
-                    $event.preventDefault()
-                    return _vm.prevWeek.apply(null, arguments)
+          _c(
+            "div",
+            { staticClass: "table-navigation" },
+            [
+              _c(
+                "router-link",
+                {
+                  staticClass: "table-navigation__prev",
+                  attrs: { to: _vm.prevDateRoute },
+                  nativeOn: {
+                    click: function ($event) {
+                      return _vm.prevWeek.apply(null, arguments)
+                    },
                   },
                 },
-              },
-              [_c("span", [_vm._v("previous week")])]
-            ),
-            _vm._v(" "),
-            _c("span", { staticClass: "table-navigation__center" }, [
-              _vm._v(
-                _vm._s(_vm.getDay) +
-                  " - " +
-                  _vm._s(_vm.endDate) +
-                  ", " +
-                  _vm._s(_vm.year) +
-                  " (" +
-                  _vm._s(_vm.getWeek) +
-                  " week)"
+                [_c("span", [_vm._v("previous week")])]
               ),
-            ]),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "table-navigation__next",
-                attrs: { href: "javascript:;" },
-                on: {
-                  click: function ($event) {
-                    $event.preventDefault()
-                    return _vm.nextWeek.apply(null, arguments)
+              _vm._v(" "),
+              _c("span", { staticClass: "table-navigation__center" }, [
+                _vm._v(
+                  _vm._s(_vm.getDay) +
+                    " - " +
+                    _vm._s(_vm.endDate) +
+                    ", " +
+                    _vm._s(_vm.year) +
+                    " (" +
+                    _vm._s(_vm.getWeek) +
+                    " week)"
+                ),
+              ]),
+              _vm._v(" "),
+              _c(
+                "router-link",
+                {
+                  staticClass: "table-navigation__next",
+                  attrs: { to: _vm.nextDateRoute },
+                  nativeOn: {
+                    click: function ($event) {
+                      return _vm.nextWeek.apply(null, arguments)
+                    },
                   },
                 },
-              },
-              [_c("span", [_vm._v("next week")])]
-            ),
-          ]),
+                [_c("span", [_vm._v("next week")])]
+              ),
+            ],
+            1
+          ),
           _vm._v(" "),
           _c("week-label", {
+            ref: "weeklabel",
             attrs: {
-              day: _vm.day,
+              day: _vm.dayRoute,
               "whole-week": _vm.weekdays,
               year: _vm.year,
-              hour: _vm.totalHours,
+              hour: _vm.total,
             },
           }),
           _vm._v(" "),
@@ -55404,7 +55425,7 @@ var render = function () {
               _vm._l(_vm.numberOfRows, function (row, index) {
                 return _c("project-label", {
                   key: index,
-                  ref: "projectlabel" + row,
+                  ref: "projectlabel",
                   refInFor: true,
                   attrs: {
                     errors: _vm.errorData,
@@ -55432,7 +55453,7 @@ var render = function () {
                   _vm._v("Total:"),
                 ]),
                 _vm._v(" "),
-                _c("span", [_vm._v(_vm._s(_vm.totalHours))]),
+                _c("span", [_vm._v(_vm._s(_vm.total))]),
               ]),
             ],
             1

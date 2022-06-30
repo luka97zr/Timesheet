@@ -18,7 +18,6 @@ export default {
     props: ['WholeWeek','year','hour'],
     data() {
             return {
-                dayRoute: this.$route.params.day,
                 current: null
             }
         },
@@ -36,19 +35,22 @@ export default {
             return moment(day).format('MMM DD')
         },
         addClass(day) {
-            return (this.current === day)? 'day-table__list--active' : ''
+            return (this.current === moment(day).format('YYYY-MM-DD'))? 'day-table__list--active' : ''
         },
         checkClass(day) {
-            this.current = day
+            this.current = this.dayRoute
+        },
+        asignDate() {
+            this.current = this.dayRoute
         },
     },
     computed: {
-        asignDate() {
-            this.current = moment(this.dayRoute).format('YYYY-MMMM-DD');
-        },
+        dayRoute() {
+            return this.$route.params.day
+        }
     },
     created() {
-           this.asignDate
+        this.asignDate()
     }
 
 }

@@ -80,12 +80,22 @@ export default {
         },
         todayDate() {
            return this.$route.params.day
-        }
+        },
     },
     methods: {
-        test() {
-            if(!this.log) return
-            console.log(this.log.category.project.name)
+        logInputs() {
+            if(!this.log)
+                this.clearInput()
+            else
+                this.populateInput()
+       },
+       clearInput() {
+            this.client = null
+            this.project = null
+            this.category = null
+            this.hours = null
+       },
+       populateInput() {
             this.client = this.log.category.project.client.name
             this.project = this.log.category.project.id
             this.category = this.log.category.id
@@ -99,9 +109,9 @@ export default {
             },
             immediate: true
         },
-        todayDate: {
+        log: {
             handler() {
-                this.test()
+                this.logInputs()
             },
             immediate: true
         }

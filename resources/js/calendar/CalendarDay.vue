@@ -16,7 +16,6 @@ export default {
     props: ['day','firstDay','lastDay','fullDate','logData','isToday'],
     data() {
         return {
-            dayData: moment(this.day).format('YYYY-MM-DD'),
             hours: 0
         }
     },
@@ -33,6 +32,9 @@ export default {
             else
             return 0
         },
+        dayData() {
+           return moment(this.day).format('YYYY-MM-DD')
+        }
     },
 }
 </script>

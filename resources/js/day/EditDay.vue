@@ -4,17 +4,17 @@
 			<form id="mainContent" class="main-content" action="javascript">
 				<h2 class="main-content__title">Timesheet</h2>
 				<div class="table-navigation">
-					<a href="javascript:;" class="table-navigation__prev" @click.prevent="prevWeek"><span>previous week</span></a>
+					<router-link :to="prevDateRoute" class="table-navigation__prev" @click.native="prevWeek"><span>previous week</span></router-link>
 					<span class="table-navigation__center">{{getDay}} - {{endDate}}, {{year}} ({{getWeek}} week)</span>
-					<a href="javascript:;" class="table-navigation__next" @click.prevent="nextWeek"><span>next week</span></a>
+					<router-link :to="nextDateRoute" class="table-navigation__next" @click.native="nextWeek"><span>next week</span></router-link>
 				</div>
-				<week-label :day="day" :whole-week="weekdays" :year="year" :hour="totalHours"></week-label>
+				<week-label :day="dayRoute" :whole-week="weekdays" :year="year" :hour="total" ref="weeklabel"></week-label>
 				<table class="project-table">
 					<thead>
 						<project-head></project-head>
 					</thead>
 					<tbody>
-						<project-label v-for="(row,index) in numberOfRows" :key="index" :ref="`projectlabel`+row" :errors="errorData" :userProjectData="userProjectData" :log="logData[index]
+						<project-label v-for="(row,index) in numberOfRows" :key="index" :ref="'projectlabel'" :errors="errorData" :userProjectData="userProjectData" :log="logData[index]
 						"></project-label>
 					</tbody>
 				</table>
@@ -22,7 +22,7 @@
 					<router-link to="/" class="table-navigation__prev"><span>back to monthly view</span></router-link>
 					<div class="table-navigation__next">
 						<span class="table-navigation__text">Total:</span>
-						<span>{{totalHours}}</span>
+						<span>{{total}}</span>
 					</div>
 				</div>
 				<div class="btn-wrap">
@@ -42,9 +42,7 @@ import ProjectHead from './ProjectHead.vue'
 export default {
 	data() {
 		return {
-			day: moment(this.$route.params.day).format('DD MMMM'),
 			dayYearFormat: moment(this.$route.params.day),
-			endDay: moment(this.$route.params.day).add(7,'days'),
 			weekdays: [],
 			description: null,
 			category_id:1,
@@ -56,7 +54,7 @@ export default {
 			projectObject: [],
 			userProjectData: [],
 			logData: [],
-			totalHours: 0,
+			total: 0
 		}
 	},
 	components: {
@@ -66,16 +64,16 @@ export default {
 	},
 	computed: {
 		getWeek() {
-			return moment(this.day).week()
+			return moment(this.dayRoute).week()
 		},
 		endDate() {
-			return  moment(this.day).add(1,'week').format('DD MMMM')
+			return  moment(this.dayRoute).add(1,'week').format('DD MMMM')
 		},
 		year() {
-			return moment(this.dayYearFormat).year();
+			return moment(this.dayRoute).year();
 		},
 		getDay() {
-			return  moment(this.day).format('DD MMM')
+			return  moment(this.dayRoute).format('DD MMM')
 		},
 		userId() {
 			return this.$store.state.user.id;
@@ -83,10 +81,11 @@ export default {
 		dayRoute() {
 			return this.$route.params.day
 		},
-		propLogs() {
-			return this.logData?.forEach(log => {
-				return log
-			})
+		nextDateRoute() {
+			return moment(this.dayRoute).add(7,'days').format('YYYY-MM-DD')
+		},
+		prevDateRoute() {
+			return moment(this.dayRoute).subtract(7,'days').format('YYYY-MM-DD')
 		}
 	},
 	created() {
@@ -94,20 +93,17 @@ export default {
 	},
 	methods: {
         nextWeek() {
-            this.day = moment(this.day).add(1,'week').format('DD MMMM')
-			this.dayYearFormat = moment(this.dayYearFormat).add(1,'week');
-			this.endDay =  moment(this.dayYearFormat).add(7,'day');
 			this.getWholeWeek();
+			this.$refs.weeklabel.asignDate();
         },
 		prevWeek() {
-			this.day = moment(this.day).subtract(1,'week').format('DD MMMM')
-			this.dayYearFormat = moment(this.dayYearFormat).subtract(1,'week');
-			this.endDay =  moment(this.dayYearFormat).add(1,'week');
 			this.getWholeWeek();
+			this.$refs.weeklabel.asignDate();
+
 		},
 		getWholeWeek() {
-            const now = moment(this.dayYearFormat.clone()).startOf('isoWeek');
-			const end = moment(this.dayYearFormat.clone()).endOf('isoWeek')
+            let now = moment(this.dayRoute).clone().startOf('isoWeek');
+			let end = moment(this.dayRoute).clone().endOf('isoWeek')
             const dates = [];
 
 				while( now.isSameOrBefore(end)) {
@@ -119,7 +115,6 @@ export default {
         },
 		saveData() {
 			this.validateFields()
-			console.log(this.projectObject)
 			this.success = null
 			this.error = null
 			if (this.projectObject)
@@ -136,17 +131,19 @@ export default {
 		},
 		validateFields() {
 			this.projectObject = [];
-			Object.values(this.$refs).forEach((row,index) => {
-				if(row[0].project && row[0].category && row[0].client && row[0].hours)
+			for(let i = 1; i< this.numberOfRows; i++) {
+				Object.values(this.$refs.projectlabel).forEach((row,index) => {
+				if(row.project && row.category && row.client && row.hours)
 					this.projectObject[index] = {
 						date: this.$route.params.day,
-						description: row[0].description,
+						description: row.description,
 						user_id: this.userId,
-						category_id: row[0].category,
-						hours: row[0].hours + row[0].overtime
+						category_id: row.category,
+						hours: row.hours + row.overtime
 					}
 
 			});
+			}
 		},
 		async getUserProjectData() {
 		    const response = await axios.get(`/api/projects/${this.userId}`);
@@ -156,10 +153,17 @@ export default {
 			try {
 				const response = await axios.get(`/api/logs/${moment(this.dayRoute).format('YYYY-MM-DD')}`)
 				this.logData = response.data
+				this.totalHours()
 			} catch(err) {
 				console.log(err)
 			}
 		},
+		totalHours() {
+			this.total = 0;
+			this.logData?.forEach(log => {
+				 this.total += log.hours;
+			})
+		}
 
     },
 	watch: {
@@ -169,7 +173,7 @@ export default {
             },
             immediate:true
         },
-		day: {
+		dayRoute: {
 			handler() {
 				this.getDayLog()
 			},

@@ -117,7 +117,6 @@
 
             },
             async getDateLog() {
-                console.log("test");
                 try {
                     const response = await axios.get(`/api/calendar/${this.startDate?.format('YYYY-MM-DD')}/${this.lastDay?.format('YYYY-MM-DD')}?id=1`)
                     this.logData = response.data
