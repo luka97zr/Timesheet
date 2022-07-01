@@ -5,7 +5,8 @@ import { isLoggedIn, logOut } from './shared/utils/auth'
 export default {
 	state: {
 			isLoggedIn: false,
-			user: {}
+			user: {},
+			calendar: []
 	},
 	mutations: {
 		setUser(state, payload) {
@@ -13,6 +14,9 @@ export default {
 		},
 		setLoggedIn(state, payload) {
 			state.isLoggedIn = payload;
+		},
+		setLogs(state,payload) {
+			state.calendar = payload;
 		}
 	},
 	actions: {
@@ -31,6 +35,9 @@ export default {
 			commit('setUser',{});
 			commit('setLoggedIn',false);
 			logOut();
+		},
+		calendarLogs({commit},data) {
+			commit('setLogs',data)
 		}
 	},
 	getters: {

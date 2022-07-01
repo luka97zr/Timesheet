@@ -5523,23 +5523,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 3:
                 response = _context.sent;
                 _this.logData = response.data;
-                _context.next = 10;
+
+                _this.$store.dispatch('calendarLogs', response.data);
+
+                _context.next = 11;
                 break;
 
-              case 7:
-                _context.prev = 7;
+              case 8:
+                _context.prev = 8;
                 _context.t0 = _context["catch"](0);
                 console.log(_context.t0);
 
-              case 10:
+              case 11:
                 _this.getCalculatedHours();
 
-              case 11:
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 7]]);
+        }, _callee, null, [[0, 8]]);
       }))();
     },
     getCalculatedHours: function getCalculatedHours() {
@@ -5602,7 +5605,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     dayNumber: function dayNumber() {
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.day).format('DD');
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.day).format('D');
     },
     isDisabled: function isDisabled() {
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.day).isBefore(this.firstDay) || moment__WEBPACK_IMPORTED_MODULE_0___default()(this.day).isAfter(this.lastDay);
@@ -6624,11 +6627,15 @@ __webpack_require__.r(__webpack_exports__);
     addClass: function addClass(day) {
       return this.current === moment__WEBPACK_IMPORTED_MODULE_0___default()(day).format('YYYY-MM-DD') ? 'day-table__list--active' : '';
     },
-    checkClass: function checkClass(day) {
-      this.current = this.dayRoute;
-    },
     asignDate: function asignDate() {
       this.current = this.dayRoute;
+    },
+    asignDayHours: function asignDayHours(day) {
+      var _this$$store$state$ca;
+
+      return (_this$$store$state$ca = this.$store.state.calendar) === null || _this$$store$state$ca === void 0 ? void 0 : _this$$store$state$ca.forEach(function (log) {
+        return log['date'] === day ? log['hours'] : 0;
+      });
     }
   },
   computed: {
@@ -6638,6 +6645,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.asignDate();
+    console.log(JSON.parse(JSON.stringify(this.$store.state.calendar)));
   }
 });
 
@@ -7735,7 +7743,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
     isLoggedIn: false,
-    user: {}
+    user: {},
+    calendar: []
   },
   mutations: {
     setUser: function setUser(state, payload) {
@@ -7743,6 +7752,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     setLoggedIn: function setLoggedIn(state, payload) {
       state.isLoggedIn = payload;
+    },
+    setLogs: function setLogs(state, payload) {
+      state.calendar = payload;
     }
   },
   actions: {
@@ -7789,6 +7801,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       commit('setUser', {});
       commit('setLoggedIn', false);
       (0,_shared_utils_auth__WEBPACK_IMPORTED_MODULE_0__.logOut)();
+    },
+    calendarLogs: function calendarLogs(_ref3, data) {
+      var commit = _ref3.commit;
+      commit('setLogs', data);
     }
   },
   getters: {
@@ -55818,7 +55834,7 @@ var render = function () {
             class: _vm.addClass(day),
             on: {
               click: function ($event) {
-                return _vm.checkClass(day)
+                return _vm.asignDate()
               },
             },
           },
@@ -55835,7 +55851,7 @@ var render = function () {
                 ]),
                 _vm._v(" "),
                 _c("i", { staticClass: "day-table__day" }, [
-                  _vm._v(_vm._s(_vm.hour)),
+                  _vm._v(_vm._s(_vm.asignDayHours(day))),
                 ]),
                 _vm._v(" "),
                 _c("span", { staticClass: "day-table__span hide-on-mob" }, [

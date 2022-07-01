@@ -21,7 +21,7 @@ export default {
     },
     computed: {
         dayNumber: function() {
-            return moment(this.day).format('DD')
+            return moment(this.day).format('D')
         },
         isDisabled() {
             return moment(this.day).isBefore(this.firstDay) || moment(this.day).isAfter(this.lastDay)
