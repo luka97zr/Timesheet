@@ -38,6 +38,8 @@ const routes = [
         component: Clients,
         meta: {
             requiresAuth: true,
+            modal: true,
+            modalName: 'client'
         }
     },
     {
@@ -46,6 +48,8 @@ const routes = [
         component: Projects,
         meta: {
             requiresAuth: true,
+            modal: true,
+            modalName: 'project'
         }
     },
     {
@@ -54,6 +58,8 @@ const routes = [
         component: Categories,
         meta: {
             requiresAuth: true,
+            modal: true,
+            modalName: 'category'
         }
     },
     {
@@ -62,6 +68,9 @@ const routes = [
         component: Employees,
         meta: {
             requiresAuth: true,
+            modal: true,
+            modalName: 'empolyee'
+
         }
     },
     {

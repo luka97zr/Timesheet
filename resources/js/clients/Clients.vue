@@ -4,7 +4,7 @@
             <div class="main-content">
                 <h2 class="main-content__title">Clients</h2>
                 <div class="table-navigation">
-                    <a href="javascript:;" class="table-navigation__create btn-modal"><span>Create new client</span></a>
+                    <a href="javascript:;" class="table-navigation__create btn-modal" @click.prevent="openModal()"><span>Create new client</span></a>
                     <form class="table-navigation__input-container" action="javascript:;">
                         <input type="text" class="table-navigation__search">
                         <button type="submit" class="icon__search"></button>
@@ -238,7 +238,16 @@
 
 <script>
 export default {
-
+    data() {
+        return {
+            toggleModal: false,
+        }
+    },
+    methods: {
+        openModal() {
+            this.toggleModal !== this.toggleModal
+        }
+    }
 }
 </script>
 
