@@ -4,9 +4,9 @@
 			<form id="mainContent" class="main-content" action="javascript">
 				<h2 class="main-content__title">Timesheet</h2>
 				<div class="table-navigation">
-					<router-link :to="prevDateRoute" class="table-navigation__prev" @click.native="prevWeek"><span>previous week</span></router-link>
+					<router-link :to="prevDateRoute" class="table-navigation table-navigation__prev" @click.native="prevWeek" :class="{'disabled' : isDisabled}"><span>previous week</span></router-link>
 					<span class="table-navigation__center">{{getDay}} - {{endDate}}, {{year}} ({{getWeek}} week)</span>
-					<router-link :to="nextDateRoute" class="table-navigation__next" @click.native="nextWeek"><span>next week</span></router-link>
+					<router-link :to="nextDateRoute" class="table-navigation table-navigation__next" @click.native="nextWeek" :class="{'disabled' : isDisabled}"><span>next week</span></router-link>
 				</div>
 				<week-label :day="dayRoute" :whole-week="weekdays" :year="year" :hour="total" ref="weeklabel"></week-label>
 				<table class="project-table">
@@ -54,7 +54,8 @@ export default {
 			projectObject: [],
 			userProjectData: [],
 			logData: [],
-			total: 0
+			total: 0,
+			isDisabled: false
 		}
 	},
 	components: {
@@ -88,20 +89,27 @@ export default {
 			return moment(this.dayRoute).subtract(7,'days').format('YYYY-MM-DD')
 		},
 		firstDayOfWeek() {
-			return this.weekdays[0];
+			return moment(this.weekdays[0]).format('YYYY-MM-DD')
+		},
+		lastDayOfWeek() {
+			return moment(this.weekdays[6]).format('YYYY-MM-DD')
 		}
 	},
 	created() {
 		this.getWholeWeek()
-		this.checkCalendar()
+				this.checkCalendar()
+
 	},
 	methods: {
         nextWeek() {
 			this.getWholeWeek();
+				this.checkCalendar()
 			this.$refs.weeklabel.asignDate();
         },
 		prevWeek() {
 			this.getWholeWeek();
+				this.checkCalendar()
+
 			this.$refs.weeklabel.asignDate();
 
 		},
@@ -115,7 +123,6 @@ export default {
 					now.add(1,'days')
 					this.weekdays = dates;
 				}
-            this.weekdays = dates;
         },
 		saveData() {
 			this.validateFields()
@@ -156,7 +163,9 @@ export default {
 		},
 		async getDayLog() {
 			try {
+				this.isDisabled = true;
 				const response = await axios.get(`/api/logs/${moment(this.dayRoute).format('YYYY-MM-DD')}`)
+				this.isDisabled = false;
 				this.logData = response.data
 				this.totalHours()
 			} catch(err) {
@@ -166,8 +175,8 @@ export default {
 		checkCalendar() {
 			if (!this.$store.state.calendar || !moment(this.dayRoute).isBetween(this.$store.state.startDate, this.$store.state.endDate)) {
 				console.log(this.weekdays)
-				this.$store.commit('setStartDate',moment(this.weekdays[0]).format('YYYY-MM-DD'));
-                this.$store.commit('setEndDate', moment(this.weekdays[6]).format('YYYY-MM-DD'));
+				this.$store.commit('setStartDate', this.firstDayOfWeek);
+                this.$store.commit('setEndDate', this.lastDayOfWeek);
             	this.$store.dispatch('calendarLogs');
 
 			}
@@ -189,9 +198,7 @@ export default {
 		dayRoute: {
 			handler() {
 				this.getDayLog()
-				this.checkCalendar()
 			},
-			immediate: true
 		}
 	}
 }
@@ -218,5 +225,8 @@ export default {
 	.is-disabled {
 		opacity: .8;
 		cursor: not-allowed;
+	}
+	.table-navigation.disabled {
+		pointer-events: none;
 	}
 </style>

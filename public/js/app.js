@@ -6176,7 +6176,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       projectObject: [],
       userProjectData: [],
       logData: [],
-      total: 0
+      total: 0,
+      isDisabled: false
     };
   },
   components: {
@@ -6210,7 +6211,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayRoute).subtract(7, 'days').format('YYYY-MM-DD');
     },
     firstDayOfWeek: function firstDayOfWeek() {
-      return this.weekdays[0];
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.weekdays[0]).format('YYYY-MM-DD');
+    },
+    lastDayOfWeek: function lastDayOfWeek() {
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(this.weekdays[6]).format('YYYY-MM-DD');
     }
   },
   created: function created() {
@@ -6220,10 +6224,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     nextWeek: function nextWeek() {
       this.getWholeWeek();
+      this.checkCalendar();
       this.$refs.weeklabel.asignDate();
     },
     prevWeek: function prevWeek() {
       this.getWholeWeek();
+      this.checkCalendar();
       this.$refs.weeklabel.asignDate();
     },
     getWholeWeek: function getWholeWeek() {
@@ -6236,8 +6242,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         now.add(1, 'days');
         this.weekdays = dates;
       }
-
-      this.weekdays = dates;
     },
     saveData: function saveData() {
       var _this = this;
@@ -6314,36 +6318,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.prev = 0;
-                _context2.next = 3;
+                _this4.isDisabled = true;
+                _context2.next = 4;
                 return axios.get("/api/logs/".concat(moment__WEBPACK_IMPORTED_MODULE_0___default()(_this4.dayRoute).format('YYYY-MM-DD')));
 
-              case 3:
+              case 4:
                 response = _context2.sent;
+                _this4.isDisabled = false;
                 _this4.logData = response.data;
 
                 _this4.totalHours();
 
-                _context2.next = 11;
+                _context2.next = 13;
                 break;
 
-              case 8:
-                _context2.prev = 8;
+              case 10:
+                _context2.prev = 10;
                 _context2.t0 = _context2["catch"](0);
                 console.log(_context2.t0);
 
-              case 11:
+              case 13:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 8]]);
+        }, _callee2, null, [[0, 10]]);
       }))();
     },
     checkCalendar: function checkCalendar() {
       if (!this.$store.state.calendar || !moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayRoute).isBetween(this.$store.state.startDate, this.$store.state.endDate)) {
         console.log(this.weekdays);
-        this.$store.commit('setStartDate', moment__WEBPACK_IMPORTED_MODULE_0___default()(this.weekdays[0]).format('YYYY-MM-DD'));
-        this.$store.commit('setEndDate', moment__WEBPACK_IMPORTED_MODULE_0___default()(this.weekdays[6]).format('YYYY-MM-DD'));
+        this.$store.commit('setStartDate', this.firstDayOfWeek);
+        this.$store.commit('setEndDate', this.lastDayOfWeek);
         this.$store.dispatch('calendarLogs');
       }
     },
@@ -6367,9 +6373,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     dayRoute: {
       handler: function handler() {
         this.getDayLog();
-        this.checkCalendar();
-      },
-      immediate: true
+      }
     }
   }
 });
@@ -12943,7 +12947,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.msg[data-v-f0c751de] {\n\tposition: fixed;\n\tbottom: 5%;\n\tright: 0;\n\tfont-size: 18px;\n\tpadding: 10px;\n\tborder-radius: 12px;\n\tcolor: white;\n}\n.msg-error[data-v-f0c751de] {\n\tbackground: red;\n}\n.msg-success[data-v-f0c751de] {\n\tbackground: green;\n}\n.is-disabled[data-v-f0c751de] {\n\topacity: .8;\n\tcursor: not-allowed;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.msg[data-v-f0c751de] {\n\tposition: fixed;\n\tbottom: 5%;\n\tright: 0;\n\tfont-size: 18px;\n\tpadding: 10px;\n\tborder-radius: 12px;\n\tcolor: white;\n}\n.msg-error[data-v-f0c751de] {\n\tbackground: red;\n}\n.msg-success[data-v-f0c751de] {\n\tbackground: green;\n}\n.is-disabled[data-v-f0c751de] {\n\topacity: .8;\n\tcursor: not-allowed;\n}\n.table-navigation.disabled[data-v-f0c751de] {\n\tpointer-events: none;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -55400,7 +55404,8 @@ var render = function () {
               _c(
                 "router-link",
                 {
-                  staticClass: "table-navigation__prev",
+                  staticClass: "table-navigation table-navigation__prev",
+                  class: { disabled: _vm.isDisabled },
                   attrs: { to: _vm.prevDateRoute },
                   nativeOn: {
                     click: function ($event) {
@@ -55427,7 +55432,8 @@ var render = function () {
               _c(
                 "router-link",
                 {
-                  staticClass: "table-navigation__next",
+                  staticClass: "table-navigation table-navigation__next",
+                  class: { disabled: _vm.isDisabled },
                   attrs: { to: _vm.nextDateRoute },
                   nativeOn: {
                     click: function ($event) {
