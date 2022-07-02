@@ -41,9 +41,8 @@ export default {
             this.current = this.dayRoute
         },
         asignDayHours(day) {
-            return this.$store.state.calendar?.forEach(log => {
-                return (log['date'] === day)? log['hours'] : 0
-            });
+            const hours = this.$store.state.calendar?.find(element => element['date'] ===  moment(day).format('YYYY-MM-DD'))
+            return (hours)? hours['hours'] : 0
         }
     },
     computed: {
@@ -53,7 +52,6 @@ export default {
     },
     created() {
         this.asignDate()
-        console.log(JSON.parse(JSON.stringify(this.$store.state.calendar)))
     }
 
 }

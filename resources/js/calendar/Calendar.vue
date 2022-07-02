@@ -11,14 +11,14 @@
                 <table class="month-table">
                     <calendar-weekdays ></calendar-weekdays>
                     <tbody>
-                        <calendar-row v-for="(date, index) in getDate" :key="'week' + index" :week="date" :first-day="firstDayOfMonth" :last-day="lastDayOfMonth" :log-data="logData"></calendar-row>
+                        <calendar-row v-for="(date, index) in getDate" :key="'week' + index" :week="date" :first-day="firstDayOfMonth" :last-day="lastDayOfMonth" :log-data="$store.state.calendar"></calendar-row>
                     </tbody>
                 </table>
             </div>
             <div class="table-navigation">
                 <div class="table-navigation__next">
                     <span class="table-navigation__text">Total:</span>
-                    <span>{{totalHours}}</span>
+                    <span>{{$store.state.totalHours}}</span>
                 </div>
             </div>
         </section>
@@ -39,8 +39,6 @@
                 startDate: null,
                 endDate: null,
                 lastDay: null,
-                logData: null,
-                totalHours: 0
             }
         },
         components: {
@@ -78,7 +76,6 @@
         },
         created() {
             this.calculateCalendar();
-
         },
         methods: {
             previousMonth: function() {
@@ -114,33 +111,16 @@
                 }
                 this.getDate = calendarArr;
                 this.lastDay = calendarArr[5][6]
-
+                this.$store.commit('setStartDate',this.startDate)
+                this.$store.commit('setEndDate',this.lastDay)
             },
-            async getDateLog() {
-                try {
-                    const response = await axios.get(`/api/calendar/${this.startDate?.format('YYYY-MM-DD')}/${this.lastDay?.format('YYYY-MM-DD')}?id=1`)
-                    this.logData = response.data
-                    this.$store.dispatch('calendarLogs',response.data)
-
-                } catch(err) {
-                    console.log(err)
-                }
-                this.getCalculatedHours();
-		    },
-            getCalculatedHours() {
-                this.totalHours = 0;
-                this.logData?.forEach(log => {
-                    this.totalHours += log['hours']
-                });
-            }
         },
         watch: {
             startDate: {
                 handler(){
                     if(this.startDate) {
-                        this.getDateLog();
+                        this.$store.dispatch('calendarLogs')
                     }
-                    // this.calcTotalHours;
                 },
                 immediate: true
             }

@@ -86,10 +86,14 @@ export default {
 		},
 		prevDateRoute() {
 			return moment(this.dayRoute).subtract(7,'days').format('YYYY-MM-DD')
+		},
+		firstDayOfWeek() {
+			return this.weekdays[0];
 		}
 	},
 	created() {
-		this.getWholeWeek();
+		this.getWholeWeek()
+		this.checkCalendar()
 	},
 	methods: {
         nextWeek() {
@@ -123,10 +127,11 @@ export default {
 				}).then(response=>{
 					if(response.status === 200){
 						this.success = true
+						this.$router.push({name:'home'})
 						setTimeout(()=> this.success = false, 2000)
 					}
 				}).catch(error => {
-					this.errorData=error.response.data.errors
+					this.errorData=error.response.data.message
 				})
 		},
 		validateFields() {
@@ -158,13 +163,21 @@ export default {
 				console.log(err)
 			}
 		},
+		checkCalendar() {
+			if (!this.$store.state.calendar || !moment(this.dayRoute).isBetween(this.$store.state.startDate, this.$store.state.endDate)) {
+				console.log(this.weekdays)
+				this.$store.commit('setStartDate',moment(this.weekdays[0]).format('YYYY-MM-DD'));
+                this.$store.commit('setEndDate', moment(this.weekdays[6]).format('YYYY-MM-DD'));
+            	this.$store.dispatch('calendarLogs');
+
+			}
+		},
 		totalHours() {
 			this.total = 0;
 			this.logData?.forEach(log => {
 				 this.total += log.hours;
 			})
-		}
-
+		},
     },
 	watch: {
 		userId: {
@@ -176,6 +189,7 @@ export default {
 		dayRoute: {
 			handler() {
 				this.getDayLog()
+				this.checkCalendar()
 			},
 			immediate: true
 		}
