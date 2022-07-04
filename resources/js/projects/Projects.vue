@@ -4,7 +4,7 @@
         <div class="main-content">
             <h2 class="main-content__title">Project</h2>
             <div class="table-navigation">
-                <a href="javascript:;" class="table-navigation__create btn-modal"><span>Create new project</span></a>
+                <a href="javascript:;" class="table-navigation__create btn-modal" @click.prevent="openModal()"><span>Create new project</span></a>
                 <form class="table-navigation__input-container" action="javascript:;">
                     <input type="text" class="table-navigation__search">
                     <button type="submit" class="icon__search"></button>
@@ -266,12 +266,33 @@
             </ul>
         </div>
     </section>
+    <modal-project
+        :showModal="showNewModal"
+        @closeModal="closeModal()">
+
+    </modal-project>
 </div>
 </template>
 
 <script>
+import ModalProject from '../components/Modal/ModalProjects.vue'
 export default {
-
+     data() {
+        return {
+            showNewModal: false,
+        }
+    },
+    components: {
+        ModalProject
+    },
+    methods: {
+        openModal() {
+            this.showNewModal = true;
+        },
+        closeModal() {
+            this.showNewModal = false
+        }
+    }
 }
 </script>
 

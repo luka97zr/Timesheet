@@ -5855,6 +5855,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_Modal_ModalClients_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Modal/ModalClients.vue */ "./resources/js/components/Modal/ModalClients.vue");
 //
 //
 //
@@ -6093,15 +6094,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    ModalClients: _components_Modal_ModalClients_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
-      toggleModal: false
+      showNewModal: false
     };
   },
   methods: {
     openModal: function openModal() {
-      this.toggleModal !== this.toggleModal;
+      this.showNewModal = true;
+    },
+    closeModal: function closeModal() {
+      this.showNewModal = false;
     }
   }
 });
@@ -6127,12 +6142,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['name']
+  props: ['showModal'],
+  methods: {}
 });
 
 /***/ }),
@@ -6184,6 +6196,92 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['showModal'],
+  methods: {
+    closeModal: function closeModal() {
+      this.$emit('closeModal');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modal/ModalEmployees.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modal/ModalEmployees.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6275,7 +6373,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['showModal'],
+  methods: {
+    closeModal: function closeModal() {
+      this.$emit('closeModal');
+    }
+  }
+});
 
 /***/ }),
 
@@ -7108,7 +7215,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Modal_ModalClients_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Modal/ModalClients.vue */ "./resources/js/components/Modal/ModalClients.vue");
 /* harmony import */ var _components_Modal_ModalProjects_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Modal/ModalProjects.vue */ "./resources/js/components/Modal/ModalProjects.vue");
 /* harmony import */ var _components_Modal_ModalCategories_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Modal/ModalCategories.vue */ "./resources/js/components/Modal/ModalCategories.vue");
-Object(function webpackMissingModule() { var e = new Error("Cannot find module './components/Modal/ModalEmployees.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _components_Modal_ModalEmployees_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Modal/ModalEmployees.vue */ "./resources/js/components/Modal/ModalEmployees.vue");
 //
 //
 //
@@ -7137,7 +7244,7 @@ Object(function webpackMissingModule() { var e = new Error("Cannot find module '
     ModalClients: _components_Modal_ModalClients_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     ModalProjects: _components_Modal_ModalProjects_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
     ModalCategories: _components_Modal_ModalCategories_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-    ModalEmployees: Object(function webpackMissingModule() { var e = new Error("Cannot find module './components/Modal/ModalEmployees.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())
+    ModalEmployees: _components_Modal_ModalEmployees_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
   }
 });
 
@@ -7154,6 +7261,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_Modal_ModalProjects_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Modal/ModalProjects.vue */ "./resources/js/components/Modal/ModalProjects.vue");
 //
 //
 //
@@ -7425,7 +7533,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      showNewModal: false
+    };
+  },
+  components: {
+    ModalProject: _components_Modal_ModalProjects_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  methods: {
+    openModal: function openModal() {
+      this.showNewModal = true;
+    },
+    closeModal: function closeModal() {
+      this.showNewModal = false;
+    }
+  }
+});
 
 /***/ }),
 
@@ -7650,10 +7781,12 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
 /* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index */ "./resources/js/index.vue");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
+/* harmony import */ var _components_Modal_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Modal/Modal */ "./resources/js/components/Modal/Modal.vue");
+
 
 
 
@@ -7663,9 +7796,10 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].component('Modal', _components_Modal_Modal__WEBPACK_IMPORTED_MODULE_3__["default"]);
 window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
-vue__WEBPACK_IMPORTED_MODULE_3__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_4__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_3__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_5__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_5__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_6__["default"]);
 window.axios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
@@ -7675,8 +7809,8 @@ window.axios.interceptors.response.use(function (response) {
 
   return Promise.reject(error);
 });
-var store = new vuex__WEBPACK_IMPORTED_MODULE_5__["default"].Store(_store__WEBPACK_IMPORTED_MODULE_2__["default"]);
-var app = new vue__WEBPACK_IMPORTED_MODULE_3__["default"]({
+var store = new vuex__WEBPACK_IMPORTED_MODULE_6__["default"].Store(_store__WEBPACK_IMPORTED_MODULE_2__["default"]);
+var app = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
   el: "#app",
   router: _routes__WEBPACK_IMPORTED_MODULE_0__["default"],
   store: store,
@@ -53013,6 +53147,45 @@ component.options.__file = "resources/js/components/Modal/ModalClients.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Modal/ModalEmployees.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/Modal/ModalEmployees.vue ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ModalEmployees_vue_vue_type_template_id_01911f05___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModalEmployees.vue?vue&type=template&id=01911f05& */ "./resources/js/components/Modal/ModalEmployees.vue?vue&type=template&id=01911f05&");
+/* harmony import */ var _ModalEmployees_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ModalEmployees.vue?vue&type=script&lang=js& */ "./resources/js/components/Modal/ModalEmployees.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ModalEmployees_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ModalEmployees_vue_vue_type_template_id_01911f05___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ModalEmployees_vue_vue_type_template_id_01911f05___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Modal/ModalEmployees.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Modal/ModalProjects.vue":
 /*!*********************************************************!*\
   !*** ./resources/js/components/Modal/ModalProjects.vue ***!
@@ -53604,6 +53777,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Modal/ModalEmployees.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/Modal/ModalEmployees.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalEmployees_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ModalEmployees.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modal/ModalEmployees.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalEmployees_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Modal/ModalProjects.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************!*\
   !*** ./resources/js/components/Modal/ModalProjects.vue?vue&type=script&lang=js& ***!
@@ -53985,6 +54174,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalClients_vue_vue_type_template_id_74387608___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalClients_vue_vue_type_template_id_74387608___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ModalClients.vue?vue&type=template&id=74387608& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modal/ModalClients.vue?vue&type=template&id=74387608&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Modal/ModalEmployees.vue?vue&type=template&id=01911f05&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/Modal/ModalEmployees.vue?vue&type=template&id=01911f05& ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalEmployees_vue_vue_type_template_id_01911f05___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalEmployees_vue_vue_type_template_id_01911f05___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalEmployees_vue_vue_type_template_id_01911f05___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ModalEmployees.vue?vue&type=template&id=01911f05& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modal/ModalEmployees.vue?vue&type=template&id=01911f05&");
 
 
 /***/ }),
@@ -55167,42 +55373,59 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "wrapper" }, [
-    _c("section", { staticClass: "content" }, [
-      _c("div", { staticClass: "main-content" }, [
-        _c("h2", { staticClass: "main-content__title" }, [_vm._v("Clients")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "table-navigation" }, [
-          _c(
-            "a",
-            {
-              staticClass: "table-navigation__create btn-modal",
-              attrs: { href: "javascript:;" },
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.openModal()
+  return _c(
+    "div",
+    { staticClass: "wrapper" },
+    [
+      _c("section", { staticClass: "content" }, [
+        _c("div", { staticClass: "main-content" }, [
+          _c("h2", { staticClass: "main-content__title" }, [_vm._v("Clients")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "table-navigation" }, [
+            _c(
+              "a",
+              {
+                staticClass: "table-navigation__create btn-modal",
+                attrs: { href: "javascript:;" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.openModal()
+                  },
                 },
               },
-            },
-            [_c("span", [_vm._v("Create new client")])]
-          ),
+              [_c("span", [_vm._v("Create new client")])]
+            ),
+            _vm._v(" "),
+            _vm._m(0),
+          ]),
           _vm._v(" "),
-          _vm._m(0),
+          _vm._m(1),
+          _vm._v(" "),
+          _vm._m(2),
+          _vm._v(" "),
+          _vm._m(3),
+          _vm._v(" "),
+          _vm._m(4),
         ]),
         _vm._v(" "),
-        _vm._m(1),
-        _vm._v(" "),
-        _vm._m(2),
-        _vm._v(" "),
-        _vm._m(3),
-        _vm._v(" "),
-        _vm._m(4),
+        _vm._m(5),
       ]),
       _vm._v(" "),
-      _vm._m(5),
-    ]),
-  ])
+      _c("modal-clients", {
+        attrs: { showModal: _vm.showNewModal },
+        on: {
+          closed: function ($event) {
+            this.showNewModal = false
+          },
+          closeModal: function ($event) {
+            return _vm.closeModal()
+          },
+        },
+      }),
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function () {
@@ -55898,35 +56121,13 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "modal" }, [
-    _c(
-      "div",
-      { staticClass: "modal__content" },
-      [
-        _c("h2", { staticClass: "heading" }, [
-          _vm._v("Create new " + _vm._s(_vm.name)),
-        ]),
-        _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
-        _vm._t("default"),
-      ],
-      2
-    ),
-  ])
+  return _c(
+    "div",
+    { staticClass: "modal", class: { "modal--show": _vm.showModal } },
+    [_c("div", { staticClass: "modal__content" }, [_vm._t("default")], 2)]
+  )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "modal__close", attrs: { href: "javascript:;" } },
-      [_c("span", { staticClass: "modal__icon" })]
-    )
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -56013,19 +56214,22 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal__content" }, [
+  return _c("Modal", { attrs: { showModal: _vm.showModal } }, [
+    _c("div", { staticClass: "modal__content" }, [
       _c("h2", { staticClass: "heading" }, [_vm._v("Create new client")]),
       _vm._v(" "),
       _c(
         "a",
-        { staticClass: "modal__close", attrs: { href: "javascript:;" } },
+        {
+          staticClass: "modal__close",
+          attrs: { href: "javascript:;" },
+          on: {
+            click: function ($event) {
+              $event.preventDefault()
+              return _vm.$emit("closeModal")
+            },
+          },
+        },
         [_c("span", { staticClass: "modal__icon" })]
       ),
       _vm._v(" "),
@@ -56082,6 +56286,179 @@ var staticRenderFns = [
           ),
         ]),
       ]),
+    ]),
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modal/ModalEmployees.vue?vue&type=template&id=01911f05&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modal/ModalEmployees.vue?vue&type=template&id=01911f05& ***!
+  \********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal__content" }, [
+      _c("h2", { staticClass: "heading" }, [_vm._v("Create new employee")]),
+      _vm._v(" "),
+      _c("a", { staticClass: "modal__close", attrs: { href: "#" } }, [
+        _c("span", { staticClass: "modal__icon" }),
+      ]),
+      _vm._v(" "),
+      _c("form", { staticClass: "info", attrs: { action: "javascript" } }, [
+        _c("div", { staticClass: "info__form" }, [
+          _c("ul", { staticClass: "info__wrapper" }, [
+            _c("li", { staticClass: "info__list" }, [
+              _c("label", { staticClass: "info__label" }, [_vm._v("Name:")]),
+              _vm._v(" "),
+              _c("input", { staticClass: "in-text", attrs: { type: "text" } }),
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "info__list" }, [
+              _c("label", { staticClass: "report__label" }, [
+                _vm._v("Username:"),
+              ]),
+              _vm._v(" "),
+              _c("input", { staticClass: "in-text", attrs: { type: "text" } }),
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "info__list" }, [
+              _c("label", { staticClass: "report__label" }, [
+                _vm._v("Hours per week:"),
+              ]),
+              _vm._v(" "),
+              _c("input", { staticClass: "in-text", attrs: { type: "text" } }),
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "info__list" }, [
+              _c("label", { staticClass: "report__label" }, [_vm._v("Email:")]),
+              _vm._v(" "),
+              _c("input", { staticClass: "in-text", attrs: { type: "text" } }),
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "radio-button__wrapper" }, [
+              _c("ul", { staticClass: "info__list-wrapper" }, [
+                _c("li", { staticClass: "info__list-title" }, [
+                  _c("h4", { staticClass: "radio-button__title" }, [
+                    _vm._v("Status:"),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-radio-button" }, [
+                  _c("input", {
+                    staticClass: "radio-input",
+                    attrs: {
+                      type: "radio",
+                      id: "rdo1",
+                      checked: "",
+                      name: "radio-group-status",
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    { staticClass: "radio-label", attrs: { for: "rdo1" } },
+                    [
+                      _c("span", { staticClass: "radio-border" }),
+                      _vm._v("Active"),
+                    ]
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-radio-button" }, [
+                  _c("input", {
+                    staticClass: "radio-input",
+                    attrs: { type: "radio", name: "radio-group-status" },
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    { staticClass: "radio-label", attrs: { for: "rdo1" } },
+                    [
+                      _c("span", { staticClass: "radio-border" }),
+                      _vm._v("Inactive"),
+                    ]
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("ul", { staticClass: "info__list-wrapper" }, [
+                _c("li", { staticClass: "info__list-title" }, [
+                  _c("h4", { staticClass: "radio-button__title" }, [
+                    _vm._v("Role:"),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-radio-button" }, [
+                  _c("input", {
+                    staticClass: "radio-input",
+                    attrs: {
+                      type: "radio",
+                      id: "rdo2",
+                      checked: "",
+                      name: "radio-group-role",
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    { staticClass: "radio-label", attrs: { for: "rdo2" } },
+                    [
+                      _c("span", { staticClass: "radio-border" }),
+                      _vm._v("Admin"),
+                    ]
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-radio-button" }, [
+                  _c("input", {
+                    staticClass: "radio-input",
+                    attrs: { type: "radio", name: "radio-group-role" },
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    { staticClass: "radio-label", attrs: { for: "rdo2" } },
+                    [
+                      _c("span", { staticClass: "radio-border" }),
+                      _vm._v("Worker"),
+                    ]
+                  ),
+                ]),
+              ]),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "btn-wrap" }, [
+          _c(
+            "button",
+            { staticClass: "btn btn--green", attrs: { type: "submit" } },
+            [_c("span", [_vm._v("Invite an employee")])]
+          ),
+        ]),
+      ]),
     ])
   },
 ]
@@ -56107,19 +56484,24 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal__content" }, [
+  return _c("Modal", { attrs: { showModal: _vm.showModal } }, [
+    _c("div", { staticClass: "modal__content" }, [
       _c("h2", { staticClass: "heading" }, [_vm._v("Create new project")]),
       _vm._v(" "),
-      _c("a", { staticClass: "modal__close", attrs: { href: "#" } }, [
-        _c("span", { staticClass: "modal__icon" }),
-      ]),
+      _c(
+        "a",
+        {
+          staticClass: "modal__close",
+          attrs: { href: "#" },
+          on: {
+            click: function ($event) {
+              $event.preventDefault()
+              return _vm.closeModal()
+            },
+          },
+        },
+        [_c("span", { staticClass: "modal__icon" })]
+      ),
       _vm._v(" "),
       _c("form", { staticClass: "info", attrs: { action: "javascript:;" } }, [
         _c("ul", { staticClass: "info__form" }, [
@@ -56170,9 +56552,10 @@ var staticRenderFns = [
           ),
         ]),
       ]),
-    ])
-  },
-]
+    ]),
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -57501,14 +57884,10 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrapper" }, [
+  return _c(
+    "div",
+    { staticClass: "wrapper" },
+    [
       _c("section", { staticClass: "content" }, [
         _c("div", { staticClass: "main-content" }, [
           _c("h2", { staticClass: "main-content__title" }, [_vm._v("Project")]),
@@ -57519,810 +57898,812 @@ var staticRenderFns = [
               {
                 staticClass: "table-navigation__create btn-modal",
                 attrs: { href: "javascript:;" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.openModal()
+                  },
+                },
               },
               [_c("span", [_vm._v("Create new project")])]
             ),
             _vm._v(" "),
-            _c(
-              "form",
-              {
-                staticClass: "table-navigation__input-container",
-                attrs: { action: "javascript:;" },
-              },
-              [
-                _c("input", {
-                  staticClass: "table-navigation__search",
-                  attrs: { type: "text" },
-                }),
-                _vm._v(" "),
-                _c("button", {
-                  staticClass: "icon__search",
-                  attrs: { type: "submit" },
-                }),
-              ]
-            ),
+            _vm._m(0),
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "alphabet" }, [
-            _c("ul", { staticClass: "alphabet__navigation" }, [
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("a")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("b")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("c")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("d")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("e")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("f")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("g")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("h")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("i")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("j")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("k")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("l")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("m")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("n")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button alphabet__button--active",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("o")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("p")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("q")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("r")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("s")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("t")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("u")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("v")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("w")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("x")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("y")]
-                ),
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "alphabet__list" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "alphabet__button",
-                    attrs: { href: "javascript:;" },
-                  },
-                  [_vm._v("z")]
-                ),
-              ]),
-            ]),
-          ]),
+          _vm._m(1),
           _vm._v(" "),
-          _c("div", { staticClass: "accordion" }, [
-            _c("div", { staticClass: "accordion__intro" }, [
-              _c("h4", { staticClass: "accordion__title" }, [
-                _vm._v("Project 1"),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c(
-              "form",
-              {
-                staticClass: "accordion__content",
-                attrs: { action: "javascript:;" },
-              },
-              [
-                _c("div", { staticClass: "info" }, [
-                  _c("div", { staticClass: "info__form" }, [
-                    _c("ul", { staticClass: "info__wrapper" }, [
-                      _c("li", { staticClass: "info__list" }, [
-                        _c("label", { staticClass: "info__label" }, [
-                          _vm._v("Project name:"),
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          staticClass: "in-text",
-                          attrs: { type: "text" },
-                        }),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list" }, [
-                        _c("label", { staticClass: "report__label" }, [
-                          _vm._v("Description:"),
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          staticClass: "in-text",
-                          attrs: { type: "text" },
-                        }),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list" }, [
-                        _c("label", { staticClass: "report__label" }, [
-                          _vm._v("Client:"),
-                        ]),
-                        _vm._v(" "),
-                        _c("select", { staticClass: "info__select" }, [
-                          _c("option", { attrs: { value: "" } }, [
-                            _vm._v("All"),
-                          ]),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list" }, [
-                        _c("label", { staticClass: "report__label" }, [
-                          _vm._v("Lead:"),
-                        ]),
-                        _vm._v(" "),
-                        _c("select", { staticClass: "info__select" }, [
-                          _c("option", { attrs: { value: "" } }, [
-                            _vm._v("All"),
-                          ]),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list-title" }, [
-                        _c("h4", { staticClass: "radio-button__title" }, [
-                          _vm._v("Status:"),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list-radio-button" }, [
-                        _c("input", {
-                          staticClass: "radio-input",
-                          attrs: {
-                            type: "radio",
-                            id: "rdo1",
-                            name: "radio-group",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "label",
-                          {
-                            staticClass: "radio-label",
-                            attrs: { for: "rdo1" },
-                          },
-                          [
-                            _c("span", { staticClass: "radio-border" }),
-                            _vm._v("Active"),
-                          ]
-                        ),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list-radio-button" }, [
-                        _c("input", {
-                          staticClass: "radio-input",
-                          attrs: {
-                            type: "radio",
-                            checked: "",
-                            name: "radio-group",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "label",
-                          {
-                            staticClass: "radio-label",
-                            attrs: { for: "rdo1" },
-                          },
-                          [
-                            _c("span", { staticClass: "radio-border" }),
-                            _vm._v("Inactive"),
-                          ]
-                        ),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list-radio-button" }, [
-                        _c("input", {
-                          staticClass: "radio-input",
-                          attrs: { type: "radio", name: "radio-group" },
-                        }),
-                        _vm._v(" "),
-                        _c(
-                          "label",
-                          {
-                            staticClass: "radio-label",
-                            attrs: { for: "rdo1" },
-                          },
-                          [
-                            _c("span", { staticClass: "radio-border" }),
-                            _vm._v("Archive"),
-                          ]
-                        ),
-                      ]),
-                    ]),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "btn-wrap" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn--green",
-                      attrs: { type: "submit" },
-                    },
-                    [_c("span", [_vm._v("Save changes")])]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    { staticClass: "btn btn--red", attrs: { type: "button" } },
-                    [_c("span", [_vm._v("Delete")])]
-                  ),
-                ]),
-              ]
-            ),
-          ]),
+          _vm._m(2),
           _vm._v(" "),
-          _c("div", { staticClass: "accordion" }, [
-            _c("div", { staticClass: "accordion__intro" }, [
-              _c("h4", { staticClass: "accordion__title" }, [
-                _vm._v("Project 2"),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c(
-              "form",
-              {
-                staticClass: "accordion__content",
-                attrs: { action: "javascript:;" },
-              },
-              [
-                _c("div", { staticClass: "info" }, [
-                  _c("div", { staticClass: "info__form" }, [
-                    _c("ul", { staticClass: "info__wrapper" }, [
-                      _c("li", { staticClass: "info__list" }, [
-                        _c("label", { staticClass: "info__label" }, [
-                          _vm._v("Project name:"),
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          staticClass: "in-text",
-                          attrs: { type: "text" },
-                        }),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list" }, [
-                        _c("label", { staticClass: "report__label" }, [
-                          _vm._v("Description:"),
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          staticClass: "in-text",
-                          attrs: { type: "text" },
-                        }),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list" }, [
-                        _c("label", { staticClass: "report__label" }, [
-                          _vm._v("Client:"),
-                        ]),
-                        _vm._v(" "),
-                        _c("select", { staticClass: "info__select" }, [
-                          _c("option", { attrs: { value: "" } }, [
-                            _vm._v("All"),
-                          ]),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list" }, [
-                        _c("label", { staticClass: "report__label" }, [
-                          _vm._v("Lead:"),
-                        ]),
-                        _vm._v(" "),
-                        _c("select", { staticClass: "info__select" }, [
-                          _c("option", { attrs: { value: "" } }, [
-                            _vm._v("All"),
-                          ]),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list-title" }, [
-                        _c("h4", { staticClass: "radio-button__title" }, [
-                          _vm._v("Status:"),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list-radio-button" }, [
-                        _c("input", {
-                          staticClass: "radio-input",
-                          attrs: { type: "radio", name: "radio-group" },
-                        }),
-                        _vm._v(" "),
-                        _c("label", { staticClass: "radio-label" }, [
-                          _c("span", { staticClass: "radio-border" }),
-                          _vm._v("Active"),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list-radio-button" }, [
-                        _c("input", {
-                          staticClass: "radio-input",
-                          attrs: {
-                            type: "radio",
-                            checked: "",
-                            name: "radio-group",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c("label", { staticClass: "radio-label" }, [
-                          _c("span", { staticClass: "radio-border" }),
-                          _vm._v("Inactive"),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list-radio-button" }, [
-                        _c("input", {
-                          staticClass: "radio-input",
-                          attrs: { type: "radio", name: "radio-group" },
-                        }),
-                        _vm._v(" "),
-                        _c("label", { staticClass: "radio-label" }, [
-                          _c("span", { staticClass: "radio-border" }),
-                          _vm._v("Archive"),
-                        ]),
-                      ]),
-                    ]),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "btn-wrap" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn--green",
-                      attrs: { type: "submit" },
-                    },
-                    [_c("span", [_vm._v("Save changes")])]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    { staticClass: "btn btn--red", attrs: { type: "button" } },
-                    [_c("span", [_vm._v("Delete")])]
-                  ),
-                ]),
-              ]
-            ),
-          ]),
+          _vm._m(3),
           _vm._v(" "),
-          _c("div", { staticClass: "accordion" }, [
-            _c("div", { staticClass: "accordion__intro" }, [
-              _c("h4", { staticClass: "accordion__title" }, [
-                _vm._v("Project 3"),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c(
-              "form",
-              {
-                staticClass: "accordion__content",
-                attrs: { action: "javascript:;" },
-              },
-              [
-                _c("div", { staticClass: "info" }, [
-                  _c("div", { staticClass: "info__form" }, [
-                    _c("ul", { staticClass: "info__wrapper" }, [
-                      _c("li", { staticClass: "info__list" }, [
-                        _c("label", { staticClass: "info__label" }, [
-                          _vm._v("Project name:"),
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          staticClass: "in-text",
-                          attrs: { type: "text" },
-                        }),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list" }, [
-                        _c("label", { staticClass: "report__label" }, [
-                          _vm._v("Description:"),
-                        ]),
-                        _vm._v(" "),
-                        _c("input", {
-                          staticClass: "in-text",
-                          attrs: { type: "text" },
-                        }),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list" }, [
-                        _c("label", { staticClass: "report__label" }, [
-                          _vm._v("Client:"),
-                        ]),
-                        _vm._v(" "),
-                        _c("select", { staticClass: "info__select" }, [
-                          _c("option", { attrs: { value: "" } }, [
-                            _vm._v("All"),
-                          ]),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list" }, [
-                        _c("label", { staticClass: "report__label" }, [
-                          _vm._v("Lead:"),
-                        ]),
-                        _vm._v(" "),
-                        _c("select", { staticClass: "info__select" }, [
-                          _c("option", { attrs: { value: "" } }, [
-                            _vm._v("All"),
-                          ]),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list-title" }, [
-                        _c("h4", { staticClass: "radio-button__title" }, [
-                          _vm._v("Status:"),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list-radio-button" }, [
-                        _c("input", {
-                          staticClass: "radio-input",
-                          attrs: { type: "radio", name: "radio-group" },
-                        }),
-                        _vm._v(" "),
-                        _c("label", { staticClass: "radio-label" }, [
-                          _c("span", { staticClass: "radio-border" }),
-                          _vm._v("Active"),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list-radio-button" }, [
-                        _c("input", {
-                          staticClass: "radio-input",
-                          attrs: {
-                            type: "radio",
-                            checked: "",
-                            name: "radio-group",
-                          },
-                        }),
-                        _vm._v(" "),
-                        _c("label", { staticClass: "radio-label" }, [
-                          _c("span", { staticClass: "radio-border" }),
-                          _vm._v("Inactive"),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", { staticClass: "info__list-radio-button" }, [
-                        _c("input", {
-                          staticClass: "radio-input",
-                          attrs: { type: "radio", name: "radio-group" },
-                        }),
-                        _vm._v(" "),
-                        _c("label", { staticClass: "radio-label" }, [
-                          _c("span", { staticClass: "radio-border" }),
-                          _vm._v("Archive"),
-                        ]),
-                      ]),
-                    ]),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "btn-wrap" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn--green",
-                      attrs: { type: "submit" },
-                    },
-                    [_c("span", [_vm._v("Save changes")])]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    { staticClass: "btn btn--red", attrs: { type: "button" } },
-                    [_c("span", [_vm._v("Delete")])]
-                  ),
-                ]),
-              ]
-            ),
-          ]),
+          _vm._m(4),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "pagination" }, [
-          _c("ul", { staticClass: "pagination__navigation" }, [
-            _c("li", { staticClass: "pagination__list" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "pagination__button",
-                  attrs: { href: "javascript:;" },
-                },
-                [_vm._v("Previous")]
-              ),
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "pagination__list" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "pagination__button pagination__button--active",
-                  attrs: { href: "javascript:;" },
-                },
-                [_vm._v("1")]
-              ),
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "pagination__list" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "pagination__button",
-                  attrs: { href: "javascript:;" },
-                },
-                [_vm._v("2")]
-              ),
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "pagination__list" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "pagination__button",
-                  attrs: { href: "javascript:;" },
-                },
-                [_vm._v("3")]
-              ),
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "pagination__list" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "pagination__button",
-                  attrs: { href: "javascript:;" },
-                },
-                [_vm._v("4")]
-              ),
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "pagination__list" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "pagination__button",
-                  attrs: { href: "javascript:;" },
-                },
-                [_vm._v("Next")]
-              ),
+        _vm._m(5),
+      ]),
+      _vm._v(" "),
+      _c("modal-project", {
+        attrs: { showModal: _vm.showNewModal },
+        on: {
+          closeModal: function ($event) {
+            return _vm.closeModal()
+          },
+        },
+      }),
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "form",
+      {
+        staticClass: "table-navigation__input-container",
+        attrs: { action: "javascript:;" },
+      },
+      [
+        _c("input", {
+          staticClass: "table-navigation__search",
+          attrs: { type: "text" },
+        }),
+        _vm._v(" "),
+        _c("button", {
+          staticClass: "icon__search",
+          attrs: { type: "submit" },
+        }),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "alphabet" }, [
+      _c("ul", { staticClass: "alphabet__navigation" }, [
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("a")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("b")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("c")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("d")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("e")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("f")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("g")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("h")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("i")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("j")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("k")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("l")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("m")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("n")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button alphabet__button--active",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("o")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("p")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("q")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("r")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("s")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("t")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("u")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("v")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("w")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("x")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("y")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "alphabet__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "alphabet__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("z")]
+          ),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "accordion" }, [
+      _c("div", { staticClass: "accordion__intro" }, [
+        _c("h4", { staticClass: "accordion__title" }, [_vm._v("Project 1")]),
+      ]),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          staticClass: "accordion__content",
+          attrs: { action: "javascript:;" },
+        },
+        [
+          _c("div", { staticClass: "info" }, [
+            _c("div", { staticClass: "info__form" }, [
+              _c("ul", { staticClass: "info__wrapper" }, [
+                _c("li", { staticClass: "info__list" }, [
+                  _c("label", { staticClass: "info__label" }, [
+                    _vm._v("Project name:"),
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "in-text",
+                    attrs: { type: "text" },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list" }, [
+                  _c("label", { staticClass: "report__label" }, [
+                    _vm._v("Description:"),
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "in-text",
+                    attrs: { type: "text" },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list" }, [
+                  _c("label", { staticClass: "report__label" }, [
+                    _vm._v("Client:"),
+                  ]),
+                  _vm._v(" "),
+                  _c("select", { staticClass: "info__select" }, [
+                    _c("option", { attrs: { value: "" } }, [_vm._v("All")]),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list" }, [
+                  _c("label", { staticClass: "report__label" }, [
+                    _vm._v("Lead:"),
+                  ]),
+                  _vm._v(" "),
+                  _c("select", { staticClass: "info__select" }, [
+                    _c("option", { attrs: { value: "" } }, [_vm._v("All")]),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-title" }, [
+                  _c("h4", { staticClass: "radio-button__title" }, [
+                    _vm._v("Status:"),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-radio-button" }, [
+                  _c("input", {
+                    staticClass: "radio-input",
+                    attrs: { type: "radio", id: "rdo1", name: "radio-group" },
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    { staticClass: "radio-label", attrs: { for: "rdo1" } },
+                    [
+                      _c("span", { staticClass: "radio-border" }),
+                      _vm._v("Active"),
+                    ]
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-radio-button" }, [
+                  _c("input", {
+                    staticClass: "radio-input",
+                    attrs: { type: "radio", checked: "", name: "radio-group" },
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    { staticClass: "radio-label", attrs: { for: "rdo1" } },
+                    [
+                      _c("span", { staticClass: "radio-border" }),
+                      _vm._v("Inactive"),
+                    ]
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-radio-button" }, [
+                  _c("input", {
+                    staticClass: "radio-input",
+                    attrs: { type: "radio", name: "radio-group" },
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "label",
+                    { staticClass: "radio-label", attrs: { for: "rdo1" } },
+                    [
+                      _c("span", { staticClass: "radio-border" }),
+                      _vm._v("Archive"),
+                    ]
+                  ),
+                ]),
+              ]),
             ]),
           ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "btn-wrap" }, [
+            _c(
+              "button",
+              { staticClass: "btn btn--green", attrs: { type: "submit" } },
+              [_c("span", [_vm._v("Save changes")])]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "btn btn--red", attrs: { type: "button" } },
+              [_c("span", [_vm._v("Delete")])]
+            ),
+          ]),
+        ]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "accordion" }, [
+      _c("div", { staticClass: "accordion__intro" }, [
+        _c("h4", { staticClass: "accordion__title" }, [_vm._v("Project 2")]),
+      ]),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          staticClass: "accordion__content",
+          attrs: { action: "javascript:;" },
+        },
+        [
+          _c("div", { staticClass: "info" }, [
+            _c("div", { staticClass: "info__form" }, [
+              _c("ul", { staticClass: "info__wrapper" }, [
+                _c("li", { staticClass: "info__list" }, [
+                  _c("label", { staticClass: "info__label" }, [
+                    _vm._v("Project name:"),
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "in-text",
+                    attrs: { type: "text" },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list" }, [
+                  _c("label", { staticClass: "report__label" }, [
+                    _vm._v("Description:"),
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "in-text",
+                    attrs: { type: "text" },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list" }, [
+                  _c("label", { staticClass: "report__label" }, [
+                    _vm._v("Client:"),
+                  ]),
+                  _vm._v(" "),
+                  _c("select", { staticClass: "info__select" }, [
+                    _c("option", { attrs: { value: "" } }, [_vm._v("All")]),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list" }, [
+                  _c("label", { staticClass: "report__label" }, [
+                    _vm._v("Lead:"),
+                  ]),
+                  _vm._v(" "),
+                  _c("select", { staticClass: "info__select" }, [
+                    _c("option", { attrs: { value: "" } }, [_vm._v("All")]),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-title" }, [
+                  _c("h4", { staticClass: "radio-button__title" }, [
+                    _vm._v("Status:"),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-radio-button" }, [
+                  _c("input", {
+                    staticClass: "radio-input",
+                    attrs: { type: "radio", name: "radio-group" },
+                  }),
+                  _vm._v(" "),
+                  _c("label", { staticClass: "radio-label" }, [
+                    _c("span", { staticClass: "radio-border" }),
+                    _vm._v("Active"),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-radio-button" }, [
+                  _c("input", {
+                    staticClass: "radio-input",
+                    attrs: { type: "radio", checked: "", name: "radio-group" },
+                  }),
+                  _vm._v(" "),
+                  _c("label", { staticClass: "radio-label" }, [
+                    _c("span", { staticClass: "radio-border" }),
+                    _vm._v("Inactive"),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-radio-button" }, [
+                  _c("input", {
+                    staticClass: "radio-input",
+                    attrs: { type: "radio", name: "radio-group" },
+                  }),
+                  _vm._v(" "),
+                  _c("label", { staticClass: "radio-label" }, [
+                    _c("span", { staticClass: "radio-border" }),
+                    _vm._v("Archive"),
+                  ]),
+                ]),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "btn-wrap" }, [
+            _c(
+              "button",
+              { staticClass: "btn btn--green", attrs: { type: "submit" } },
+              [_c("span", [_vm._v("Save changes")])]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "btn btn--red", attrs: { type: "button" } },
+              [_c("span", [_vm._v("Delete")])]
+            ),
+          ]),
+        ]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "accordion" }, [
+      _c("div", { staticClass: "accordion__intro" }, [
+        _c("h4", { staticClass: "accordion__title" }, [_vm._v("Project 3")]),
+      ]),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          staticClass: "accordion__content",
+          attrs: { action: "javascript:;" },
+        },
+        [
+          _c("div", { staticClass: "info" }, [
+            _c("div", { staticClass: "info__form" }, [
+              _c("ul", { staticClass: "info__wrapper" }, [
+                _c("li", { staticClass: "info__list" }, [
+                  _c("label", { staticClass: "info__label" }, [
+                    _vm._v("Project name:"),
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "in-text",
+                    attrs: { type: "text" },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list" }, [
+                  _c("label", { staticClass: "report__label" }, [
+                    _vm._v("Description:"),
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "in-text",
+                    attrs: { type: "text" },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list" }, [
+                  _c("label", { staticClass: "report__label" }, [
+                    _vm._v("Client:"),
+                  ]),
+                  _vm._v(" "),
+                  _c("select", { staticClass: "info__select" }, [
+                    _c("option", { attrs: { value: "" } }, [_vm._v("All")]),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list" }, [
+                  _c("label", { staticClass: "report__label" }, [
+                    _vm._v("Lead:"),
+                  ]),
+                  _vm._v(" "),
+                  _c("select", { staticClass: "info__select" }, [
+                    _c("option", { attrs: { value: "" } }, [_vm._v("All")]),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-title" }, [
+                  _c("h4", { staticClass: "radio-button__title" }, [
+                    _vm._v("Status:"),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-radio-button" }, [
+                  _c("input", {
+                    staticClass: "radio-input",
+                    attrs: { type: "radio", name: "radio-group" },
+                  }),
+                  _vm._v(" "),
+                  _c("label", { staticClass: "radio-label" }, [
+                    _c("span", { staticClass: "radio-border" }),
+                    _vm._v("Active"),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-radio-button" }, [
+                  _c("input", {
+                    staticClass: "radio-input",
+                    attrs: { type: "radio", checked: "", name: "radio-group" },
+                  }),
+                  _vm._v(" "),
+                  _c("label", { staticClass: "radio-label" }, [
+                    _c("span", { staticClass: "radio-border" }),
+                    _vm._v("Inactive"),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "info__list-radio-button" }, [
+                  _c("input", {
+                    staticClass: "radio-input",
+                    attrs: { type: "radio", name: "radio-group" },
+                  }),
+                  _vm._v(" "),
+                  _c("label", { staticClass: "radio-label" }, [
+                    _c("span", { staticClass: "radio-border" }),
+                    _vm._v("Archive"),
+                  ]),
+                ]),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "btn-wrap" }, [
+            _c(
+              "button",
+              { staticClass: "btn btn--green", attrs: { type: "submit" } },
+              [_c("span", [_vm._v("Save changes")])]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "btn btn--red", attrs: { type: "button" } },
+              [_c("span", [_vm._v("Delete")])]
+            ),
+          ]),
+        ]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "pagination" }, [
+      _c("ul", { staticClass: "pagination__navigation" }, [
+        _c("li", { staticClass: "pagination__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "pagination__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("Previous")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "pagination__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "pagination__button pagination__button--active",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("1")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "pagination__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "pagination__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("2")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "pagination__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "pagination__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("3")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "pagination__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "pagination__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("4")]
+          ),
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "pagination__list" }, [
+          _c(
+            "a",
+            {
+              staticClass: "pagination__button",
+              attrs: { href: "javascript:;" },
+            },
+            [_vm._v("Next")]
+          ),
         ]),
       ]),
     ])
@@ -75364,7 +75745,7 @@ var index = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\laragon\\\\www\\\\Timesheet"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\laragon\\\\www\\\\Timesheet","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://axios-http.com","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.14.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}');
 
 /***/ })
 

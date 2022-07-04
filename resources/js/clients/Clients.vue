@@ -233,19 +233,33 @@
                 </ul>
             </div>
         </section>
+
+        <modal-clients
+            :showModal="showNewModal"
+            @closed="this.showNewModal = false"
+            @closeModal="closeModal()"
+        >
+        </modal-clients> 
     </div>
 </template>
 
 <script>
+import ModalClients from '../components/Modal/ModalClients.vue'
 export default {
+    components: {
+        ModalClients
+    },
     data() {
         return {
-            toggleModal: false,
+            showNewModal: false,
         }
     },
     methods: {
         openModal() {
-            this.toggleModal !== this.toggleModal
+            this.showNewModal = true;
+        },
+        closeModal() {
+            this.showNewModal = false
         }
     }
 }

@@ -4,7 +4,10 @@ import VueRouter from "vue-router";
 import Vue from 'vue';
 import Vuex from 'vuex'
 import storeDefinition from './store'
+import  Modal  from './components/Modal/Modal';
 require('./bootstrap');
+
+Vue.component('Modal',Modal)
 
 window.Vue = require('vue').default;
 Vue.use(VueRouter);
@@ -20,16 +23,17 @@ window.axios.interceptors.response.use(
         }
         return Promise.reject(error)
     }
-)
+    )
 
 const store = new Vuex.Store(storeDefinition);
+
 
 const app = new Vue({
     el: "#app",
     router,
     store,
     components: {
-        'index': index
+        'index': index,
     },
      beforeCreate() {
         this.$store.dispatch('loadUser');

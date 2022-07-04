@@ -1,10 +1,6 @@
 <template>
-    <div class="modal">
+    <div class="modal" :class="{'modal--show':showModal}" >
         <div class="modal__content">
-            <h2 class="heading">Create new {{name}}</h2>
-            <a href="javascript:;" class="modal__close">
-            <span class="modal__icon"></span>
-            </a>
             <slot></slot>
         </div>
     </div>
@@ -12,7 +8,11 @@
 
 <script>
 export default {
-    props: ['name']
+    props: ['showModal'],
+    methods: {
+
+    }
+
 }
 </script>
 
