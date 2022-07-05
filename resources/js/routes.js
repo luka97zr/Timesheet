@@ -1,12 +1,12 @@
 import VueRouter from 'vue-router'
-import Calendar from './calendar/Calendar'
-import EditDay from './day/EditDay'
-import Login from './auth/Login'
-import Clients from './clients/Clients'
-import Projects from './projects/Projects'
-import Categories from './categories/Categories'
-import Employees from './employees/Employees'
-import Reports from './reports/Reports'
+import Calendar from './pages/timesheet/calendar/Calendar'
+import EditDay from './pages/timesheet/day/EditDay'
+import Login from './pages/auth/Login'
+import Clients from './pages/clients/Clients'
+import Projects from './pages/projects/Projects'
+import Categories from './pages/categories/Categories'
+import Employees from './pages/employees/Employees'
+import Reports from './pages/reports/Reports'
 const routes = [
     {
         path: '/',

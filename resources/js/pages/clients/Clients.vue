@@ -244,7 +244,7 @@
 </template>
 
 <script>
-import ModalClients from '../components/Modal/ModalClients.vue'
+import ModalClients from '../../components/Modal/ModalClients.vue'
 export default {
     components: {
         ModalClients

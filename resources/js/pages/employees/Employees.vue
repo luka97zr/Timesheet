@@ -142,12 +142,33 @@
                 </ul>
             </div>
         </section>
+        <modal-employees
+            :showModal="showNewModal"
+            @closed="this.showNewModal = false"
+            @closeModal="closeModal()">
+        </modal-employees>
     </div>
 </template>
 
 <script>
+import ModalEmployees from '../../components/Modal/ModalEmployees.vue'
 export default {
-
+    components: {
+        ModalEmployees
+    },
+    data() {
+        return {
+            showNewModal: false,
+        }
+    },
+    methods: {
+        openModal() {
+            this.showNewModal = true;
+        },
+        closeModal() {
+            this.showNewModal = false
+        }
+    }
 }
 </script>
 

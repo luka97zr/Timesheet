@@ -97,7 +97,7 @@ export default {
 	},
 	created() {
 		this.getWholeWeek()
-				this.checkCalendar()
+		this.checkCalendar()
 
 	},
 	methods: {
@@ -199,6 +199,7 @@ export default {
 			handler() {
 				this.getDayLog()
 			},
+			immediate: true
 		}
 	}
 }

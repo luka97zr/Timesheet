@@ -4,7 +4,7 @@
             <div class="main-content">
                 <h2 class="main-content__title">Category</h2>
                 <div class="table-navigation">
-                    <a href="javascript:;" class="table-navigation__create btn-modal"><span>Create new category</span></a>
+                    <a href="javascript:;" class="table-navigation__create btn-modal"  @click.prevent="openModal()"><span>Create new category</span></a>
                     <form class="table-navigation__input-container" action="javascript:;">
                         <input type="text" class="table-navigation__search">
                         <button type="submit" class="icon__search"></button>
@@ -179,12 +179,34 @@
                 </ul>
             </div>
         </section>
+        <modal-categories
+            :showModal="showNewModal"
+            @closed="this.showNewModal = false"
+            @closeModal="closeModal()">
+
+        </modal-categories>
     </div>
 </template>
 
 <script>
+import ModalCategories from '../../components/Modal/ModalCategories.vue'
 export default {
-
+    components: {
+        ModalCategories
+    },
+    data() {
+        return {
+            showNewModal: false,
+        }
+    },
+    methods: {
+        openModal() {
+            this.showNewModal = true;
+        },
+        closeModal() {
+            this.showNewModal = false
+        }
+    }
 }
 </script>
 

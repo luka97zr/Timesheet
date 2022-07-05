@@ -275,7 +275,7 @@
 </template>
 
 <script>
-import ModalProject from '../components/Modal/ModalProjects.vue'
+import ModalProject from '../../components/Modal/ModalProjects.vue'
 export default {
      data() {
         return {

@@ -31,10 +31,8 @@
 </template>
 
 <script>
-import errorHandle from './../shared/mixins/errorHandle'
 export default {
     props: ['errors','userProjectData','log'],
-    mixins: [errorHandle],
     expose: ['description','hours','overtime','category','project','client'],
     data() {
         return {
