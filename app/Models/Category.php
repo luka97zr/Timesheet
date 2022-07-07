@@ -9,12 +9,8 @@ class Category extends Model
 {
     use HasFactory;
 
-    public function client() {
-        return $this->belongsTo(Client::class);
-    }
-
-    public function log() {
-        return $this->hasMany(Log::class);
+    public function categoryProject() {
+        return $this->hasMany(CategoryProject::class);
     }
 
     public function project() {

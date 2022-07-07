@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryProject;
 use App\Models\Log;
 use App\Models\UserProject;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,9 +14,9 @@ class LogController extends Controller
     }
 
     public function show($date) {
-        return Log::whereHas('Category', function(Builder $query) use ($date) {
+        return CategoryProject::whereHas('Log', function(Builder $query) use ($date) {
             $query->where('date','=',$date);
-        })->with(['category.project.client'])->get();
+        })->with(['log','project','category'])->get();
     }
 
     public function store(Request $request) {

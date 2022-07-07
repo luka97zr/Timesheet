@@ -17,7 +17,7 @@ class Project extends Model
         return $this->hasMany(UserProject::class);
     }
 
-    public function category() {
-        return $this->hasMany(Category::class);
+    public function categoryProject() {
+        return $this->hasMany(CategoryProject::class);
     }
 }

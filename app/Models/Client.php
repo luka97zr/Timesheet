@@ -13,7 +13,4 @@ class Client extends Model
         return $this->hasMany(Project::class);
     }
 
-    public function category() {
-        return $this->hasMany(Project::class);
-    }
 }

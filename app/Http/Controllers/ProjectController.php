@@ -49,7 +49,7 @@ class ProjectController extends Controller
     {
         return Project::whereHas('userProject', function (Builder $query) use ($user_id) {
             $query->where('user_id', '=', $user_id);
-          })->with(['client','category'])->get();
+          })->with(['client','categoryProject.category'])->get();
     }
 
     /**

@@ -20,7 +20,8 @@ class CreateLogsTable extends Migration
             $table->timestamps();
             $table->date('deleted_at');
             $table->text('description')->nullable();
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('category_project_id');
+            $table->foreign('category_project_id')->references('id')->on('categories_projects')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
         });
     }

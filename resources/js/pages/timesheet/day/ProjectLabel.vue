@@ -70,8 +70,8 @@ export default {
             const categories=[];
                 this.userProjectData.forEach(project => {
                     if(project.id === this.project)
-                        project.category.forEach(category => {
-                        categories.push(category)
+                        project.category_project.forEach(category => {
+                        categories.push(category.category)
                         })
                 })
            return categories

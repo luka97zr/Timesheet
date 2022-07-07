@@ -7712,8 +7712,8 @@ __webpack_require__.r(__webpack_exports__);
 
       var categories = [];
       this.userProjectData.forEach(function (project) {
-        if (project.id === _this2.project) project.category.forEach(function (category) {
-          categories.push(category);
+        if (project.id === _this2.project) project.category_project.forEach(function (category) {
+          categories.push(category.category);
         });
       });
       return categories;
