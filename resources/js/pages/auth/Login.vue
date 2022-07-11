@@ -44,17 +44,16 @@ export default {
             this.errors = null;
 
             try {
-                await axios.get('/sanctum/csrf-cookie');
-                 await axios.post('/login',{
+                const data = await axios.post('/api/login',{
                     email: this.email,
                     password: this.password
                 });
-            	localStorage.setItem('isLoggedIn', true)
-				await this.$store.dispatch('loadUser');
-				this.$router.push({name: 'home'});
+				console.log(data);
+				localStorage.setItem('jwt', data.token);
+				// this.$router.push({name: 'home'});
 
             } catch(error) {
-                    this.errors = error.response?.data.message
+                this.errors = error.response?.data.message
             }
 
             this.loading = false

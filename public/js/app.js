@@ -5778,7 +5778,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var _error$response;
+        var data, _error$response;
 
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
@@ -5788,42 +5788,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.errors = null;
                 _context.prev = 2;
                 _context.next = 5;
-                return axios.get('/sanctum/csrf-cookie');
-
-              case 5:
-                _context.next = 7;
-                return axios.post('/login', {
+                return axios.post('/api/login', {
                   email: _this.email,
                   password: _this.password
                 });
 
-              case 7:
-                localStorage.setItem('isLoggedIn', true);
-                _context.next = 10;
-                return _this.$store.dispatch('loadUser');
+              case 5:
+                data = _context.sent;
+                console.log(data);
+                localStorage.setItem('jwt', data.token); // this.$router.push({name: 'home'});
 
-              case 10:
-                _this.$router.push({
-                  name: 'home'
-                });
-
-                _context.next = 16;
+                _context.next = 13;
                 break;
 
-              case 13:
-                _context.prev = 13;
+              case 10:
+                _context.prev = 10;
                 _context.t0 = _context["catch"](2);
                 _this.errors = (_error$response = _context.t0.response) === null || _error$response === void 0 ? void 0 : _error$response.data.message;
 
-              case 16:
+              case 13:
                 _this.loading = false;
 
-              case 17:
+              case 14:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[2, 13]]);
+        }, _callee, null, [[2, 10]]);
       }))();
     }
   }

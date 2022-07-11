@@ -14,9 +14,15 @@ class LogController extends Controller
     }
 
     public function show($date) {
-        return CategoryProject::whereHas('Log', function(Builder $query) use ($date) {
-            $query->where('date','=',$date);
-        })->with(['log','project','category'])->get();
+        // return CategoryProject::whereHas('Log', function(Builder $query) use ($date) {
+        //     $query->where('date','=',$date);
+        // })->with(['log','project','category'])->get();
+
+        return Log::where('date','=',$date)->with([
+            'categoryProject',
+            'categoryProject.project',
+            'categoryProject.category'
+            ])->get();
     }
 
     public function store(Request $request) {

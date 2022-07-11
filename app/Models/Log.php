@@ -17,6 +17,6 @@ class Log extends Model
     }
 
     public function categoryProject() {
-        return $this->hasMany(CategoryProject::class);
+        return $this->belongsTo(CategoryProject::class);
     }
 }
