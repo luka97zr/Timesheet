@@ -11,6 +11,7 @@ export default {
 			startDate: null,
 			endDate: null,
 			totalHours: 0,
+			gotToken: false
 	},
 	mutations: {
 		setUser(state, payload) {
@@ -34,9 +35,12 @@ export default {
 				state.totalHours += log['hours']
 			});
 		},
+		setGettingToken(state,payload) {
+			state.gotToken = payload;
+		}
 	},
 	actions: {
-		async loadUser({commit,dispatch, getters}) {
+		async loadUser({commit,dispatch}) {
 				try {
 					const user = (await axios.get('/api/user')).data
 					commit('setUser',user.user);
@@ -52,7 +56,7 @@ export default {
 		},
 		async calendarLogs({commit}) {
 			try {
-				const response = await axios.get(`/api/calendar/${moment(this.getters.getStartDate).format('YYYY-MM-DD')}/${moment(this.getters.getEndDate).format('YYYY-MM-DD')}?id=1`)
+				const response = await axios.get(`/api/calendar/${moment(this.getters.getStartDate).format('YYYY-MM-DD')}/${moment(this.getters.getEndDate).format('YYYY-MM-DD')}`)
 				commit('setLogs',response.data)
 				commit('getCalculatedHours',response.data)
 			} catch(error) {

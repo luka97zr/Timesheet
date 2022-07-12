@@ -18,10 +18,10 @@ window.axios.interceptors.response.use(
         return response;
     },
     error => {
-        if (error.response.status === 401 && !this.$route.path !== '/auth/login') {
+        if (error.response.status === 401 && router.currentRoute.path !== '/auth/login' && !this.$store.state.gotToken) {
             router.push({name : 'login'})
+            localStorage.removeItem('jwt');
             // store.dispatch('logout');
-
         }
         return Promise.reject(error)
     }
@@ -38,9 +38,6 @@ const app = new Vue({
         'index': index,
     },
      beforeCreate() {
-        // this.$store.dispatch('loadUser')
-        if (!this.$store.getters.isUserAuth && !this.$route.path !== '/auth/login') router.push({name : 'login'}).catch(err => {
-            console.log(err)
-        })
+        this.$store.dispatch('loadUser')
     }
 });

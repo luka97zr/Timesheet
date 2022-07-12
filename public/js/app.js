@@ -5784,43 +5784,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _this.$store.commit('setGettingToken', true);
+
                 _this.loading = true;
                 _this.errors = null;
-                _context.prev = 2;
-                _context.next = 5;
+                _context.prev = 3;
+                _context.next = 6;
                 return axios.post('/api/login', {
                   email: _this.email,
                   password: _this.password
                 });
 
-              case 5:
+              case 6:
                 data = _context.sent;
+                console.log(data.token);
                 localStorage.setItem('jwt', data.data.token);
-                _context.next = 9;
+                _context.next = 11;
                 return _this.$store.dispatch('loadUser');
 
-              case 9:
+              case 11:
                 _this.$router.push({
                   name: 'home'
                 });
 
-                _context.next = 15;
+                _context.next = 18;
                 break;
 
-              case 12:
-                _context.prev = 12;
-                _context.t0 = _context["catch"](2);
+              case 14:
+                _context.prev = 14;
+                _context.t0 = _context["catch"](3);
+                console.log(_context.t0);
                 _this.errors = (_error$response = _context.t0.response) === null || _error$response === void 0 ? void 0 : _error$response.data.message;
 
-              case 15:
+              case 18:
                 _this.loading = false;
 
-              case 16:
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[2, 12]]);
+        }, _callee, null, [[3, 14]]);
       }))();
     }
   }
@@ -7492,15 +7496,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           if (row.project && row.category && row.client && row.hours) _this2.projectObject[index] = {
             date: _this2.$route.params.day,
             description: row.description,
-            user_id: _this2.userId,
-            category_id: row.category,
+            category_project_id: row.categoryProjectId,
             hours: row.hours + row.overtime
           };
         });
       }
     },
+    checkCalendar: function checkCalendar() {
+      if (!this.$store.state.calendar || !moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayRoute).isBetween(this.$store.state.startDate, this.$store.state.endDate)) {
+        this.$store.commit('setStartDate', this.firstDayOfWeek);
+        this.$store.commit('setEndDate', this.lastDayOfWeek);
+        this.$store.dispatch('calendarLogs');
+      }
+    },
+    totalHours: function totalHours() {
+      var _this$logData,
+          _this3 = this;
+
+      this.total = 0;
+      (_this$logData = this.logData) === null || _this$logData === void 0 ? void 0 : _this$logData.forEach(function (log) {
+        _this3.total += log.hours;
+      });
+    },
     getUserProjectData: function getUserProjectData() {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var response;
@@ -7509,11 +7528,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.get("/api/projects/".concat(_this3.userId));
+                return axios.get("/api/projects/".concat(_this4.userId));
 
               case 2:
                 response = _context.sent;
-                _this3.userProjectData = response.data;
+                _this4.userProjectData = response.data;
 
               case 4:
               case "end":
@@ -7524,7 +7543,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getDayLog: function getDayLog() {
-      var _this4 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var response;
@@ -7533,16 +7552,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.prev = 0;
-                _this4.isDisabled = true;
+                _this5.isDisabled = true;
                 _context2.next = 4;
-                return axios.get("/api/logs/".concat(moment__WEBPACK_IMPORTED_MODULE_0___default()(_this4.dayRoute).format('YYYY-MM-DD')));
+                return axios.get("/api/logs/".concat(moment__WEBPACK_IMPORTED_MODULE_0___default()(_this5.dayRoute).format('YYYY-MM-DD')));
 
               case 4:
                 response = _context2.sent;
-                _this4.isDisabled = false;
-                _this4.logData = response.data;
+                _this5.isDisabled = false;
+                _this5.logData = response.data;
 
-                _this4.totalHours();
+                _this5.totalHours();
 
                 _context2.next = 13;
                 break;
@@ -7559,23 +7578,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2, null, [[0, 10]]);
       }))();
-    },
-    checkCalendar: function checkCalendar() {
-      if (!this.$store.state.calendar || !moment__WEBPACK_IMPORTED_MODULE_0___default()(this.dayRoute).isBetween(this.$store.state.startDate, this.$store.state.endDate)) {
-        console.log(this.weekdays);
-        this.$store.commit('setStartDate', this.firstDayOfWeek);
-        this.$store.commit('setEndDate', this.lastDayOfWeek);
-        this.$store.dispatch('calendarLogs');
-      }
-    },
-    totalHours: function totalHours() {
-      var _this$logData,
-          _this5 = this;
-
-      this.total = 0;
-      (_this$logData = this.logData) === null || _this$logData === void 0 ? void 0 : _this$logData.forEach(function (log) {
-        _this5.total += log.hours;
-      });
     }
   },
   watch: {
@@ -7667,7 +7669,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['errors', 'userProjectData', 'log'],
-  expose: ['description', 'hours', 'overtime', 'category', 'project', 'client'],
+  expose: ['description', 'hours', 'overtime', 'category', 'project', 'client', 'categoryProjectId'],
   data: function data() {
     return {
       description: '',
@@ -7677,7 +7679,8 @@ __webpack_require__.r(__webpack_exports__);
       client: null,
       project: null,
       category: null,
-      day: null
+      day: null,
+      categoryProjectId: null
     };
   },
   computed: {
@@ -7730,10 +7733,20 @@ __webpack_require__.r(__webpack_exports__);
       this.hours = null;
     },
     populateInput: function populateInput() {
-      this.client = this.log.category.project.client.name;
-      this.project = this.log.category.project.id;
-      this.category = this.log.category.id;
+      this.client = this.log.category_project.project.client.name;
+      this.project = this.log.category_project.project.id;
+      this.category = this.log.category_project.category.id;
       this.hours = this.log.hours;
+    },
+    saveCategoryProject: function saveCategoryProject() {
+      var _this$userProjectData,
+          _this3 = this;
+
+      (_this$userProjectData = this.userProjectData) === null || _this$userProjectData === void 0 ? void 0 : _this$userProjectData.forEach(function (project) {
+        project.category_project.forEach(function (row) {
+          if (row.category_id === _this3.category && row.project_id === _this3.project) _this3.categoryProjectId = row.id;
+        });
+      });
     }
   },
   watch: {
@@ -7748,6 +7761,11 @@ __webpack_require__.r(__webpack_exports__);
         this.logInputs();
       },
       immediate: true
+    },
+    category: {
+      handler: function handler() {
+        this.saveCategoryProject();
+      }
     }
   }
 });
@@ -7863,10 +7881,11 @@ vue__WEBPACK_IMPORTED_MODULE_4__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_6_
 window.axios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
-  if (error.response.status === 401 && !_this.$route.path !== '/auth/login') {
+  if (error.response.status === 401 && _routes__WEBPACK_IMPORTED_MODULE_0__["default"].currentRoute.path !== '/auth/login' && !_this.$store.state.gotToken) {
     _routes__WEBPACK_IMPORTED_MODULE_0__["default"].push({
       name: 'login'
-    }); // store.dispatch('logout');
+    });
+    localStorage.removeItem('jwt'); // store.dispatch('logout');
   }
 
   return Promise.reject(error);
@@ -7880,12 +7899,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
     'index': _index__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   beforeCreate: function beforeCreate() {
-    // this.$store.dispatch('loadUser')
-    if (!this.$store.getters.isUserAuth && !this.$route.path !== '/auth/login') _routes__WEBPACK_IMPORTED_MODULE_0__["default"].push({
-      name: 'login'
-    })["catch"](function (err) {
-      console.log(err);
-    });
+    this.$store.dispatch('loadUser');
   }
 });
 
@@ -8068,7 +8082,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     calendar: null,
     startDate: null,
     endDate: null,
-    totalHours: 0
+    totalHours: 0,
+    gotToken: false
   },
   mutations: {
     setUser: function setUser(state, payload) {
@@ -8091,17 +8106,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       payload === null || payload === void 0 ? void 0 : payload.forEach(function (log) {
         state.totalHours += log['hours'];
       });
+    },
+    setGettingToken: function setGettingToken(state, payload) {
+      state.gotToken = payload;
     }
   },
   actions: {
     loadUser: function loadUser(_ref) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var commit, dispatch, getters, user;
+        var commit, dispatch, user;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                commit = _ref.commit, dispatch = _ref.dispatch, getters = _ref.getters;
+                commit = _ref.commit, dispatch = _ref.dispatch;
                 _context.prev = 1;
                 _context.next = 4;
                 return axios.get('/api/user');
@@ -8144,7 +8162,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 commit = _ref3.commit;
                 _context2.prev = 1;
                 _context2.next = 4;
-                return axios.get("/api/calendar/".concat(moment__WEBPACK_IMPORTED_MODULE_0___default()(_this.getters.getStartDate).format('YYYY-MM-DD'), "/").concat(moment__WEBPACK_IMPORTED_MODULE_0___default()(_this.getters.getEndDate).format('YYYY-MM-DD'), "?id=1"));
+                return axios.get("/api/calendar/".concat(moment__WEBPACK_IMPORTED_MODULE_0___default()(_this.getters.getStartDate).format('YYYY-MM-DD'), "/").concat(moment__WEBPACK_IMPORTED_MODULE_0___default()(_this.getters.getEndDate).format('YYYY-MM-DD')));
 
               case 4:
                 response = _context2.sent;
@@ -75794,7 +75812,7 @@ var index = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://axios-http.com","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.14.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}');
+module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\laragon\\\\www\\\\Timesheet"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\laragon\\\\www\\\\Timesheet","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
 
 /***/ })
 

@@ -98,20 +98,17 @@ export default {
 	created() {
 		this.getWholeWeek()
 		this.checkCalendar()
-
 	},
 	methods: {
         nextWeek() {
 			this.getWholeWeek();
-				this.checkCalendar()
+			this.checkCalendar()
 			this.$refs.weeklabel.asignDate();
         },
 		prevWeek() {
 			this.getWholeWeek();
-				this.checkCalendar()
-
+			this.checkCalendar()
 			this.$refs.weeklabel.asignDate();
-
 		},
 		getWholeWeek() {
             let now = moment(this.dayRoute).clone().startOf('isoWeek');
@@ -149,13 +146,26 @@ export default {
 					this.projectObject[index] = {
 						date: this.$route.params.day,
 						description: row.description,
-						user_id: this.userId,
-						category_id: row.category,
+						category_project_id: row.categoryProjectId,
 						hours: row.hours + row.overtime
 					}
 
 			});
 			}
+		},
+		checkCalendar() {
+			if (!this.$store.state.calendar || !moment(this.dayRoute).isBetween(this.$store.state.startDate, this.$store.state.endDate)) {
+				this.$store.commit('setStartDate', this.firstDayOfWeek);
+                this.$store.commit('setEndDate', this.lastDayOfWeek);
+            	this.$store.dispatch('calendarLogs');
+
+			}
+		},
+		totalHours() {
+			this.total = 0;
+			this.logData?.forEach(log => {
+				 this.total += log.hours;
+			})
 		},
 		async getUserProjectData() {
 		    const response = await axios.get(`/api/projects/${this.userId}`);
@@ -171,21 +181,6 @@ export default {
 			} catch(err) {
 				console.log(err)
 			}
-		},
-		checkCalendar() {
-			if (!this.$store.state.calendar || !moment(this.dayRoute).isBetween(this.$store.state.startDate, this.$store.state.endDate)) {
-				console.log(this.weekdays)
-				this.$store.commit('setStartDate', this.firstDayOfWeek);
-                this.$store.commit('setEndDate', this.lastDayOfWeek);
-            	this.$store.dispatch('calendarLogs');
-
-			}
-		},
-		totalHours() {
-			this.total = 0;
-			this.logData?.forEach(log => {
-				 this.total += log.hours;
-			})
 		},
     },
 	watch: {

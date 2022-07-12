@@ -18,7 +18,7 @@ class CreateLogsTable extends Migration
             $table->date('date');
             $table->integer('hours');
             $table->timestamps();
-            $table->date('deleted_at');
+            $table->date('deleted_at')->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('category_project_id');
             $table->foreign('category_project_id')->references('id')->on('categories_projects')->cascadeOnDelete();

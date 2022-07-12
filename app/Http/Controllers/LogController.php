@@ -14,14 +14,14 @@ class LogController extends Controller
     }
 
     public function show($date) {
-        // return CategoryProject::whereHas('Log', function(Builder $query) use ($date) {
-        //     $query->where('date','=',$date);
-        // })->with(['log','project','category'])->get();
-
-        return Log::where('date','=',$date)->with([
+        return Log::where([
+            ['date',$date],
+            ['user_id',auth()->user()->id]
+        ])->with([
             'categoryProject',
             'categoryProject.project',
-            'categoryProject.category'
+            'categoryProject.category',
+            'categoryProject.project.client',
             ])->get();
     }
 
@@ -30,12 +30,15 @@ class LogController extends Controller
             'data.*.date'          => ['required','date_format:Y-m-d'],
             'data.*.hours'         => ['required','numeric','gt:0'],
             'data.*.description'   => ['max: 255','string','nullable'],
-            'data.*.category_id'   => ['required'],
-            'data.*.user_id'       => ['required'],
+            'data.*.category_project_id'   => ['required'],
         ]);
-        (Log::where('date',$data['data']))? Log::where('date',$data['data'])->delete() : null;
+        Log::where([
+            ['date',$data['data']],
+            ['user_id', auth()->user()->id]
+            ])->delete() ?? null;
 
-       collect($data['data'])->each(function($singleData) {
+            collect($data['data'])->each(function($singleData) {
+            $singleData['user_id'] = auth()->user()->id;
             Log::create($singleData);
         });
 

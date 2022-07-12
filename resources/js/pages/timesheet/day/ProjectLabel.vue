@@ -33,7 +33,7 @@
 <script>
 export default {
     props: ['errors','userProjectData','log'],
-    expose: ['description','hours','overtime','category','project','client'],
+    expose: ['description','hours','overtime','category','project','client','categoryProjectId'],
     data() {
         return {
             description: '',
@@ -43,7 +43,8 @@ export default {
             client: null,
             project: null,
             category: null,
-            day: null
+            day: null,
+            categoryProjectId: null
         }
     },
     computed: {
@@ -94,11 +95,18 @@ export default {
             this.hours = null
        },
        populateInput() {
-            this.client = this.log.category.project.client.name
-            this.project = this.log.category.project.id
-            this.category = this.log.category.id
+            this.client = this.log.category_project.project.client.name
+            this.project = this.log.category_project.project.id
+            this.category = this.log.category_project.category.id
             this.hours = this.log.hours
-       }
+       },
+       saveCategoryProject() {
+			this.userProjectData?.forEach(project => {
+                project.category_project.forEach(row =>{
+                    if (row.category_id === this.category && row.project_id === this.project) this.categoryProjectId = row.id
+                })
+            })
+		},
     },
     watch: {
         userProjectData: {
@@ -112,6 +120,12 @@ export default {
                 this.logInputs()
             },
             immediate: true
+        },
+        category: {
+            handler() {
+                this.saveCategoryProject()
+
+            }
         }
     },
 }
