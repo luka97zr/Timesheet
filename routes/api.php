@@ -20,13 +20,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::resource('logs',LogController::class);
-Route::resource('client',ClientController::class);
-Route::resource('projects',ProjectController::class);
-Route::get('calendar/{from}/{to}',CalendarController::class);
+
 
 Route::post('login',[JWTAuthController::class, 'login']);
-Route::post('user',[JWTAuthController::class, 'getUser']);
-Route::group(['middleware' => 'auth.jwt'], function() {
+
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('user',[JWTAuthController::class, 'getUser']);
     Route::post('logout', [JWTAuthController::class, 'logut']);
+
+    Route::resource('logs',LogController::class);
+    Route::resource('client',ClientController::class);
+    Route::resource('projects',ProjectController::class);
+    Route::get('calendar/{from}/{to}',CalendarController::class);
 });

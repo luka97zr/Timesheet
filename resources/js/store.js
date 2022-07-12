@@ -10,7 +10,7 @@ export default {
 			calendar: null,
 			startDate: null,
 			endDate: null,
-			totalHours: 0
+			totalHours: 0,
 	},
 	mutations: {
 		setUser(state, payload) {
@@ -33,19 +33,17 @@ export default {
 			payload?.forEach(log => {
 				state.totalHours += log['hours']
 			});
-		}
+		},
 	},
 	actions: {
-		async loadUser({commit,dispatch}) {
-			if(isLoggedIn()) {
+		async loadUser({commit,dispatch, getters}) {
 				try {
-					const user = (await axios.get('/user')).data
-					commit('setUser',user);
+					const user = (await axios.get('/api/user')).data
+					commit('setUser',user.user);
 					commit('setLoggedIn', true)
 				} catch(error) {
 					dispatch('logout')
 				}
-			}
 		},
 		logout({commit}) {
 			commit('setUser',{});
@@ -74,6 +72,9 @@ export default {
 		},
 		getCalendar(state) {
 			return state.calendar
+		},
+		isUserAuth(state) {
+			return state.isLoggedIn
 		}
 	}
 }

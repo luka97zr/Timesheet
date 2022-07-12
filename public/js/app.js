@@ -5795,26 +5795,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
                 data = _context.sent;
-                console.log(data);
-                localStorage.setItem('jwt', data.token); // this.$router.push({name: 'home'});
+                localStorage.setItem('jwt', data.data.token);
+                _context.next = 9;
+                return _this.$store.dispatch('loadUser');
 
-                _context.next = 13;
+              case 9:
+                _this.$router.push({
+                  name: 'home'
+                });
+
+                _context.next = 15;
                 break;
 
-              case 10:
-                _context.prev = 10;
+              case 12:
+                _context.prev = 12;
                 _context.t0 = _context["catch"](2);
                 _this.errors = (_error$response = _context.t0.response) === null || _error$response === void 0 ? void 0 : _error$response.data.message;
 
-              case 13:
+              case 15:
                 _this.loading = false;
 
-              case 14:
+              case 16:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[2, 10]]);
+        }, _callee, null, [[2, 12]]);
       }))();
     }
   }
@@ -7838,6 +7844,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
 /* harmony import */ var _components_Modal_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Modal/Modal */ "./resources/js/components/Modal/Modal.vue");
+var _this = undefined;
+
 
 
 
@@ -7855,8 +7863,10 @@ vue__WEBPACK_IMPORTED_MODULE_4__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_6_
 window.axios.interceptors.response.use(function (response) {
   return response;
 }, function (error) {
-  if (error.response.status === 401) {
-    store.dispatch('logout');
+  if (error.response.status === 401 && !_this.$route.path !== '/auth/login') {
+    _routes__WEBPACK_IMPORTED_MODULE_0__["default"].push({
+      name: 'login'
+    }); // store.dispatch('logout');
   }
 
   return Promise.reject(error);
@@ -7870,9 +7880,11 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
     'index': _index__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   beforeCreate: function beforeCreate() {
-    this.$store.dispatch('loadUser');
-    if (localStorage.getItem('isLoggedIn') === false) this.$route.push({
+    // this.$store.dispatch('loadUser')
+    if (!this.$store.getters.isUserAuth && !this.$route.path !== '/auth/login') _routes__WEBPACK_IMPORTED_MODULE_0__["default"].push({
       name: 'login'
+    })["catch"](function (err) {
+      console.log(err);
     });
   }
 });
@@ -7884,6 +7896,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
   !*** ./resources/js/bootstrap.js ***!
   \***********************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+var _localStorage;
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
@@ -7899,6 +7913,7 @@ try {
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['Authorization'] = "Bearer ".concat((_localStorage = localStorage) === null || _localStorage === void 0 ? void 0 : _localStorage.getItem('jwt'));
 window.axios.defaults.withCredentials = true;
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -7948,17 +7963,11 @@ __webpack_require__.r(__webpack_exports__);
 var routes = [{
   path: '/',
   name: 'home',
-  component: _pages_timesheet_calendar_Calendar__WEBPACK_IMPORTED_MODULE_0__["default"],
-  meta: {
-    requiresAuth: true
-  }
+  component: _pages_timesheet_calendar_Calendar__WEBPACK_IMPORTED_MODULE_0__["default"]
 }, {
   path: '/date/:day',
   name: 'dayEdit',
-  component: _pages_timesheet_day_EditDay__WEBPACK_IMPORTED_MODULE_1__["default"],
-  meta: {
-    requiresAuth: true
-  }
+  component: _pages_timesheet_day_EditDay__WEBPACK_IMPORTED_MODULE_1__["default"]
 }, {
   path: '/auth/login',
   name: 'login',
@@ -7969,66 +7978,39 @@ var routes = [{
 }, {
   path: '/clients',
   name: 'clients',
-  component: _pages_clients_Clients__WEBPACK_IMPORTED_MODULE_3__["default"],
-  meta: {
-    requiresAuth: true,
-    modal: true,
-    modalName: 'client'
-  }
+  component: _pages_clients_Clients__WEBPACK_IMPORTED_MODULE_3__["default"]
 }, {
   path: '/projects',
   name: 'projects',
-  component: _pages_projects_Projects__WEBPACK_IMPORTED_MODULE_4__["default"],
-  meta: {
-    requiresAuth: true,
-    modal: true,
-    modalName: 'project'
-  }
+  component: _pages_projects_Projects__WEBPACK_IMPORTED_MODULE_4__["default"]
 }, {
   path: '/categories',
   name: 'categories',
-  component: _pages_categories_Categories__WEBPACK_IMPORTED_MODULE_5__["default"],
-  meta: {
-    requiresAuth: true,
-    modal: true,
-    modalName: 'category'
-  }
+  component: _pages_categories_Categories__WEBPACK_IMPORTED_MODULE_5__["default"]
 }, {
   path: '/employees',
   name: 'employees',
-  component: _pages_employees_Employees__WEBPACK_IMPORTED_MODULE_6__["default"],
-  meta: {
-    requiresAuth: true,
-    modal: true,
-    modalName: 'empolyee'
-  }
+  component: _pages_employees_Employees__WEBPACK_IMPORTED_MODULE_6__["default"]
 }, {
   path: '/reports',
   name: 'reports',
-  component: _pages_reports_Reports__WEBPACK_IMPORTED_MODULE_7__["default"],
-  meta: {
-    requiresAuth: true
-  }
+  component: _pages_reports_Reports__WEBPACK_IMPORTED_MODULE_7__["default"]
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_8__["default"]({
   routes: routes,
   mode: 'history'
-});
-router.beforeEach(function (to, from, next) {
-  if (to.matched.some(function (record) {
-    return record.meta.requiresAuth;
-  })) {
-    if (localStorage.getItem('isLoggedIn') === 'false') {
-      next({
-        name: 'login'
-      });
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
-});
+}); // router.beforeEach((to,from,next)=>{
+//     if(to.matched.some(record => record.meta.requiresAuth)) {
+//         // if(localStorage.getItem('jwt') === 'false') {
+//         //     next({name: 'login'})
+//         // } else {
+//         //     next();
+//         // }
+//     } else {
+//         next()
+//     }
+// })
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 
 /***/ }),
@@ -8114,40 +8096,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   actions: {
     loadUser: function loadUser(_ref) {
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var commit, dispatch, user;
+        var commit, dispatch, getters, user;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                commit = _ref.commit, dispatch = _ref.dispatch;
+                commit = _ref.commit, dispatch = _ref.dispatch, getters = _ref.getters;
+                _context.prev = 1;
+                _context.next = 4;
+                return axios.get('/api/user');
 
-                if (!(0,_shared_utils_auth__WEBPACK_IMPORTED_MODULE_1__.isLoggedIn)()) {
-                  _context.next = 13;
-                  break;
-                }
-
-                _context.prev = 2;
-                _context.next = 5;
-                return axios.get('/user');
-
-              case 5:
+              case 4:
                 user = _context.sent.data;
-                commit('setUser', user);
+                commit('setUser', user.user);
                 commit('setLoggedIn', true);
-                _context.next = 13;
+                _context.next = 12;
                 break;
 
-              case 10:
-                _context.prev = 10;
-                _context.t0 = _context["catch"](2);
+              case 9:
+                _context.prev = 9;
+                _context.t0 = _context["catch"](1);
                 dispatch('logout');
 
-              case 13:
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[2, 10]]);
+        }, _callee, null, [[1, 9]]);
       }))();
     },
     logout: function logout(_ref2) {
@@ -8220,6 +8196,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     getCalendar: function getCalendar(state) {
       return state.calendar;
+    },
+    isUserAuth: function isUserAuth(state) {
+      return state.isLoggedIn;
     }
   }
 });
@@ -55285,7 +55264,7 @@ var render = function () {
                   on: {
                     click: function ($event) {
                       $event.preventDefault()
-                      return _vm.login.apply(null, arguments)
+                      return _vm.login()
                     },
                   },
                 },
@@ -75815,7 +75794,7 @@ var index = {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\laragon\\\\www\\\\Timesheet"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\laragon\\\\www\\\\Timesheet","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
+module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://axios-http.com","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.14.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}');
 
 /***/ })
 

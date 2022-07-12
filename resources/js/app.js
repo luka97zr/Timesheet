@@ -18,8 +18,10 @@ window.axios.interceptors.response.use(
         return response;
     },
     error => {
-        if (error.response.status === 401) {
-            store.dispatch('logout');
+        if (error.response.status === 401 && !this.$route.path !== '/auth/login') {
+            router.push({name : 'login'})
+            // store.dispatch('logout');
+
         }
         return Promise.reject(error)
     }
@@ -36,7 +38,9 @@ const app = new Vue({
         'index': index,
     },
      beforeCreate() {
-        this.$store.dispatch('loadUser');
-        if (localStorage.getItem('isLoggedIn') === false) this.$route.push({name:'login'});
+        // this.$store.dispatch('loadUser')
+        if (!this.$store.getters.isUserAuth && !this.$route.path !== '/auth/login') router.push({name : 'login'}).catch(err => {
+            console.log(err)
+        })
     }
 });

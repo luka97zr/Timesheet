@@ -12,17 +12,12 @@ const routes = [
         path: '/',
         name: 'home',
         component: Calendar,
-        meta: {
-            requiresAuth: true
-        }
+
     },
     {
         path: '/date/:day',
         name: 'dayEdit',
         component: EditDay,
-        meta: {
-            requiresAuth: true,
-        }
     },
     {
         path: '/auth/login',
@@ -36,50 +31,27 @@ const routes = [
         path: '/clients',
         name: 'clients',
         component: Clients,
-        meta: {
-            requiresAuth: true,
-            modal: true,
-            modalName: 'client'
-        }
+
     },
     {
         path: '/projects',
         name: 'projects',
         component: Projects,
-        meta: {
-            requiresAuth: true,
-            modal: true,
-            modalName: 'project'
-        }
     },
     {
         path: '/categories',
         name: 'categories',
         component: Categories,
-        meta: {
-            requiresAuth: true,
-            modal: true,
-            modalName: 'category'
-        }
     },
     {
         path: '/employees',
         name: 'employees',
         component: Employees,
-        meta: {
-            requiresAuth: true,
-            modal: true,
-            modalName: 'empolyee'
-
-        }
     },
     {
         path: '/reports',
         name: 'reports',
         component: Reports,
-        meta: {
-            requiresAuth: true,
-        }
     },
 
 
@@ -90,17 +62,17 @@ const router = new VueRouter({
 });
 
 
-router.beforeEach((to,from,next)=>{
-    if(to.matched.some(record => record.meta.requiresAuth)) {
-        if(localStorage.getItem('isLoggedIn') === 'false') {
-            next({name: 'login'})
-        } else {
-            next();
-        }
-    } else {
-        next()
-    }
-})
+// router.beforeEach((to,from,next)=>{
+//     if(to.matched.some(record => record.meta.requiresAuth)) {
+//         // if(localStorage.getItem('jwt') === 'false') {
+//         //     next({name: 'login'})
+//         // } else {
+//         //     next();
+//         // }
+//     } else {
+//         next()
+//     }
+// })
 
 
 export default router;
