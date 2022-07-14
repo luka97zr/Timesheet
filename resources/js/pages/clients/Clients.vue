@@ -12,203 +12,12 @@
                 </div>
                 <div class="alphabet">
                     <ul class="alphabet__navigation">
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">a</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">b</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">c</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">d</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">e</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">f</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">g</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">h</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">i</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button alphabet__button--disabled" href="javascript:;">j</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">k</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">l</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">m</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">n</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button alphabet__button--active" href="javascript:;">o</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">p</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">q</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">r</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">s</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">t</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">u</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">v</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">w</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">x</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">y</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">z</a>
+                        <li class="alphabet__list" v-for="(letter,index) in getAlphabet" :key="index">
+                            <a class="alphabet__button" :class="{'alphabet__button--disabled' : !checkClientName(letter)}" href="javascript:;" @click.prevent="generatePagination(letter)">{{letter}}</a>
                         </li>
                     </ul>
                 </div>
-                <div class="accordion">
-                    <div class="accordion__intro">
-                        <h4 class="accordion__title">Client 1</h4>
-                    </div>
-                    <form class="accordion__content" action="javascript:;">
-                        <div class="info">
-                            <div class="info__form">
-                                <ul class="info__wrapper">
-                                    <li class="info__list">
-                                        <label class="info__label">Client name:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                    <li class="info__list">
-                                        <label class="report__label">Address:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                    <li class="info__list">
-                                        <label class="report__label">City:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                    <li class="info__list">
-                                        <label class="report__label">Zip/Postal code:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                    <li class="info__list">
-                                        <label class="report__label">Country:</label>
-                                        <select class="info__select">
-                                            <option value="">All</option>
-                                        </select>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="btn-wrap">
-                            <button type="submit" class="btn btn--green"><span>Save changes</span></button>
-                            <button type="button" class="btn btn--red"><span>Delete</span></button>
-                        </div>
-                    </form>
-                </div>
-                <div class="accordion">
-                    <div class="accordion__intro">
-                        <h4 class="accordion__title">Client 2</h4>
-                    </div>
-                    <form class="accordion__content" action="javascript:;">
-                        <div class="info">
-                            <div class="info__form">
-                                <ul class="info__wrapper">
-                                    <li class="info__list">
-                                        <label class="info__label">Client name:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                    <li class="info__list">
-                                        <label class="report__label">Address:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                    <li class="info__list">
-                                        <label class="report__label">City:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                    <li class="info__list">
-                                        <label class="report__label">Zip/Postal code:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                    <li class="info__list">
-                                        <label class="report__label">Country:</label>
-                                        <select class="info__select">
-                                            <option value="">All</option>
-                                        </select>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="btn-wrap">
-                            <button type="submit" class="btn btn--green"><span>Save changes</span></button>
-                            <button type="button" class="btn btn--red"><span>Delete</span></button>
-                        </div>
-                    </form>
-                </div>
-                <div class="accordion">
-                    <div class="accordion__intro">
-                        <h4 class="accordion__title">Client 3</h4>
-                    </div>
-                    <form class="accordion__content" action="javascript:;">
-                        <div class="info">
-                            <div class="info__form">
-                                <ul class="info__wrapper">
-                                    <li class="info__list">
-                                        <label class="info__label">Client name:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                    <li class="info__list">
-                                        <label class="report__label">Address:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                    <li class="info__list">
-                                        <label class="report__label">City:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                    <li class="info__list">
-                                        <label class="report__label">Zip/Postal code:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                    <li class="info__list">
-                                        <label class="report__label">Country:</label>
-                                        <select class="info__select">
-                                            <option value="">All</option>
-                                        </select>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="btn-wrap">
-                            <button type="submit" class="btn btn--green"><span>Save changes</span></button>
-                            <button type="button" class="btn btn--red"><span>Delete</span></button>
-                        </div>
-                    </form>
-                </div>
+                <client-accordion v-for="(client, index) in clientsAcc" :key="index" :client-obj="client"></client-accordion>
             </div>
             <div class="pagination">
                 <ul class="pagination__navigation">
@@ -233,25 +42,36 @@
                 </ul>
             </div>
         </section>
-
         <modal-clients
             :showModal="showNewModal"
             @closed="this.showNewModal = false"
             @closeModal="closeModal()"
         >
-        </modal-clients> 
+        </modal-clients>
     </div>
 </template>
 
 <script>
 import ModalClients from '../../components/Modal/ModalClients.vue'
+import ClientAccordion from './ClientAccordion.vue'
 export default {
     components: {
-        ModalClients
+        ModalClients,
+        ClientAccordion
     },
     data() {
         return {
             showNewModal: false,
+            clients: {},
+            clientsAcc: []
+        }
+    },
+    created() {
+        this.getClients();
+    },
+    computed: {
+        getAlphabet() {
+           return [...Array(26)].map((_,i) => String.fromCharCode(i + 65))
         }
     },
     methods: {
@@ -260,6 +80,21 @@ export default {
         },
         closeModal() {
             this.showNewModal = false
+        },
+        async getClients() {
+            try {
+                const data = await axios.get('/api/client');
+                this.clients = data.data;
+            }catch(error) {
+
+            }
+        },
+        checkClientName(letter) {
+            return Object.keys(this.clients).some(el => el === letter);
+        },
+        generatePagination(letter) {
+            if(!letter) return
+            this.clientsAcc = Object.values(this.clients[letter])
         }
     }
 }

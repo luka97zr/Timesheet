@@ -9,24 +9,25 @@
                 <ul class="info__form">
                     <li class="info__list">
                         <label class="info__label">Client name:</label>
-                        <input type="text" class="in-text">
+                        <input type="text" class="in-text" v-model="clientName">
                     </li>
                     <li class="info__list">
                         <label class="report__label">Address:</label>
-                        <input type="text" class="in-text">
+                        <input type="text" class="in-text" v-model="address">
                     </li>
                     <li class="info__list">
                         <label class="report__label">City:</label>
-                        <input type="text" class="in-text">
+                        <input type="text" class="in-text" v-model="city">
                     </li>
                     <li class="info__list">
                         <label class="report__label">Zip/Postal code:</label>
-                        <input type="text" class="in-text">
+                        <input type="text" class="in-text" v-model="postalCode">
                     </li>
                     <li class="info__list">
                         <label class="report__label">Country:</label>
-                        <select class="info__select">
-                            <option value="">All</option>
+                        <select class="info__select" v-model="countryId">
+                            <option :value="null">All</option>
+                            <option :value="country.id" v-for="(country, index) in $store.state.countries" :key="index">{{country.country}}</option>
                         </select>
                     </li>
                 </ul>
@@ -42,10 +43,21 @@
 <script>
 export default {
     props: ['showModal'],
+    data() {
+        return {
+            countryId: null,
+            postalCode: '',
+            city: '',
+            address: '',
+            clientName: ''
+        }
+    },
+    created() {
+    },
     methods: {
         closeModal() {
             this.$emit('closeModal')
-        }
+        },
     }
 
 }

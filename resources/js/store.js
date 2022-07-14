@@ -11,7 +11,8 @@ export default {
 			startDate: null,
 			endDate: null,
 			totalHours: 0,
-			gotToken: false
+			gotToken: false,
+			countries: [],
 	},
 	mutations: {
 		setUser(state, payload) {
@@ -37,6 +38,9 @@ export default {
 		},
 		setGettingToken(state,payload) {
 			state.gotToken = payload;
+		},
+		setCountries(state, payload) {
+			state.countries = payload;
 		}
 	},
 	actions: {
@@ -62,7 +66,15 @@ export default {
 			} catch(error) {
 				console.log(error)
 			}
-		}
+		},
+		async getCountries({commit}) {
+            try {
+                const data = await axios.get('/api/country');
+               	commit('setCountries', data.data)
+            } catch(error) {
+
+            }
+        }
 	},
 	getters: {
 		async getUser(state) {

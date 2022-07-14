@@ -9,9 +9,14 @@
 <script>
 export default {
     props: ['showModal'],
+    created() {
+        this.checkCountries();
+    },
     methods: {
-
-    }
+        checkCountries() {
+            if (this.$store.state.countries.length <= 0) this.$store.dispatch('getCountries');
+        }
+    },
 
 }
 </script>

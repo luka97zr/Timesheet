@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\JWTAuthController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\ProjectController;
@@ -30,6 +31,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::resource('logs',LogController::class);
     Route::resource('client',ClientController::class);
+    Route::resource('country',CountryController::class);
     Route::resource('projects',ProjectController::class);
     Route::get('calendar/{from}/{to}',CalendarController::class);
 });
