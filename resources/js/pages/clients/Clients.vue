@@ -13,31 +13,22 @@
                 <div class="alphabet">
                     <ul class="alphabet__navigation">
                         <li class="alphabet__list" v-for="(letter,index) in getAlphabet" :key="index">
-                            <a class="alphabet__button" :class="{'alphabet__button--disabled' : !checkClientName(letter)}" href="javascript:;" @click.prevent="generatePagination(letter)">{{letter}}</a>
+                            <a class="alphabet__button" :class="{'alphabet__button--disabled' : !checkClientName(letter)}" href="javascript:;" @click.prevent="generateAlphabet(letter)" >{{letter}}</a>
                         </li>
                     </ul>
                 </div>
-                <client-accordion v-for="(client, index) in clientsAcc" :key="index" :client-obj="client"></client-accordion>
+                <client-accordion v-for="(client, index) in clientCopy" :key="index" :client-obj="client" ></client-accordion>
             </div>
-            <div class="pagination">
+            <div class="pagination" v-if="clientCopy.length>0">
                 <ul class="pagination__navigation">
                     <li class="pagination__list">
-                        <a class="pagination__button" href="javascript:;">Previous</a>
+                        <a class="pagination__button" href="javascript:;" @click.prevent="prevPage()">Previous</a>
+                    </li>
+                    <li class="pagination__list" v-for="(page, index) in numOfPages" :key="index">
+                        <a class="pagination__button pagination__button--active" href="javascript:;">{{page}}</a>
                     </li>
                     <li class="pagination__list">
-                        <a class="pagination__button pagination__button--active" href="javascript:;">1</a>
-                    </li>
-                    <li class="pagination__list">
-                        <a class="pagination__button" href="javascript:;">2</a>
-                    </li>
-                    <li class="pagination__list">
-                        <a class="pagination__button" href="javascript:;">3</a>
-                    </li>
-                    <li class="pagination__list">
-                        <a class="pagination__button" href="javascript:;">4</a>
-                    </li>
-                    <li class="pagination__list">
-                        <a class="pagination__button" href="javascript:;">Next</a>
+                        <a class="pagination__button" href="javascript:;" @click.prevent="nextPage()">Next</a>
                     </li>
                 </ul>
             </div>
@@ -63,7 +54,10 @@ export default {
         return {
             showNewModal: false,
             clients: {},
-            clientsAcc: []
+            clientsAcc: [],
+            perPage: 3,
+            currentPage: 1,
+            clientCopy: []
         }
     },
     created() {
@@ -72,6 +66,15 @@ export default {
     computed: {
         getAlphabet() {
            return [...Array(26)].map((_,i) => String.fromCharCode(i + 65))
+        },
+        numOfPages() {
+            return Math.ceil(this.clientsAcc.length / this.perPage);
+        },
+        startPage() {
+            return (this.currentPage - 1) * this.numOfPages;
+        },
+        endPage() {
+            return this.startPage + this.numOfPages;
         }
     },
     methods: {
@@ -85,6 +88,7 @@ export default {
             try {
                 const data = await axios.get('/api/client');
                 this.clients = data.data;
+                this.generateAlphabet(Object.keys(this.clients)[0]);
             }catch(error) {
 
             }
@@ -92,10 +96,26 @@ export default {
         checkClientName(letter) {
             return Object.keys(this.clients).some(el => el === letter);
         },
-        generatePagination(letter) {
-            if(!letter) return
+        generateAlphabet(letter) {
+            if(!this.clients[letter]) return;
+            this.currentPage = 1;
             this.clientsAcc = Object.values(this.clients[letter])
-        }
+            this.clientCopy = this.clientsAcc
+            this.buildPage()
+        },
+        buildPage() {
+            this.clientCopy = this.clientsAcc.slice(this.startPage, this.endPage);
+        },
+        nextPage() {
+            if (this.currentPage >= this.numOfPages) return
+            this.currentPage++;
+            this.buildPage()
+        },
+        prevPage() {
+            if (this.currentPage <= 1) return
+            this.currentPage--;
+            this.buildPage()
+        },
     }
 }
 </script>

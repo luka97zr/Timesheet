@@ -15,7 +15,7 @@ class ClientController extends Controller
     public function index()
     {
 
-        $clients = Client::all();
+        $clients = Client::orderBy('name')->get();
         $clientsObj = [];
         foreach($clients as $client) {
             $clientsObj[$client['name'][0]][] = $client;

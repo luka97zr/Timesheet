@@ -19,7 +19,6 @@ import ModalClients from './components/Modal/ModalClients.vue'
 import ModalProjects from './components/Modal/ModalProjects.vue'
 import ModalCategories from './components/Modal/ModalCategories.vue'
 import ModalEmployees from './components/Modal/ModalEmployees.vue'
-
 export default {
     components: {
         HeaderComponent,

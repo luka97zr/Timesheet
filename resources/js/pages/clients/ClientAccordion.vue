@@ -1,5 +1,5 @@
 <template>
-    <div class="accordion">
+    <div class="accordion" @click="openAccordion()">
         <div class="accordion__intro">
             <h4 class="accordion__title">{{clientObj.name}}</h4>
         </div>
@@ -42,7 +42,18 @@
 
 <script>
 export default {
-    props:['clientObj']
+    props:['clientObj'],
+    methods: {
+         openAccordion() {
+             
+             const $this = $(this);
+            const $parent = $this.parents('.accordion');
+            const $content = $parent.find('.accordion__content');
+
+                    $content.stop().slideToggle();
+                    $(this).parents('.accordion').find('.accordion__content').stop().slideUp();
+        }
+    }
 }
 </script>
 
