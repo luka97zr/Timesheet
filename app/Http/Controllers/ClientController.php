@@ -74,9 +74,9 @@ class ClientController extends Controller
      * @param  \App\Models\Clients  $clients
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $clients)
+    public function update(Request $request, Client $clients, $client_id)
     {
-        return $request->data;
+        Client::findOrFail($client_id)->update($request->all());
     }
 
     /**
@@ -85,8 +85,8 @@ class ClientController extends Controller
      * @param  \App\Models\Clients  $clients
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $clients)
+    public function destroy(Client $clients, $client_id)
     {
-        //
+        Client::findOrFail($client_id)->delete();
     }
 }

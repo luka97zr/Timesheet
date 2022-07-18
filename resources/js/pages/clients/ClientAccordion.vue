@@ -34,8 +34,8 @@
                 </div>
             </div>
             <div class="btn-wrap">
-                <button type="submit" class="btn btn--green" @click="updateClient()"><span>Save changes</span></button>
-                <button type="button" class="btn btn--red"><span>Delete</span></button>
+                <button type="submit" class="btn btn--green" @click.prevent="updateClient()"><span>Save changes</span></button>
+                <button type="button" class="btn btn--red" @click.prevent="deleteClient()"><span>Delete</span></button>
             </div>
         </form>
     </div>
@@ -47,25 +47,50 @@ export default {
     data() {
         return {
             isOpened: false,
-            countryId: this.clientObj.country.id,
-            clientName: this.clientObj.name
+            countryId: '',
+            clientName: ''
         }
     },
     methods: {
         openAccordion() {
-            this.isOpened = !this.isOpened
+            this.isOpened = !this.isOpened;
         },
         isSelected(country) {
             console.log(country);
         },
+        showName() {
+            this.clientName = this.clientObj.name;
+        },
+        showCountry() {
+            this.countryId = this.clientObj.country_id;
+        },
         async updateClient() {
             try {
                 await axios.put(`/api/client/${this.clientObj.id}`,{
-                    data: 'test',
+                    country_id: this.countryId,
+                    name: this.clientName
                 });
+                this.$emit('resend');
             }catch(error) {
                 console.log(error)
             }
+        },
+        async deleteClient() {
+            try {
+                await axios.delete(`/api/client/${this.clientObj.id}`);
+                this.$emit('resend');
+            } catch(error) {
+                console.log(error)
+            }
+        }
+    },
+    watch: {
+        clientObj: {
+            handler() {
+                this.showName();
+                this.showCountry();
+            },
+            immediate: true
         }
     }
 }

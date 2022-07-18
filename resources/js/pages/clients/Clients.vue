@@ -17,7 +17,7 @@
                         </li>
                     </ul>
                 </div>
-                <client-accordion v-for="(client, index) in clientCopy" :key="index" :client-obj="client" ></client-accordion>
+                <client-accordion v-for="(client, index) in clientCopy" :key="index" :client-obj="client" @resend="getClients()"></client-accordion>
             </div>
             <div class="pagination" v-if="clientCopy.length>0">
                 <ul class="pagination__navigation">
@@ -101,7 +101,6 @@ export default {
             this.currentPage = 1;
             this.clientsAcc = Object.values(this.clients[letter])
             this.clientCopy = this.clientsAcc
-            console.log(this.clientCopy)
             this.buildPage()
         },
         buildPage() {
