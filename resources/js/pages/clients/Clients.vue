@@ -71,10 +71,10 @@ export default {
             return Math.ceil(this.clientsAcc.length / this.perPage);
         },
         startPage() {
-            return (this.currentPage - 1) * this.numOfPages;
+            return (this.currentPage - 1) * this.perPage;
         },
         endPage() {
-            return this.startPage + this.numOfPages;
+            return this.startPage + this.perPage;
         }
     },
     methods: {
@@ -101,6 +101,7 @@ export default {
             this.currentPage = 1;
             this.clientsAcc = Object.values(this.clients[letter])
             this.clientCopy = this.clientsAcc
+            console.log(this.clientCopy)
             this.buildPage()
         },
         buildPage() {

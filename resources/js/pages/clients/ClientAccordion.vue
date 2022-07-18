@@ -3,13 +3,13 @@
         <div class="accordion__intro">
             <h4 class="accordion__title">{{clientObj.name}}</h4>
         </div>
-        <form class="accordion__content" action="javascript:;">
+        <form class="accordion__content" action="javascript:;" :class="{'accorion-open' : isOpened}" @click="openAccordion()">
             <div class="info">
                 <div class="info__form">
                     <ul class="info__wrapper">
                         <li class="info__list">
                             <label class="info__label">Client name:</label>
-                            <input type="text" class="in-text">
+                            <input type="text" class="in-text" v-model="clientName">
                         </li>
                         <li class="info__list">
                             <label class="report__label">Address:</label>
@@ -25,15 +25,16 @@
                         </li>
                         <li class="info__list">
                             <label class="report__label">Country:</label>
-                            <select class="info__select">
-                                <option value="">All</option>
+                            <select class="info__select" v-model="countryId">
+                            <option :value="null">All</option>
+                            <option :value="country.id" v-for="(country, index) in $store.state.countries" :key="index" >{{country.country}}</option>
                             </select>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="btn-wrap">
-                <button type="submit" class="btn btn--green"><span>Save changes</span></button>
+                <button type="submit" class="btn btn--green" @click="updateClient()"><span>Save changes</span></button>
                 <button type="button" class="btn btn--red"><span>Delete</span></button>
             </div>
         </form>
@@ -43,20 +44,35 @@
 <script>
 export default {
     props:['clientObj'],
+    data() {
+        return {
+            isOpened: false,
+            countryId: this.clientObj.country.id,
+            clientName: this.clientObj.name
+        }
+    },
     methods: {
-         openAccordion() {
-             
-             const $this = $(this);
-            const $parent = $this.parents('.accordion');
-            const $content = $parent.find('.accordion__content');
-
-                    $content.stop().slideToggle();
-                    $(this).parents('.accordion').find('.accordion__content').stop().slideUp();
+        openAccordion() {
+            this.isOpened = !this.isOpened
+        },
+        isSelected(country) {
+            console.log(country);
+        },
+        async updateClient() {
+            try {
+                await axios.put(`/api/client/${this.clientObj.id}`,{
+                    data: 'test',
+                });
+            }catch(error) {
+                console.log(error)
+            }
         }
     }
 }
 </script>
 
-<style>
-
+<style scoped>
+.accorion-open {
+    display: block;
+}
 </style>

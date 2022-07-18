@@ -15,7 +15,7 @@ class ClientController extends Controller
     public function index()
     {
 
-        $clients = Client::orderBy('name')->get();
+        $clients = Client::with('country')->orderBy('name')->get();
         $clientsObj = [];
         foreach($clients as $client) {
             $clientsObj[$client['name'][0]][] = $client;
@@ -53,7 +53,6 @@ class ClientController extends Controller
      */
     public function show(Client $clients)
     {
-        return Client::with('name','LIKE', 'm'.'%')->get();
         
     }
 
@@ -77,7 +76,7 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $clients)
     {
-        //
+        return $request->data;
     }
 
     /**

@@ -5,7 +5,6 @@ import Vue from 'vue';
 import Vuex from 'vuex'
 import storeDefinition from './store'
 import  Modal  from './components/Modal/Modal';
-window.$ = window.jQuery = require('jquery')
 
 require('./bootstrap');
 
