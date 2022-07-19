@@ -25,16 +25,6 @@ class ClientController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -42,7 +32,13 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'country_id' => ['required', 'exists:countries,id'],
+            'name'       => ['required', 'unique:clients,name']
+        ]);
+        Client::create($data);
+
+        return response()->json(['success'=>true]);
     }
 
     /**
@@ -53,18 +49,7 @@ class ClientController extends Controller
      */
     public function show(Client $clients)
     {
-        
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Client  $clients
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Client $clients)
-    {
-        //
     }
 
     /**
@@ -87,6 +72,6 @@ class ClientController extends Controller
      */
     public function destroy(Client $clients, $client_id)
     {
-        Client::findOrFail($client_id)->delete();
+        Client::destroy($client_id);
     }
 }

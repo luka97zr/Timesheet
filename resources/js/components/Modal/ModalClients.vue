@@ -10,6 +10,7 @@
                     <li class="info__list">
                         <label class="info__label">Client name:</label>
                         <input type="text" class="in-text" v-model="clientName">
+                        <div v-if="errors.name" class="invalid-feedback">{{errors.name[0]}}</div>
                     </li>
                     <li class="info__list">
                         <label class="report__label">Address:</label>
@@ -29,13 +30,17 @@
                             <option :value="null">All</option>
                             <option :value="country.id" v-for="(country, index) in $store.state.countries" :key="index">{{country.country}}</option>
                         </select>
+                        <div v-if="errors.country_id" class="invalid-feedback">{{errors.country_id[0]}}</div>
                     </li>
                 </ul>
                 <div class="btn-wrap">
-                    <button type="submit" class="btn btn--green"><span>Save changes</span></button>
+                    <button type="submit" class="btn btn--green" @click.prevent="createClient()"><span>Save changes</span></button>
                     <button type="button" class="btn btn--red"><span>Delete</span></button>
                 </div>
             </form>
+            <v-alert type="success">
+            I'm a success alert.
+            </v-alert>
         </div>
     </Modal>
 </template>
@@ -49,7 +54,8 @@ export default {
             postalCode: '',
             city: '',
             address: '',
-            clientName: ''
+            clientName: '',
+            errors : []
         }
     },
     created() {
@@ -58,11 +64,25 @@ export default {
         closeModal() {
             this.$emit('closeModal')
         },
+       async createClient() {
+          try {
+              this.errors = [];
+              await axios.post('/api/client', {
+                  country_id: this.countryId,
+                  name: this.clientName
+              })
+            this.$emit('closeModal')
+          } catch(error) {
+              this.errors = error.response.data.errors
+          }
+        }
     }
 
 }
 </script>
 
 <style>
-
+.invalid-feedback {
+    color: red;
+}
 </style>

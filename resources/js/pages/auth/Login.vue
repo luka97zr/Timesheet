@@ -40,15 +40,14 @@ export default {
     },
     methods: {
         async login() {
-			this.$store.commit('setGettingToken', true)
-            this.loading = true;
-            this.errors = null;
-            try {
-                const data = await axios.post('/api/login',{
-                    email: this.email,
+			try {
+				this.$store.commit('setGettingToken', true)
+				this.loading = true;
+				this.errors = null;
+				const data = await axios.post('/api/login',{
+					email: this.email,
                     password: this.password
                 });
-				console.log(data.token)
 				localStorage.setItem('jwt', data.data.token);
 				await this.$store.dispatch('loadUser');
 				this.$router.push({name: 'home'})

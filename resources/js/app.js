@@ -5,6 +5,7 @@ import Vue from 'vue';
 import Vuex from 'vuex'
 import storeDefinition from './store'
 import  Modal  from './components/Modal/Modal';
+import Vuetify from 'vuetify';
 
 require('./bootstrap');
 
@@ -12,6 +13,7 @@ Vue.component('Modal',Modal)
 
 window.Vue = require('vue').default;
 Vue.use(VueRouter);
+Vue.use(Vuetify); 
 Vue.use(Vuex)
 
 window.axios.interceptors.response.use(
@@ -38,7 +40,8 @@ const app = new Vue({
     components: {
         'index': index,
     },
-     beforeCreate() {
-        this.$store.dispatch('loadUser')
+    vuetify: new Vuetify(),
+    beforeCreate() {
+        store.dispatch('loadUser')
     }
 });
