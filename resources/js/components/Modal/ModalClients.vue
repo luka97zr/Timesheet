@@ -35,12 +35,9 @@
                 </ul>
                 <div class="btn-wrap">
                     <button type="submit" class="btn btn--green" @click.prevent="createClient()"><span>Save changes</span></button>
-                    <button type="button" class="btn btn--red"><span>Delete</span></button>
+                    <button type="button" class="btn btn--red" @click.prevent="clearForm()"><span>Delete</span></button>
                 </div>
             </form>
-            <v-alert type="success">
-            I'm a success alert.
-            </v-alert>
         </div>
     </Modal>
 </template>
@@ -64,7 +61,7 @@ export default {
         closeModal() {
             this.$emit('closeModal')
         },
-       async createClient() {
+        async createClient() {
           try {
               this.errors = [];
               await axios.post('/api/client', {
@@ -72,9 +69,14 @@ export default {
                   name: this.clientName
               })
             this.$emit('closeModal')
+            this.$emit('resend');
+            // this.clearForm();
           } catch(error) {
               this.errors = error.response.data.errors
           }
+        },
+        clearForm() {
+            this.clientName=this.countryId=null
         }
     }
 

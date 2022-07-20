@@ -71,6 +71,8 @@ export default {
                     name: this.clientName
                 });
                 this.$emit('resend');
+                this.$emit('updated');
+                this.openAccordion();
             }catch(error) {
                 console.log(error)
             }

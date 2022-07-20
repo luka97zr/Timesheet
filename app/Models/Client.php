@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     use HasFactory;
-    
+
     protected $guarded = [];
 
     public function projects() {
@@ -18,4 +18,5 @@ class Client extends Model
     public function country() {
         return $this->belongsTo(Country::class);
     }
+
 }

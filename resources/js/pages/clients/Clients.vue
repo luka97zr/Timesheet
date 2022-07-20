@@ -6,7 +6,7 @@
                 <div class="table-navigation">
                     <a href="javascript:;" class="table-navigation__create btn-modal" @click.prevent="openModal()"><span>Create new client</span></a>
                     <form class="table-navigation__input-container" action="javascript:;">
-                        <input type="text" class="table-navigation__search">
+                        <input type="text" class="table-navigation__search" v-model="search">
                         <button type="submit" class="icon__search"></button>
                     </form>
                 </div>
@@ -17,7 +17,10 @@
                         </li>
                     </ul>
                 </div>
-                <client-accordion v-for="(client, index) in clientCopy" :key="index" :client-obj="client" @resend="getClients()"></client-accordion>
+                <client-accordion v-for="(client, index) in clientCopy" :key="index" :client-obj="client" @resend="getClients()" @updated="clientUpdatedSuccessfuly()"></client-accordion>
+                <vuetify-container>
+                    <alert :isSuccess="isSuccess"></alert>
+                </vuetify-container>
             </div>
             <div class="pagination" v-if="clientCopy.length>0">
                 <ul class="pagination__navigation">
@@ -37,18 +40,27 @@
             :showModal="showNewModal"
             @closed="this.showNewModal = false"
             @closeModal="closeModal()"
+            @resend="getClients()"
         >
         </modal-clients>
+        <v-overlay value="overlay" v-if="!isLoaded">
+            <v-progress-circular
+                indeterminate
+                size="64"
+            ></v-progress-circular>
+        </v-overlay>
     </div>
 </template>
 
 <script>
 import ModalClients from '../../components/Modal/ModalClients.vue'
 import ClientAccordion from './ClientAccordion.vue'
+import Alert from '../../components/vuetify/Alert.vue'
 export default {
     components: {
         ModalClients,
-        ClientAccordion
+        ClientAccordion,
+        Alert,
     },
     data() {
         return {
@@ -57,7 +69,11 @@ export default {
             clientsAcc: [],
             perPage: 3,
             currentPage: 1,
-            clientCopy: []
+            clientCopy: [],
+            isLoaded: true,
+            isSuccess: false,
+            search: '',
+            typingTimer: null
         }
     },
     created() {
@@ -84,15 +100,6 @@ export default {
         closeModal() {
             this.showNewModal = false
         },
-        async getClients() {
-            try {
-                const data = await axios.get('/api/client');
-                this.clients = data.data;
-                this.generateAlphabet(Object.keys(this.clients)[0]);
-            }catch(error) {
-
-            }
-        },
         checkClientName(letter) {
             return Object.keys(this.clients).some(el => el === letter);
         },
@@ -116,6 +123,48 @@ export default {
             this.currentPage--;
             this.buildPage()
         },
+        clientUpdatedSuccessfuly() {
+            this.isSuccess = true;
+            setTimeout(() => {
+                this.isSuccess = false;
+            }, 2000);
+        },
+        timeout(ms) {
+            return new Promise((resolve)=> {
+                clearTimeout(this.typingTimer);
+                return this.typingTimer = setTimeout(()=> resolve(true), ms);
+            })
+        },
+        async getClients() {
+            try {
+                this.isLoaded = false
+                const data = await axios.get(`/api/client`);
+                this.clients = data.data;
+                this.generateAlphabet(Object.keys(this.clients)[0]);
+                this.isLoaded = true
+            }catch(error) {
+
+            }
+        },
+        async searchClients() {
+            try {
+                await this.timeout(500);
+                const data = await axios.get(`/api/client/${this.search}`);
+                this.clients = data.data;
+                this.clientsAcc = this.clients;
+                this.buildPage()
+              
+            }catch(error) {
+
+            }
+        }
+    },
+    watch: {
+        search: {
+            handler() {
+               this.searchClients()
+            }
+        }
     }
 }
 </script>

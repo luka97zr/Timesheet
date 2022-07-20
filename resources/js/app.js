@@ -6,10 +6,12 @@ import Vuex from 'vuex'
 import storeDefinition from './store'
 import  Modal  from './components/Modal/Modal';
 import Vuetify from 'vuetify';
+import VuetifyContainer from './components/vuetify/VuetifyContainer'
 
 
 require('./bootstrap');
 
+Vue.component('vuetify-container',VuetifyContainer)
 Vue.component('Modal',Modal)
 
 window.Vue = require('vue').default;
@@ -33,6 +35,9 @@ window.axios.interceptors.response.use(
 
 const store = new Vuex.Store(storeDefinition);
 
+export default new Vuetify({
+    theme: { light: true },
+  })
 
 const app = new Vue({
     el: "#app",

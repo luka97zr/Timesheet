@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Symfony\Component\Console\Input\Input;
 
 class ClientController extends Controller
 {
@@ -36,6 +37,7 @@ class ClientController extends Controller
             'country_id' => ['required', 'exists:countries,id'],
             'name'       => ['required', 'unique:clients,name']
         ]);
+        $data['name'] = ucfirst($data['name']);
         Client::create($data);
 
         return response()->json(['success'=>true]);
@@ -47,9 +49,10 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $clients
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $clients)
+    public function show($term)
     {
-
+        return Client::where('name','LIKE','%'.$term.'%')->get();
+        
     }
 
     /**
@@ -61,7 +64,12 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $clients, $client_id)
     {
-        Client::findOrFail($client_id)->update($request->all());
+        $data = $request->validate([
+            'country_id' => ['required', 'exists:countries,id'],
+            'name'       => ['required', 'unique:clients,name']
+        ]);
+        $data['name'] = ucfirst($data['name']);
+        Client::findOrFail($client_id)->update($data);
     }
 
     /**

@@ -1,14 +1,8 @@
 <template>
     <div class="container">
-            <header-component v-if="!$route.meta.hideNavbar"></header-component>
-            <modal v-if="$route.meta.modal">
-                <modal-clients v-if="$route.name==='clients'"></modal-clients>
-                <modal-projects v-if="$route.name==='projects'"></modal-projects>
-                <modal-categories v-if="$route.name==='categories'"></modal-categories>
-                <modal-employees v-if="$route.name==='employees'"></modal-employees>
-            </modal>
+        <header-component v-if="!$route.meta.hideNavbar"></header-component>
             <router-view></router-view>
-            <footer-component v-if="!$route.meta.hideNavbar"></footer-component>
+        <footer-component v-if="!$route.meta.hideNavbar"></footer-component>
     </div>
 </template>
 <script>
