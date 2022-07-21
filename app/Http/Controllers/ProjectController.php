@@ -15,7 +15,13 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = Project::orderBy('name')->get();
+        $projectsObj = [];
+        foreach($projects as $project) {
+            $projectsObj[$project['name'][0]][] = $project;
+        }
+        return $projectsObj;
+
     }
 
     /**

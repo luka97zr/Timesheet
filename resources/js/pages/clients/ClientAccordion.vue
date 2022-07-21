@@ -55,9 +55,6 @@ export default {
         openAccordion() {
             this.isOpened = !this.isOpened;
         },
-        isSelected(country) {
-            console.log(country);
-        },
         showName() {
             this.clientName = this.clientObj.name;
         },
@@ -98,7 +95,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .accorion-open {
     display: block;
 }

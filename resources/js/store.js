@@ -13,6 +13,8 @@ export default {
 			totalHours: 0,
 			gotToken: false,
 			countries: [],
+			clients: [],
+			projects: [],
 	},
 	mutations: {
 		setUser(state, payload) {
@@ -41,6 +43,12 @@ export default {
 		},
 		setCountries(state, payload) {
 			state.countries = payload;
+		},
+		setClients(state, payload) {
+			state.clients = payload;
+		},
+		setProjects(state, payload) {
+			state.projects = payload;
 		}
 	},
 	actions: {

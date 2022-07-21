@@ -1,0 +1,110 @@
+<template>
+    <div class="accordion" @click="openAccordion()">
+        <div class="accordion__intro">
+            <h4 class="accordion__title">{{project.name}}</h4>
+        </div>
+        <form class="accordion__content" action="javascript:;" :class="{'accorion-open' : isOpened}" @click="openAccordion()">
+            <div class="info">
+                <div class="info__form">
+                    <ul class="info__wrapper">
+                        <li class="info__list">
+                            <label class="info__label">Project name:</label>
+                            <input type="text" class="in-text" v-model="projectName">
+                        </li>
+                        <li class="info__list">
+                            <label class="report__label">Description:</label>
+                            <input type="text" class="in-text">
+                        </li>
+                        <li class="info__list">
+                            <label class="report__label">Client:</label>
+                            <select class="info__select" v-model="clientId">
+                                <option value="">All</option>
+                            </select>
+                        </li>
+                        <li class="info__list">
+                            <label class="report__label">Lead:</label>
+                            <select class="info__select">
+                                <option value="">All</option>
+                            </select>
+                        </li>
+                        <li class="info__list-title"><h4 class="radio-button__title">Status:</h4></li>
+                        <li class="info__list-radio-button">
+                            <input type="radio" class="radio-input" name="radio-group">
+                            <label class="radio-label"> <span class="radio-border"></span>Active</label>
+                        </li>
+                        <li class="info__list-radio-button">
+                            <input type="radio" checked="" class="radio-input" name="radio-group">
+                            <label class="radio-label"> <span class="radio-border"></span>Inactive</label>
+                        </li>
+                        <li class="info__list-radio-button">
+                            <input type="radio" class="radio-input" name="radio-group">
+                            <label class="radio-label"> <span class="radio-border"></span>Archive</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="btn-wrap">
+                <button type="submit" class="btn btn--green"><span>Save changes</span></button>
+                <button type="button" class="btn btn--red"><span>Delete</span></button>
+            </div>
+        </form>
+    </div>
+</template>
+
+<script>
+export default {
+    props: ['project'],
+    data() {
+        return {
+            isOpened: false,
+            projectId: '',
+            projectName: ''
+        }
+    },
+    methods: {
+        openAccordion() {
+            this.isOpened = !this.isOpened;
+        },
+        showName() {
+            this.projectName = this.project.name;
+        },
+        showCountry() {
+            this.projectId = this.project.client_id;
+        },
+        async updateProject() {
+            try {
+                await axios.put(`/api/client/${this.project.id}`,{
+                    country_id: this.countryId,
+                    name: this.clientName
+                });
+                this.$emit('resend');
+                this.$emit('updated');
+                this.openAccordion();
+            }catch(error) {
+                console.log(error)
+            }
+        },
+        async deleteProject() {
+            try {
+                await axios.delete(`/api/client/${this.project.id}`);
+                this.$emit('resend');
+            } catch(error) {
+                console.log(error)
+            }
+        }
+    },
+    watch: {
+        project: {
+            handler() {
+                this.showName();
+                this.showClient();
+            },
+            immediate: true
+        }
+    }
+}
+</script>
+
+<style>
+
+</style>

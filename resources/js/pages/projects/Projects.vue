@@ -12,256 +12,23 @@
             </div>
             <div class="alphabet">
                 <ul class="alphabet__navigation">
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">a</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">b</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">c</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">d</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">e</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">f</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">g</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">h</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">i</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">j</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">k</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">l</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">m</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">n</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button alphabet__button--active" href="javascript:;">o</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">p</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">q</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">r</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">s</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">t</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">u</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">v</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">w</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">x</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">y</a>
-                    </li>
-                    <li class="alphabet__list">
-                        <a class="alphabet__button" href="javascript:;">z</a>
+                    <li class="alphabet__list" v-for="(letter,index) in getAlphabet" :key="index">
+                        <a class="alphabet__button" :class="{'alphabet__button--disabled' : !checkProjectName(letter)}" href="javascript:;" @click.prevent="generateAlphabet(letter)" >{{letter}}</a>
                     </li>
                 </ul>
             </div>
-            <div class="accordion">
-                <div class="accordion__intro">
-                    <h4 class="accordion__title">Project 1</h4>
-                </div>
-                <form class="accordion__content" action="javascript:;">
-                    <div class="info">
-                        <div class="info__form">
-                            <ul class="info__wrapper">
-                                <li class="info__list">
-                                    <label class="info__label">Project name:</label>
-                                    <input type="text" class="in-text">
-                                </li>
-                                <li class="info__list">
-                                    <label class="report__label">Description:</label>
-                                    <input type="text" class="in-text">
-                                </li>
-                                <li class="info__list">
-                                    <label class="report__label">Client:</label>
-                                    <select class="info__select">
-                                        <option value="">All</option>
-                                    </select>
-                                </li>
-                                <li class="info__list">
-                                    <label class="report__label">Lead:</label>
-                                    <select class="info__select">
-                                        <option value="">All</option>
-                                    </select>
-                                </li>
-                                <li class="info__list-title"><h4 class="radio-button__title">Status:</h4></li>
-                                <li class="info__list-radio-button">
-                                    <input type="radio" id="rdo1" class="radio-input" name="radio-group">
-                                    <label for="rdo1" class="radio-label"> <span class="radio-border"></span>Active</label>
-                                </li>
-                                <li class="info__list-radio-button">
-                                    <input type="radio" checked="" class="radio-input" name="radio-group">
-                                    <label for="rdo1" class="radio-label"> <span class="radio-border"></span>Inactive</label>
-                                </li>
-                                <li class="info__list-radio-button">
-                                    <input type="radio" class="radio-input" name="radio-group">
-                                    <label for="rdo1" class="radio-label"> <span class="radio-border"></span>Archive</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="btn-wrap">
-                        <button type="submit" class="btn btn--green"><span>Save changes</span></button>
-                        <button type="button" class="btn btn--red"><span>Delete</span></button>
-                    </div>
-                </form>
-            </div>
-            <div class="accordion">
-                <div class="accordion__intro">
-                    <h4 class="accordion__title">Project 2</h4>
-                </div>
-                <form class="accordion__content" action="javascript:;">
-                    <div class="info">
-                        <div class="info__form">
-                            <ul class="info__wrapper">
-                                <li class="info__list">
-                                    <label class="info__label">Project name:</label>
-                                    <input type="text" class="in-text">
-                                </li>
-                                <li class="info__list">
-                                    <label class="report__label">Description:</label>
-                                    <input type="text" class="in-text">
-                                </li>
-                                <li class="info__list">
-                                    <label class="report__label">Client:</label>
-                                    <select class="info__select">
-                                        <option value="">All</option>
-                                    </select>
-                                </li>
-                                <li class="info__list">
-                                    <label class="report__label">Lead:</label>
-                                    <select class="info__select">
-                                        <option value="">All</option>
-                                    </select>
-                                </li>
-                                <li class="info__list-title"><h4 class="radio-button__title">Status:</h4></li>
-                                <li class="info__list-radio-button">
-                                    <input type="radio" class="radio-input" name="radio-group">
-                                    <label class="radio-label"> <span class="radio-border"></span>Active</label>
-                                </li>
-                                <li class="info__list-radio-button">
-                                    <input type="radio" checked="" class="radio-input" name="radio-group">
-                                    <label class="radio-label"> <span class="radio-border"></span>Inactive</label>
-                                </li>
-                                <li class="info__list-radio-button">
-                                    <input type="radio" class="radio-input" name="radio-group">
-                                    <label class="radio-label"> <span class="radio-border"></span>Archive</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="btn-wrap">
-                        <button type="submit" class="btn btn--green"><span>Save changes</span></button>
-                        <button type="button" class="btn btn--red"><span>Delete</span></button>
-                    </div>
-                </form>
-            </div>
-            <div class="accordion">
-                <div class="accordion__intro">
-                    <h4 class="accordion__title">Project 3</h4>
-                </div>
-                <form class="accordion__content" action="javascript:;">
-                    <div class="info">
-                        <div class="info__form">
-                            <ul class="info__wrapper">
-                                <li class="info__list">
-                                    <label class="info__label">Project name:</label>
-                                    <input type="text" class="in-text">
-                                </li>
-                                <li class="info__list">
-                                    <label class="report__label">Description:</label>
-                                    <input type="text" class="in-text">
-                                </li>
-                                <li class="info__list">
-                                    <label class="report__label">Client:</label>
-                                    <select class="info__select">
-                                        <option value="">All</option>
-                                    </select>
-                                </li>
-                                <li class="info__list">
-                                    <label class="report__label">Lead:</label>
-                                    <select class="info__select">
-                                        <option value="">All</option>
-                                    </select>
-                                </li>
-                                <li class="info__list-title"><h4 class="radio-button__title">Status:</h4></li>
-                                <li class="info__list-radio-button">
-                                    <input type="radio" class="radio-input" name="radio-group">
-                                    <label class="radio-label"> <span class="radio-border"></span>Active</label>
-                                </li>
-                                <li class="info__list-radio-button">
-                                    <input type="radio" checked="" class="radio-input" name="radio-group">
-                                    <label class="radio-label"> <span class="radio-border"></span>Inactive</label>
-                                </li>
-                                <li class="info__list-radio-button">
-                                    <input type="radio" class="radio-input" name="radio-group">
-                                    <label class="radio-label"> <span class="radio-border"></span>Archive</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="btn-wrap">
-                        <button type="submit" class="btn btn--green"><span>Save changes</span></button>
-                        <button type="button" class="btn btn--red"><span>Delete</span></button>
-                    </div>
-                </form>
-            </div>
+            <project-accordion v-for="(project, index) in projectsAcc" :key="index" :project="project" @resend="getClients()" @updated="clientUpdatedSuccessfuly()"></project-accordion>
         </div>
         <div class="pagination">
             <ul class="pagination__navigation">
                 <li class="pagination__list">
-                    <a class="pagination__button" href="javascript:;">Previous</a>
+                    <a class="pagination__button" href="javascript:;" @click.prevent="prevPage()">Previous</a>
                 </li>
+                <li class="pagination__list" v-for="(page, index) in numOfPages" :key="index">
+                        <a class="pagination__button pagination__button--active" href="javascript:;">{{page}}</a>
+                    </li>
                 <li class="pagination__list">
-                    <a class="pagination__button pagination__button--active" href="javascript:;">1</a>
-                </li>
-                <li class="pagination__list">
-                    <a class="pagination__button" href="javascript:;">2</a>
-                </li>
-                <li class="pagination__list">
-                    <a class="pagination__button" href="javascript:;">3</a>
-                </li>
-                <li class="pagination__list">
-                    <a class="pagination__button" href="javascript:;">4</a>
-                </li>
-                <li class="pagination__list">
-                    <a class="pagination__button" href="javascript:;">Next</a>
+                    <a class="pagination__button" href="javascript:;" @click.prevent="nextPage()">Next</a>
                 </li>
             </ul>
         </div>
@@ -269,21 +36,54 @@
     <modal-project
         :showModal="showNewModal"
         @closeModal="closeModal()">
-
     </modal-project>
+    <v-overlay :value="overlay">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
 </div>
 </template>
 
 <script>
-import ModalProject from '../../components/Modal/ModalProjects.vue'
+import ModalProject from '../../components/Modal/ModalProjects.vue';
+import ProjectAccordion from './ProjectAccordion.vue';
 export default {
+       components: {
+        ModalProject,
+        ProjectAccordion
+    },
      data() {
         return {
             showNewModal: false,
+            projects: [],
+            projectsAcc: [],
+            isLoaded: false,
+            perPage: 3,
+            currentPage: 1,
+            isSuccess: false,
+            search: '',
+            typingTimer: null
         }
     },
-    components: {
-        ModalProject
+    created() {
+        if(this.$store.state.projects.length === 0)  this.getProjects();
+        this.populateProjectAcc()
+    },
+     computed: {
+        getAlphabet() {
+           return [...Array(26)].map((_,i) => String.fromCharCode(i + 65))
+        },
+        numOfPages() {
+            return Math.ceil(this.projectsAcc.length / this.perPage);
+        },
+        startPage() {
+            return (this.currentPage - 1) * this.perPage;
+        },
+        endPage() {
+            return this.startPage + this.perPage;
+        }
     },
     methods: {
         openModal() {
@@ -291,7 +91,46 @@ export default {
         },
         closeModal() {
             this.showNewModal = false
-        }
+        },
+         checkProjectName(letter) {
+            return Object.keys(this.$store.state.projects).some(el => el === letter);
+        },
+        generateAlphabet(letter) {
+            if(!this.$store.state.projects[letter]) return;
+            this.currentPage = 1;
+            this.projectsAcc = Object.values(this.$store.state.projects[letter])
+            this.buildPage();
+        },
+        buildPage() {
+            this.projects = this.projectsAcc.slice(this.startPage, this.endPage);
+        },
+        populateProjectAcc() {
+            if (this.projectsAcc.length === 0) {
+                this.projectsAcc = Object.values(this.$store.state.projects)
+                this.generateAlphabet(Object.keys(this.$store.state.projects)[0]);
+            }
+        },
+        nextPage() {
+            if (this.currentPage >= this.numOfPages) return
+            this.currentPage++;
+            this.buildPage()
+        },
+        prevPage() {
+            if (this.currentPage <= 1) return
+            this.currentPage--;
+            this.buildPage()
+        },
+        async getProjects() {
+            try {
+                this.isLoaded = false
+                const data = await axios.get(`/api/projects`);
+                this.$store.commit('setProjects',data.data);
+                this.generateAlphabet(Object.keys(this.$store.state.projects)[0]);
+                this.isLoaded = true
+            }catch(error) {
+
+            }
+        },
     }
 }
 </script>

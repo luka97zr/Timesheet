@@ -72,4 +72,8 @@ class User extends Authenticatable implements JWTSubject
     public function userProject() {
         return $this->hasMany(UserProject::class);
     }
+
+    public function setPasswordAttribute($value) {
+        $this->attributes['password'] = bcrypt($value);
+    }
 }

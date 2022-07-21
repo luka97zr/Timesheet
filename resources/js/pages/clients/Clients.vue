@@ -148,12 +148,15 @@ export default {
         },
         async searchClients() {
             try {
-                await this.timeout(500);
-                const data = await axios.get(`/api/client/${this.search}`);
-                this.clients = data.data;
-                this.clientsAcc = this.clients;
-                this.buildPage()
-              
+                if (this.search.length>0) {
+                    await this.timeout(500);
+                    const data = await axios.get(`/api/client/${this.search}`);
+                    this.clientsAcc = data.data;
+                   this.buildPage()
+                } else {
+                    await this.timeout(200);
+                    this.generateAlphabet(Object.keys(this.clients)[0]);
+                }
             }catch(error) {
 
             }
