@@ -34,27 +34,16 @@ class JWTAuthController extends Controller
             'success' => true,
             'token' => $jwt_token,
         ]);
+       
+        // return $this->respondWithToken($jwt_token);
 
     }
 
     public function logout(Request $request)
     {
-        $this->validate($request, [
-            'token' => 'required'
-        ]);
-        try {
-            JWTAuth::invalidate($request->token);
-  
-            return response()->json([
-                'success' => true,
-                'message' => 'User logged out successfully'
-            ]);
-        } catch (JWTException $exception) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, the user cannot be logged out'
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        auth()->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
     }
 
     public function getUser(Request $request)
@@ -62,4 +51,14 @@ class JWTAuthController extends Controller
 
         return response()->json(['user' => auth()->user()]);
     }
+
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'user'       => auth()->user()
+        ]);
+    }
+
 }

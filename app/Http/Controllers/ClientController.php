@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClientRequest;
+use App\Http\Resources\ClientIndexResource;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Input\Input;
@@ -16,8 +18,12 @@ class ClientController extends Controller
     public function index()
     {
 
-        $clients = Client::with('country')->orderBy('name')->get();
+        // $clients = Client::with('country')->orderBy('name')->get();
+        $clients = ClientIndexResource::collection(
+            Client::with('country')->orderBy('name')->get()
+        );
         $clientsObj = [];
+
         foreach($clients as $client) {
             $clientsObj[$client['name'][0]][] = $client;
         }
@@ -31,15 +37,9 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClientRequest $request)
     {
-        $data = $request->validate([
-            'country_id' => ['required', 'exists:countries,id'],
-            'name'       => ['required', 'unique:clients,name']
-        ]);
-        $data['name'] = ucfirst($data['name']);
-        Client::create($data);
-
+        Client::create($request->all());
         return response()->json(['success'=>true]);
     }
 
@@ -52,7 +52,6 @@ class ClientController extends Controller
     public function show($term)
     {
         return Client::where('name','LIKE','%'.$term.'%')->get();
-        
     }
 
     /**
@@ -62,14 +61,9 @@ class ClientController extends Controller
      * @param  \App\Models\Clients  $clients
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $clients, $client_id)
+    public function update(ClientRequest $request, Client $clients, $client_id)
     {
-        $data = $request->validate([
-            'country_id' => ['required', 'exists:countries,id'],
-            'name'       => ['required', 'unique:clients,name']
-        ]);
-        $data['name'] = ucfirst($data['name']);
-        Client::findOrFail($client_id)->update($data);
+        Client::findOrFail($client_id)->update($request->all());
     }
 
     /**

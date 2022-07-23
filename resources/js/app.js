@@ -26,7 +26,7 @@ window.axios.interceptors.response.use(
     error => {
         if (error.response.status === 401 && router.currentRoute.path !== '/auth/login' && !store.state.gotToken) {
             router.push({name : 'login'})
-            localStorage.removeItem('jwt');
+            // localStorage.removeItem('jwt');
             // store.dispatch('logout');
         }
         return Promise.reject(error)

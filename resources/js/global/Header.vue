@@ -60,8 +60,8 @@ export default {
     methods: {
         async logout() {
             try {
-                axios.post('/logout');
-                this.$store.dispatch('logout')
+                // axios.get('/api/logout');
+                // this.$store.dispatch('logout')
             } catch(error) {
 
             }

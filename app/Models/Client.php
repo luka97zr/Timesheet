@@ -19,4 +19,7 @@ class Client extends Model
         return $this->belongsTo(Country::class);
     }
 
+    public function setNameAttribute($value) {
+        return $this->attributes['name'] = ucfirst($value);
+    }
 }

@@ -19,7 +19,7 @@
 						<div class="btn-wrap">
 							<label class="initial-form__checkbox"><input type="checkbox" name="remember-me">Remember me</label>
 							<a href="./forgot-password.html" class="btn btn--transparent"><span>Forgot password</span></a>
-							<button type="submit" class="btn btn--green" :disabled="loading" @click.prevent="login()"><span>Login</span></button>
+							<button type="submit" class="btn btn--green" :disabled="loading" @click="login()"><span>Login</span></button>
 						</div>
 					</form>
 				</div>
@@ -35,7 +35,8 @@ export default {
             email: null,
             password: null,
             loading: false,
-            errors: null
+            errors: null,
+			pending: false
         }
     },
     methods: {
@@ -50,14 +51,13 @@ export default {
                 });
 				localStorage.setItem('jwt', data.data.token);
 				await this.$store.dispatch('loadUser');
-				this.$router.push({name: 'home'})
-
+				await this.$router.push({name: 'home'})
             } catch(error) {
 				console.log(error)
                 this.errors = error.response?.data.message
             }
             this.loading = false
-        }
+        },
     }
 }
 </script>

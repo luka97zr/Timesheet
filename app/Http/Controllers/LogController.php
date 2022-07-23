@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LogRequest;
 use App\Models\CategoryProject;
 use App\Models\Log;
 use App\Models\UserProject;

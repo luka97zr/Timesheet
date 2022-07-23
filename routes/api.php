@@ -20,14 +20,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
-
 Route::post('login',[JWTAuthController::class, 'login']);
 
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('user',[JWTAuthController::class, 'getUser']);
-    Route::post('logout', [JWTAuthController::class, 'logut']);
+    Route::get('logout', [JWTAuthController::class, 'logout']);
 
     Route::resource('logs',LogController::class);
     Route::resource('client',ClientController::class);
