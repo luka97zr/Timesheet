@@ -59,7 +59,7 @@ export default {
             this.clientName = this.clientObj.name;
         },
         showCountry() {
-            this.countryId = this.clientObj.country_id;
+            this.countryId = this.clientObj.country.id;
         },
         async updateClient() {
             try {

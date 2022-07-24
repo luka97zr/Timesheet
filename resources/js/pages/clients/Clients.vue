@@ -28,7 +28,7 @@
                         <a class="pagination__button" href="javascript:;" @click.prevent="prevPage()">Previous</a>
                     </li>
                     <li class="pagination__list" v-for="(page, index) in numOfPages" :key="index">
-                        <a class="pagination__button pagination__button--active" href="javascript:;">{{page}}</a>
+                        <a class="pagination__button pagination__button--active" href="javascript:;" @click.prevent="goToPage(page)">{{page}}</a>
                     </li>
                     <li class="pagination__list">
                         <a class="pagination__button" href="javascript:;" @click.prevent="nextPage()">Next</a>
@@ -135,11 +135,16 @@ export default {
                 return this.typingTimer = setTimeout(()=> resolve(true), ms);
             })
         },
+        goToPage(page) {
+            this.currentPage = page;
+            this.buildPage();
+        },
         async getClients() {
             try {
                 this.isLoaded = false
                 const data = await axios.get(`/api/client`);
                 this.clients = data.data;
+                this.$store.commit('setClients', this.clients);
                 this.generateAlphabet(Object.keys(this.clients)[0]);
                 this.isLoaded = true
             }catch(error) {
@@ -151,7 +156,7 @@ export default {
                 if (this.search.length>0) {
                     await this.timeout(500);
                     const data = await axios.get(`/api/client/${this.search}`);
-                    this.clientsAcc = data.data;
+                    this.clientsAcc = data.data.data;
                    this.buildPage()
                 } else {
                     await this.timeout(200);

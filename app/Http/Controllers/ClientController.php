@@ -51,7 +51,9 @@ class ClientController extends Controller
      */
     public function show($term)
     {
-        return Client::where('name','LIKE','%'.$term.'%')->get();
+        return ClientIndexResource::collection(
+            Client::where('name','LIKE','%'.$term.'%')->with('country')->get()
+        );
     }
 
     /**

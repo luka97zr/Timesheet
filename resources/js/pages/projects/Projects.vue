@@ -17,7 +17,7 @@
                     </li>
                 </ul>
             </div>
-            <project-accordion v-for="(project, index) in projectsAcc" :key="index" :project="project" @resend="getClients()" @updated="clientUpdatedSuccessfuly()"></project-accordion>
+            <project-accordion v-for="(project, index) in projectsAcc" :key="index" :project="project" @resend="getProjects()" @updated="clientUpdatedSuccessfuly()"></project-accordion>
         </div>
         <div class="pagination">
             <ul class="pagination__navigation">
@@ -37,12 +37,6 @@
         :showModal="showNewModal"
         @closeModal="closeModal()">
     </modal-project>
-    <v-overlay :value="overlay">
-      <v-progress-circular
-        indeterminate
-        size="64"
-      ></v-progress-circular>
-    </v-overlay>
 </div>
 </template>
 
@@ -70,6 +64,8 @@ export default {
     created() {
         if(this.$store.state.projects.length === 0)  this.getProjects();
         this.populateProjectAcc()
+        this.checkClients();
+        this.checkLeads();
     },
      computed: {
         getAlphabet() {
@@ -83,7 +79,7 @@ export default {
         },
         endPage() {
             return this.startPage + this.perPage;
-        }
+        },
     },
     methods: {
         openModal() {
@@ -119,6 +115,14 @@ export default {
             if (this.currentPage <= 1) return
             this.currentPage--;
             this.buildPage()
+        },
+        checkClients() {
+            if(this.$store.state.clients.length <= 0)
+            this.$store.dispatch('getClients');
+        },
+        checkLeads() {
+            if(this.$store.state.leads.length <= 0)
+            this.$store.dispatch('getLeads');
         },
         async getProjects() {
             try {

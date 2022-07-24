@@ -18,13 +18,15 @@
                         <li class="info__list">
                             <label class="report__label">Client:</label>
                             <select class="info__select" v-model="clientId">
-                                <option value="">All</option>
+                                <option :value="null">All</option>
+                            <option :value="client.id" v-for="(client,index) in getAllClients" :key="index">{{client.name}}</option>
                             </select>
                         </li>
                         <li class="info__list">
                             <label class="report__label">Lead:</label>
-                            <select class="info__select">
-                                <option value="">All</option>
+                            <select class="info__select" v-model="leadId">
+                                <option :value="null">All</option>
+                                <option :value="lead.id" v-for="(lead, index) in $store.state.leads" :key="index">{{lead.user.name}}</option>
                             </select>
                         </li>
                         <li class="info__list-title"><h4 class="radio-button__title">Status:</h4></li>
@@ -58,7 +60,14 @@ export default {
         return {
             isOpened: false,
             projectId: '',
-            projectName: ''
+            clientId: '',
+            projectName: '',
+            leadId: null
+        }
+    },
+    computed: {
+        getAllClients() {
+            return Object.values(this.$store.state.clients).flat()
         }
     },
     methods: {
@@ -68,8 +77,8 @@ export default {
         showName() {
             this.projectName = this.project.name;
         },
-        showCountry() {
-            this.projectId = this.project.client_id;
+        showClient() {
+            this.clientId = this.project.client.id;
         },
         async updateProject() {
             try {

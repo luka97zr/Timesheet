@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProjectResource;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -15,7 +16,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::orderBy('name')->get();
+        $projects = ProjectResource::collection(
+            Project::with('client')->orderBy('name')->get()
+        );
         $projectsObj = [];
         foreach($projects as $project) {
             $projectsObj[$project['name'][0]][] = $project;

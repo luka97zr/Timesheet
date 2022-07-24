@@ -70,7 +70,7 @@ export default {
               })
             this.$emit('closeModal')
             this.$emit('resend');
-            // this.clearForm();
+            this.clearForm();
           } catch(error) {
               this.errors = error.response.data.errors
           }

@@ -15,6 +15,7 @@ export default {
 			countries: [],
 			clients: [],
 			projects: [],
+			leads: []
 	},
 	mutations: {
 		setUser(state, payload) {
@@ -49,6 +50,9 @@ export default {
 		},
 		setProjects(state, payload) {
 			state.projects = payload;
+		},
+		setLeads(state,payload) {
+			state.leads = payload;
 		}
 	},
 	actions: {
@@ -80,9 +84,25 @@ export default {
                 const data = await axios.get('/api/country');
                	commit('setCountries', data.data)
             } catch(error) {
+				console.log(error)
+            }
+        },
+		async getClients({commit}) {
+			try {
+                const data = await axios.get(`/api/client`);
+                commit('setClients', data.data);
+            }catch(error) {
 
             }
-        }
+		},
+		async getLeads({commit}) {
+			try {
+                const data = await axios.get(`/api/leads`);
+                commit('setLeads', data.data);
+            }catch(error) {
+
+            }
+		}
 	},
 	getters: {
 		async getUser(state) {
