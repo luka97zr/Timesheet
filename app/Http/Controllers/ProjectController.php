@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectRequest;
 use App\Http\Resources\ProjectResource;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Project;
@@ -43,9 +44,10 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProjectRequest $request)
     {
-        //
+        Project::create($request->all());
+        return response()->json(['success'=> true]);
     }
 
     /**

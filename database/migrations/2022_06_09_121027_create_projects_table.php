@@ -18,6 +18,7 @@ class CreateProjectsTable extends Migration
             $table->timestamps();
             $table->string('name')->unique();
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('lead_id')->constrained()->cascadeOnDelete();
         });
     }
 

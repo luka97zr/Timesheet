@@ -64,10 +64,8 @@ const router = new VueRouter({
 
 // router.beforeEach((to,from,next)=>{
     
-//         if(localStorage.getItem('jwt') === 'false') {
-//             next({name: 'login'})
-//         } else {
-//             next();
+//         if(localStorage.getItem('jwt')) {
+//             window.axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage?.getItem('jwt')}`;
 //         }
 // })
 

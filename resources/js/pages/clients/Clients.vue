@@ -77,7 +77,8 @@ export default {
         }
     },
     created() {
-        this.getClients();
+        if(this.$store.state.clients.length <= 0) this.getClients();
+        this.populateClientAcc()
     },
     computed: {
         getAlphabet() {
@@ -101,14 +102,20 @@ export default {
             this.showNewModal = false
         },
         checkClientName(letter) {
-            return Object.keys(this.clients).some(el => el === letter);
+            return Object.keys(this.$store.state.clients).some(el => el === letter);
         },
         generateAlphabet(letter) {
-            if(!this.clients[letter]) return;
+            if(!this.$store.state.clients[letter]) return;
             this.currentPage = 1;
-            this.clientsAcc = Object.values(this.clients[letter])
+            this.clientsAcc = Object.values(this.$store.state.clients[letter])
             this.clientCopy = this.clientsAcc
             this.buildPage()
+        },
+        populateClientAcc() {
+            if (this.clientsAcc.length === 0) {
+                this.clientsAcc = Object.values(this.$store.state.projects)
+                this.generateAlphabet(Object.keys(this.$store.state.projects)[0]);
+            }
         },
         buildPage() {
             this.clientCopy = this.clientsAcc.slice(this.startPage, this.endPage);

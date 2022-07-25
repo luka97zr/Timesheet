@@ -35,7 +35,8 @@
     </section>
     <modal-project
         :showModal="showNewModal"
-        @closeModal="closeModal()">
+        @closeModal="closeModal()"
+        @resend="getProjects()">
     </modal-project>
 </div>
 </template>

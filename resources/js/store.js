@@ -102,7 +102,15 @@ export default {
             }catch(error) {
 
             }
-		}
+		},
+		async getProjects() {
+            try {
+                const data = await axios.get(`/api/projects`);
+                this.$store.commit('setProjects',data.data);
+            }catch(error) {
+
+            }
+        },
 	},
 	getters: {
 		async getUser(state) {
