@@ -17,12 +17,12 @@
                         </li>
                     </ul>
                 </div>
-                <client-accordion v-for="(client, index) in clientCopy" :key="index" :client-obj="client" @resend="getClients()" @updated="clientUpdatedSuccessfuly()"></client-accordion>
+                <client-accordion v-for="(client, index) in clients" :key="index" :client-obj="client" @resend="getClients()" @updated="clientUpdatedSuccessfuly()"></client-accordion>
                 <vuetify-container>
                     <alert :isSuccess="isSuccess"></alert>
                 </vuetify-container>
             </div>
-            <div class="pagination" v-if="clientCopy.length>0">
+            <div class="pagination" v-if="clientsAcc.length>0">
                 <ul class="pagination__navigation">
                     <li class="pagination__list">
                         <a class="pagination__button" href="javascript:;" @click.prevent="prevPage()">Previous</a>
@@ -108,7 +108,6 @@ export default {
             if(!this.$store.state.clients[letter]) return;
             this.currentPage = 1;
             this.clientsAcc = Object.values(this.$store.state.clients[letter])
-            this.clientCopy = this.clientsAcc
             this.buildPage()
         },
         populateClientAcc() {
@@ -118,7 +117,7 @@ export default {
             }
         },
         buildPage() {
-            this.clientCopy = this.clientsAcc.slice(this.startPage, this.endPage);
+            this.clients = this.clientsAcc.slice(this.startPage, this.endPage);
         },
         nextPage() {
             if (this.currentPage >= this.numOfPages) return
@@ -150,9 +149,8 @@ export default {
             try {
                 this.isLoaded = false
                 const data = await axios.get(`/api/client`);
-                this.clients = data.data;
-                this.$store.commit('setClients', this.clients);
-                this.generateAlphabet(Object.keys(this.clients)[0]);
+                this.$store.commit('setClients', data.data);
+                this.generateAlphabet(Object.keys(this.$store.state.clients)[0]);
                 this.isLoaded = true
             }catch(error) {
 
@@ -167,7 +165,7 @@ export default {
                    this.buildPage()
                 } else {
                     await this.timeout(200);
-                    this.generateAlphabet(Object.keys(this.clients)[0]);
+                    this.generateAlphabet(Object.keys(this.$store.state.clients)[0]);
                 }
             }catch(error) {
 

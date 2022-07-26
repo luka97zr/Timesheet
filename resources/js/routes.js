@@ -7,6 +7,7 @@ import Projects from './pages/projects/Projects'
 import Categories from './pages/categories/Categories'
 import Employees from './pages/employees/Employees'
 import Reports from './pages/reports/Reports'
+import NotFound from './pages/404/NotFound'
 const routes = [
     {
         path: '/',
@@ -53,21 +54,18 @@ const routes = [
         name: 'reports',
         component: Reports,
     },
-
+    {
+        path: '*',
+        component: NotFound,
+        meta: {
+            hideNavbar: true
+        }   
+    }
 
 ]
 const router = new VueRouter({
     routes,
     mode: 'history'
 });
-
-
-// router.beforeEach((to,from,next)=>{
-    
-//         if(localStorage.getItem('jwt')) {
-//             window.axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage?.getItem('jwt')}`;
-//         }
-// })
-
 
 export default router;

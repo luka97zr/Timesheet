@@ -65,7 +65,7 @@ export default {
         async createProject() {
           try {
               this.errors = [];
-              await axios.post('/api/projects', {
+              await axios.post('/api/project', {
                   name: this.projectName,
                   client_id: this.clientId,
                   lead_id: this.leadId

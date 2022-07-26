@@ -6,7 +6,7 @@
             <div class="table-navigation">
                 <a href="javascript:;" class="table-navigation__create btn-modal" @click.prevent="openModal()"><span>Create new project</span></a>
                 <form class="table-navigation__input-container" action="javascript:;">
-                    <input type="text" class="table-navigation__search">
+                    <input type="text" class="table-navigation__search" v-model="search">
                     <button type="submit" class="icon__search"></button>
                 </form>
             </div>
@@ -17,15 +17,18 @@
                     </li>
                 </ul>
             </div>
-            <project-accordion v-for="(project, index) in projectsAcc" :key="index" :project="project" @resend="getProjects()" @updated="clientUpdatedSuccessfuly()"></project-accordion>
+            <project-accordion v-for="(project, index) in projects" :key="index" :project="project" @resend="getProjects()"></project-accordion>
+            <vuetify-container>
+                <alert :isSuccess="isSuccess"></alert>
+            </vuetify-container>
         </div>
-        <div class="pagination">
+        <div class="pagination" v-if="projectsAcc.length>0">
             <ul class="pagination__navigation">
                 <li class="pagination__list">
                     <a class="pagination__button" href="javascript:;" @click.prevent="prevPage()">Previous</a>
                 </li>
                 <li class="pagination__list" v-for="(page, index) in numOfPages" :key="index">
-                        <a class="pagination__button pagination__button--active" href="javascript:;">{{page}}</a>
+                        <a class="pagination__button pagination__button--active" href="javascript:;" @click.prevent="goToPage(page)">{{page}}</a>
                     </li>
                 <li class="pagination__list">
                     <a class="pagination__button" href="javascript:;" @click.prevent="nextPage()">Next</a>
@@ -38,6 +41,12 @@
         @closeModal="closeModal()"
         @resend="getProjects()">
     </modal-project>
+    <v-overlay value="overlay" v-if="!isLoaded">
+        <v-progress-circular
+            indeterminate
+            size="64"
+        ></v-progress-circular>
+    </v-overlay>
 </div>
 </template>
 
@@ -54,7 +63,7 @@ export default {
             showNewModal: false,
             projects: [],
             projectsAcc: [],
-            isLoaded: false,
+            isLoaded: true,
             perPage: 3,
             currentPage: 1,
             isSuccess: false,
@@ -89,7 +98,7 @@ export default {
         closeModal() {
             this.showNewModal = false
         },
-         checkProjectName(letter) {
+        checkProjectName(letter) {
             return Object.keys(this.$store.state.projects).some(el => el === letter);
         },
         generateAlphabet(letter) {
@@ -117,6 +126,10 @@ export default {
             this.currentPage--;
             this.buildPage()
         },
+        goToPage(page) {
+            this.currentPage = page;
+            this.buildPage();
+        },
         checkClients() {
             if(this.$store.state.clients.length <= 0)
             this.$store.dispatch('getClients');
@@ -125,10 +138,16 @@ export default {
             if(this.$store.state.leads.length <= 0)
             this.$store.dispatch('getLeads');
         },
+        timeout(ms) {
+            return new Promise((resolve)=> {
+                clearTimeout(this.typingTimer);
+                return this.typingTimer = setTimeout(()=> resolve(true), ms);
+            })
+        },
         async getProjects() {
             try {
                 this.isLoaded = false
-                const data = await axios.get(`/api/projects`);
+                const data = await axios.get(`/api/project`);
                 this.$store.commit('setProjects',data.data);
                 this.generateAlphabet(Object.keys(this.$store.state.projects)[0]);
                 this.isLoaded = true
@@ -136,6 +155,28 @@ export default {
 
             }
         },
+        async searchProjects() {
+            try {
+                if (this.search.length>0) {
+                    await this.timeout(500);
+                    const data = await axios.get(`/api/project/search/${this.search}`);
+                    this.projectsAcc = data.data.data;
+                   this.buildPage()
+                } else {
+                    await this.timeout(200);
+                    this.generateAlphabet(Object.keys(this.$store.state.projects)[0]);
+                }
+            }catch(error) {
+
+            }
+        }
+    },
+    watch: {
+        search: {
+            handler() {
+               this.searchProjects()
+            }
+        }
     }
 }
 </script>

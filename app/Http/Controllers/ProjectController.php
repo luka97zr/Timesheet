@@ -29,16 +29,6 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -64,26 +54,21 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Project $project)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(ProjectRequest $request, $project_id)
     {
-        //
+        Project::findOrFail($project_id)->update($request->all());
+    }
+
+    public function search(Request $request, $term) {
+        return ProjectResource::collection(
+            Project::where('name','LIKE','%'.$term.'%')->with('client')->get()
+        );
     }
 
     /**
@@ -92,8 +77,8 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $projects
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project)
+    public function destroy($project_id)
     {
-        //
+        Project::destroy($project_id);
     }
 }

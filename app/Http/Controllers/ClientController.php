@@ -18,7 +18,6 @@ class ClientController extends Controller
     public function index()
     {
 
-        // $clients = Client::with('country')->orderBy('name')->get();
         $clients = ClientIndexResource::collection(
             Client::with('country')->orderBy('name')->get()
         );

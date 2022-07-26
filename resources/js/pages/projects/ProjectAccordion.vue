@@ -46,8 +46,8 @@
                 </div>
             </div>
             <div class="btn-wrap">
-                <button type="submit" class="btn btn--green"><span>Save changes</span></button>
-                <button type="button" class="btn btn--red"><span>Delete</span></button>
+                <button type="submit" class="btn btn--green" @click.prevent="updateProject()"><span>Save changes</span></button>
+                <button type="button" class="btn btn--red" @click.prevent="deleteProject()"><span>Delete</span></button>
             </div>
         </form>
     </div>
@@ -82,9 +82,10 @@ export default {
         },
         async updateProject() {
             try {
-                await axios.put(`/api/client/${this.project.id}`,{
-                    country_id: this.countryId,
-                    name: this.clientName
+                await axios.put(`/api/project/${this.project.id}`,{
+                    client_id: this.clientId,
+                    name: this.projectName,
+                    lead_id: this.leadId
                 });
                 this.$emit('resend');
                 this.$emit('updated');
@@ -95,7 +96,7 @@ export default {
         },
         async deleteProject() {
             try {
-                await axios.delete(`/api/client/${this.project.id}`);
+                await axios.delete(`/api/project/${this.project.id}`);
                 this.$emit('resend');
             } catch(error) {
                 console.log(error)

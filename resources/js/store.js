@@ -105,7 +105,7 @@ export default {
 		},
 		async getProjects() {
             try {
-                const data = await axios.get(`/api/projects`);
+                const data = await axios.get(`/api/project`);
                 this.$store.commit('setProjects',data.data);
             }catch(error) {
 

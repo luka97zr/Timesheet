@@ -30,7 +30,8 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('logs',LogController::class);
     Route::resource('client',ClientController::class);
     Route::resource('country',CountryController::class);
-    Route::resource('projects',ProjectController::class);
+    Route::resource('project',ProjectController::class);
+    Route::get('project/search/{params}',[ProjectController::class, 'search']);
     Route::get('calendar/{from}/{to}',CalendarController::class);
     Route::get('leads',LeadController::class);
 });
