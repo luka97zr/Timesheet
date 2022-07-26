@@ -15,7 +15,7 @@
 								<input type="password" class="in-text" v-model="password">
 							</li>
 						</ul>
-						<div class="invalid-feedback" v-if="errors">{{errors}}</div>
+						<div class="invalid" v-if="errors">{{errors}}</div>
 						<div class="btn-wrap">
 							<label class="initial-form__checkbox"><input type="checkbox" name="remember-me">Remember me</label>
 							<a href="./forgot-password.html" class="btn btn--transparent"><span>Forgot password</span></a>
@@ -54,7 +54,6 @@ export default {
 				await this.$store.dispatch('loadUser');
 				await this.$router.push({name: 'home'})
             } catch(error) {
-				console.log(error)
                 this.errors = error.response?.data.message
             }
             this.loading = false
@@ -64,7 +63,7 @@ export default {
 </script>
 
 <style scoped>
- .invalid-feedback {
+ .invalid {
 	color: red;
  }
 </style>

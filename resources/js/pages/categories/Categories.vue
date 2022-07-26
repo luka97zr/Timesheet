@@ -12,169 +12,23 @@
                 </div>
                 <div class="alphabet">
                     <ul class="alphabet__navigation">
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">a</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">b</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">c</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">d</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">e</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">f</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">g</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">h</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">i</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">j</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">k</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">l</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">m</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">n</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button alphabet__button--active" href="javascript:;">o</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">p</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">q</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">r</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">s</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">t</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">u</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">v</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">w</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">x</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">y</a>
-                        </li>
-                        <li class="alphabet__list">
-                            <a class="alphabet__button" href="javascript:;">z</a>
+                        <li class="alphabet__list" v-for="(letter,index) in getAlphabet" :key="index">
+                            <a class="alphabet__button" href="javascript:;" :class="{'alphabet__button--disabled' : !checkCategoryName(letter)}">{{letter}}</a>
                         </li>
                     </ul>
                 </div>
-                <div class="accordion">
-                    <div class="accordion__intro">
-                        <h4 class="accordion__title">Category 1</h4>
-                    </div>
-                    <form class="accordion__content" action="javascript:;">
-                        <div class="info">
-                            <div class="info__form">
-                                <ul class="info__wrapper">
-                                    <li class="info__list">
-                                        <label class="info__label">Category name:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="btn-wrap">
-                            <button type="submit" class="btn btn--green"><span>Save changes</span></button>
-                            <button type="button" class="btn btn--red"><span>Delete</span></button>
-                        </div>
-                    </form>
-                </div>
-                <div class="accordion">
-                    <div class="accordion__intro">
-                        <h4 class="accordion__title">Category 2</h4>
-                    </div>
-                    <form class="accordion__content" action="javascript:;">
-                        <div class="info">
-                            <div class="info__form">
-                                <ul class="info__wrapper">
-                                    <li class="info__list">
-                                        <label class="info__label">Category name:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="btn-wrap">
-                            <button type="submit" class="btn btn--green"><span>Save changes</span></button>
-                            <button type="button" class="btn btn--red"><span>Delete</span></button>
-                        </div>
-                    </form>
-                </div>
-                <div class="accordion">
-                    <div class="accordion__intro">
-                        <h4 class="accordion__title">Category 3</h4>
-                    </div>
-                    <form class="accordion__content" action="javascript:;">
-                        <div class="info">
-                            <div class="info__form">
-                                <ul class="info__wrapper">
-                                    <li class="info__list">
-                                        <label class="info__label">Category name:</label>
-                                        <input type="text" class="in-text">
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="btn-wrap">
-                            <button type="submit" class="btn btn--green"><span>Save changes</span></button>
-                            <button type="button" class="btn btn--red"><span>Delete</span></button>
-                        </div>
-                    </form>
-                </div>
+                <category-accordion v-for="(category, index) in categories" :key="index" :category="category" @resend="getProjects()"></category-accordion>
             </div>
             <div class="pagination">
                 <ul class="pagination__navigation">
                     <li class="pagination__list">
-                        <a class="pagination__button" href="javascript:;">Previous</a>
+                        <a class="pagination__button" href="javascript:;" @click.prevent="prevPage()">Previous</a>
+                    </li>
+                    <li class="pagination__list" v-for="(page, index) in numOfPages" :key="index">
+                        <a class="pagination__button pagination__button--active" href="javascript:;" @click.prevent="goToPage(page)">{{page}}</a>
                     </li>
                     <li class="pagination__list">
-                        <a class="pagination__button pagination__button--active" href="javascript:;">1</a>
-                    </li>
-                    <li class="pagination__list">
-                        <a class="pagination__button" href="javascript:;">2</a>
-                    </li>
-                    <li class="pagination__list">
-                        <a class="pagination__button" href="javascript:;">3</a>
-                    </li>
-                    <li class="pagination__list">
-                        <a class="pagination__button" href="javascript:;">4</a>
-                    </li>
-                    <li class="pagination__list">
-                        <a class="pagination__button" href="javascript:;">Next</a>
+                        <a class="pagination__button" href="javascript:;" @click.prevent="nextPage()">Next</a>
                     </li>
                 </ul>
             </div>
@@ -190,14 +44,42 @@
 
 <script>
 import ModalCategories from '../../components/Modal/ModalCategories.vue'
+import CategoryAccordion from './CategoryAccordion.vue'
 export default {
     components: {
-        ModalCategories
+        ModalCategories,
+        CategoryAccordion
     },
     data() {
         return {
             showNewModal: false,
+            categories: [],
+            categoryAcc: [],
+            isLoaded: true,
+            perPage: 3,
+            currentPage: 1,
+            isSuccess: false,
+            search: '',
+            typingTimer: null
         }
+    },
+    created() {
+        if(this.$store.state.categories.length === 0)  this.getCategories();
+        this.populateCategoryAcc()
+    },
+     computed: {
+        getAlphabet() {
+           return [...Array(26)].map((_,i) => String.fromCharCode(i + 65))
+        },
+        numOfPages() {
+            return Math.ceil(this.categoryAcc.length / this.perPage);
+        },
+        startPage() {
+            return (this.currentPage - 1) * this.perPage;
+        },
+        endPage() {
+            return this.startPage + this.perPage;
+        },
     },
     methods: {
         openModal() {
@@ -205,6 +87,70 @@ export default {
         },
         closeModal() {
             this.showNewModal = false
+        },
+        checkCategoryName(letter) {
+            return Object.keys(this.$store.state.categories).some(el => el === letter);
+        },
+        generateAlphabet(letter) {
+            if(!this.$store.state.categories[letter]) return;
+            this.currentPage = 1;
+            this.categoryAcc = Object.values(this.$store.state.categories[letter])
+            this.buildPage();
+        },
+        buildPage() {
+            this.categories = this.categoryAcc.slice(this.startPage, this.endPage);
+        },
+        populateCategoryAcc() {
+            if (this.categoryAcc.length === 0) {
+                this.categoryAcc = Object.values(this.$store.state.categories)
+                this.generateAlphabet(Object.keys(this.$store.state.categories)[0]);
+            }
+        },
+        nextPage() {
+            if (this.currentPage >= this.numOfPages) return
+            this.currentPage++;
+            this.buildPage()
+        },
+        prevPage() {
+            if (this.currentPage <= 1) return
+            this.currentPage--;
+            this.buildPage()
+        },
+        goToPage(page) {
+            this.currentPage = page;
+            this.buildPage();
+        },
+        timeout(ms) {
+            return new Promise((resolve)=> {
+                clearTimeout(this.typingTimer);
+                return this.typingTimer = setTimeout(()=> resolve(true), ms);
+            })
+        },
+        async getCategories() {
+            try {
+                this.isLoaded = false
+                const data = await axios.get(`/api/category`);
+                this.$store.commit('setCategories',data.data);
+                this.generateAlphabet(Object.keys(this.$store.state.categories)[0]);
+                this.isLoaded = true
+            }catch(error) {
+
+            }
+        },
+        async searchCategory() {
+            try {
+                if (this.search.length>0) {
+                    await this.timeout(500);
+                    const data = await axios.get(`/api/project/search/${this.search}`);
+                    this.categoryAcc = data.data.data;
+                   this.buildPage()
+                } else {
+                    await this.timeout(200);
+                    this.generateAlphabet(Object.keys(this.$store.state.categories)[0]);
+                }
+            }catch(error) {
+
+            }
         }
     }
 }

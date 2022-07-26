@@ -15,7 +15,8 @@ export default {
 			countries: [],
 			clients: [],
 			projects: [],
-			leads: []
+			leads: [],
+			categories: []
 	},
 	mutations: {
 		setUser(state, payload) {
@@ -53,6 +54,9 @@ export default {
 		},
 		setLeads(state,payload) {
 			state.leads = payload;
+		},
+		setCategories(state,payload) {
+			state.categories = payload;
 		}
 	},
 	actions: {
