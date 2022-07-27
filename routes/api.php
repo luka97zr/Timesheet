@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\CalendarController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ClientController;
-use App\Http\Controllers\CountryController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\LeadController;
+use App\Http\Controllers\Admin\CountryController;
+use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\User\CalendarController;
+use App\Http\Controllers\User\LogController;
+use App\Http\Controllers\User\UserProjectController;
 use App\Http\Controllers\JWTAuthController;
-use App\Http\Controllers\LeadController;
-use App\Http\Controllers\LogController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\UserProjectController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
@@ -33,8 +34,9 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('client',ClientController::class);
     Route::resource('country',CountryController::class);
     Route::resource('project',ProjectController::class);
+    Route::get('user/project/',UserProjectController::class);
     Route::apiResource('category',CategoryController::class);
-    Route::get('project/search/{params}',[ProjectController::class, 'search']);
+    Route::apiResource('employee',EmployeeController::class);
     Route::get('calendar/{from}/{to}',CalendarController::class);
     Route::get('leads',LeadController::class);
 });

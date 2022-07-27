@@ -63,7 +63,6 @@ props: ['category'],
         project: {
             handler() {
                 this.showName();
-                this.showClient();
             },
             immediate: true
         }

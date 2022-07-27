@@ -168,7 +168,7 @@ export default {
 			})
 		},
 		async getUserProjectData() {
-		    const response = await axios.get(`/api/project/${this.userId}`);
+		    const response = await axios.get(`/api/user/project`);
             this.userProjectData = response.data;
 		},
 		async getDayLog() {

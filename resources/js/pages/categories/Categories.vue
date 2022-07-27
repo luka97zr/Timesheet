@@ -13,13 +13,13 @@
                 <div class="alphabet">
                     <ul class="alphabet__navigation">
                         <li class="alphabet__list" v-for="(letter,index) in getAlphabet" :key="index">
-                            <a class="alphabet__button" href="javascript:;" :class="{'alphabet__button--disabled' : !checkCategoryName(letter)}">{{letter}}</a>
+                            <a class="alphabet__button" href="javascript:;" :class="{'alphabet__button--disabled' : !checkCategoryName(letter)}" @click.prevent="generateAlphabet(letter)">{{letter}}</a>
                         </li>
                     </ul>
                 </div>
                 <category-accordion v-for="(category, index) in categories" :key="index" :category="category" @resend="getProjects()"></category-accordion>
             </div>
-            <div class="pagination">
+            <div class="pagination" v-if="categoryAcc.length>0">
                 <ul class="pagination__navigation">
                     <li class="pagination__list">
                         <a class="pagination__button" href="javascript:;" @click.prevent="prevPage()">Previous</a>
@@ -36,7 +36,8 @@
         <modal-categories
             :showModal="showNewModal"
             @closed="this.showNewModal = false"
-            @closeModal="closeModal()">
+            @closeModal="closeModal()"
+            @resend="getCategories()">
 
         </modal-categories>
     </div>

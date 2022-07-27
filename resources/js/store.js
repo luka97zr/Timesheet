@@ -16,7 +16,8 @@ export default {
 			clients: [],
 			projects: [],
 			leads: [],
-			categories: []
+			categories: [],
+			employees: []
 	},
 	mutations: {
 		setUser(state, payload) {
@@ -57,6 +58,9 @@ export default {
 		},
 		setCategories(state,payload) {
 			state.categories = payload;
+		},
+		setEmployees(state, payload) {
+			state.employees = payload;
 		}
 	},
 	actions: {

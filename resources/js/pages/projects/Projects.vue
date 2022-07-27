@@ -53,10 +53,12 @@
 <script>
 import ModalProject from '../../components/Modal/ModalProjects.vue';
 import ProjectAccordion from './ProjectAccordion.vue';
+import Alert from '../../components/vuetify/Alert.vue'
 export default {
        components: {
         ModalProject,
-        ProjectAccordion
+        ProjectAccordion,
+        Alert
     },
      data() {
         return {
@@ -159,7 +161,7 @@ export default {
             try {
                 if (this.search.length>0) {
                     await this.timeout(500);
-                    const data = await axios.get(`/api/project/search/${this.search}`);
+                    const data = await axios.get(`/api/project/${this.search}`);
                     this.projectsAcc = data.data.data;
                    this.buildPage()
                 } else {
