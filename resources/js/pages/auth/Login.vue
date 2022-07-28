@@ -50,7 +50,7 @@ export default {
                     password: this.password
                 });
 				localStorage.setItem('jwt', data.data.token);
-            	axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage?.getItem('jwt')}`;
+            	axios.defaults.headers.common['Authorization'] = `Bearer ${data.data.token}`;
 				await this.$store.dispatch('loadUser');
 				await this.$router.push({name: 'home'})
             } catch(error) {
@@ -58,6 +58,15 @@ export default {
             }
             this.loading = false
         },
+		parseJwt(token) {
+			if (!token) {
+			return;
+			}
+			const base64Url = token.split(".")[1];
+			const base64 = base64Url.replace("-", "+").replace("_", "/");
+			return JSON.parse(window.atob(base64));
+		}
+
     }
 }
 </script>

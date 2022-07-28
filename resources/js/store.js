@@ -61,7 +61,7 @@ export default {
 		},
 		setEmployees(state, payload) {
 			state.employees = payload;
-		}
+		},
 	},
 	actions: {
 		async loadUser({commit,dispatch}) {

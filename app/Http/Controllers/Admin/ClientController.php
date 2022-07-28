@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use App\Http\Resources\ClientIndexResource;
 use App\Models\Client;
+use App\Traits\ShowAllTrait;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Input\Input;
 
 class ClientController extends Controller
 {
+    use ShowAllTrait;
     /**
      * Display a listing of the resource.
      *
@@ -22,12 +24,8 @@ class ClientController extends Controller
         $clients = ClientIndexResource::collection(
             Client::with('country')->orderBy('name')->get()
         );
-        $clientsObj = [];
 
-        foreach($clients as $client) {
-            $clientsObj[$client['name'][0]][] = $client;
-        }
-        return $clientsObj;
+       return $this->getResults($clients);
 
     }
 

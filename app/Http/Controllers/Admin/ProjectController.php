@@ -7,10 +7,12 @@ use App\Http\Requests\ProjectRequest;
 use App\Http\Resources\ProjectResource;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Project;
+use App\Traits\ShowAllTrait;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
+    use ShowAllTrait;
     /**
      * Display a listing of the resource.
      *
@@ -21,11 +23,7 @@ class ProjectController extends Controller
         $projects = ProjectResource::collection(
             Project::with('client')->orderBy('name')->get()
         );
-        $projectsObj = [];
-        foreach($projects as $project) {
-            $projectsObj[$project['name'][0]][] = $project;
-        }
-        return $projectsObj;
+        return $this->getResults($projects);
 
     }
 

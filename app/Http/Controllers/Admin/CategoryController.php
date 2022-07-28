@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Traits\ShowAllTrait;
 
 class CategoryController extends Controller
 {
+    use ShowAllTrait;
     /**
      * Display a listing of the resource.
      *
@@ -19,12 +21,7 @@ class CategoryController extends Controller
         $categories = CategoryResource::collection(
             Category::orderBy('name')->get()
         );
-        $categoriesObj = [];
-
-        foreach($categories as $client) {
-            $categoriesObj[$client['name'][0]][] = $client;
-        }
-        return $categoriesObj;
+       return $this->getResults($categories);
     }
 
     /**

@@ -24,7 +24,7 @@ window.axios.interceptors.response.use(
         return response;
     },
     error => {
-        if (error.response.status === 401 && router.currentRoute.path !== '/auth/login' && !store.state.gotToken) {
+        if (error.response.status === 401 && router.currentRoute.path !== '/auth/login') {
             router.push({name : 'login'})
             // localStorage.removeItem('jwt');
             // store.dispatch('logout');
@@ -48,6 +48,7 @@ const app = new Vue({
         'index': index,
     },
     beforeCreate() {
+        if (localStorage.getItem('jwt'))
         store.dispatch('loadUser')
     }
 });
