@@ -11,16 +11,16 @@
                         <router-link to="/" class="btn navigation__button">Timesheet</router-link>
                     </li>
                     <li class="navigation__list">
-                        <router-link to="/clients" class="btn navigation__button">Clients</router-link>
+                        <router-link to="/clients" class="btn navigation__button" v-if="isAdmin">Clients</router-link>
                     </li>
                     <li class="navigation__list">
-                        <router-link to="/projects" class="btn navigation__button">Projects</router-link>
+                        <router-link to="/projects" class="btn navigation__button" v-if="isAdmin">Projects</router-link>
                     </li>
                     <li class="navigation__list">
-                        <router-link to="/categories" class="btn navigation__button">Categories</router-link>
+                        <router-link to="/categories" class="btn navigation__button" v-if="isAdmin">Categories</router-link>
                     </li>
                     <li class="navigation__list">
-                        <router-link to="/employees" class="btn navigation__button">Employees</router-link>
+                        <router-link to="/employees" class="btn navigation__button" v-if="isAdmin">Employees</router-link>
                     </li>
                     <li class="navigation__list">
                         <router-link to="/reports" class="btn navigation__button">Reports</router-link>
@@ -48,14 +48,21 @@
 
 <script>
 export default {
+    data() {
+        return {
+            isAdmin: false
+        }
+    },
     computed: {
         userName() {
-            return this.$store.state.user.name
+            return JSON.parse(localStorage.getItem('user')).name;
         },
         userId() {
             return this.$store.state.user.id;
         }
-        
+    },
+    created() {
+        this.role();
     },
     methods: {
         async logout() {
@@ -65,7 +72,10 @@ export default {
             } catch(error) {
 
             }
-        }
+        },
+        role() {
+           this.isAdmin = (JSON.parse(localStorage.getItem('user')).role === 'Admin')? true : false;
+        },
     }
 }
 </script>

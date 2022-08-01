@@ -49,9 +49,11 @@ export default {
 					email: this.email,
                     password: this.password
                 });
+				console.log(this.parseJwt(data.data.token));
 				localStorage.setItem('jwt', data.data.token);
             	axios.defaults.headers.common['Authorization'] = `Bearer ${data.data.token}`;
-				await this.$store.dispatch('loadUser');
+				// await this.$store.dispatch('loadUser');
+				this.$store.commit('setLoggedIn', true);
 				await this.$router.push({name: 'home'})
             } catch(error) {
                 this.errors = error.response?.data.message
@@ -64,7 +66,13 @@ export default {
 			}
 			const base64Url = token.split(".")[1];
 			const base64 = base64Url.replace("-", "+").replace("_", "/");
-			return JSON.parse(window.atob(base64));
+			const {email, name, role} = JSON.parse(window.atob(base64));
+			const user = {
+				email : email,
+				role: role,
+				name: name
+			}
+			localStorage.setItem('user', JSON.stringify(user));
 		}
 
     }

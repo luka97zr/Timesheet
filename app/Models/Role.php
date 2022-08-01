@@ -13,4 +13,8 @@ class Role extends Model
 
     public const IS_ADMIN = 1;
     public const IS_USER = 2;
+
+    public static function get_role_name($role_id) {
+        return Role::findOrFail($role_id)->name;
+    }
 }

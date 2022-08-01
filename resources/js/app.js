@@ -24,11 +24,11 @@ window.axios.interceptors.response.use(
         return response;
     },
     error => {
-        if (error.response.status === 401 && router.currentRoute.path !== '/auth/login') {
-            router.push({name : 'login'})
-            // localStorage.removeItem('jwt');
-            // store.dispatch('logout');
-        }
+        // if (error.response.status === 401 && router.currentRoute.path !== '/auth/login') {
+        //     localStorage.removeItem('jwt');
+        //     router.push({name : 'login'})
+        //     store.dispatch('logout');
+        // }
         return Promise.reject(error)
     }
     )
