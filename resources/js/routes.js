@@ -9,6 +9,8 @@ import Categories from './pages/categories/Categories'
 import Employees from './pages/employees/Employees'
 import Reports from './pages/reports/Reports'
 import NotFound from './pages/404/NotFound'
+
+
 const routes = [
     {
         path: '/',
@@ -17,7 +19,6 @@ const routes = [
         meta: {
           requiresAuth: true
         }
-
     },
     {
         path: '/date/:day',
@@ -102,12 +103,20 @@ router.beforeEach((to, from, next) => {
     }
 
     if(to.matched.some(record => record.meta.requiresAuth)) {
-      if (store.state.isLoggedIn && to.path !== '/auth/login') {
+        function doesHttpOnlyCookieExist(cookiename) {
+          const date = new Date();
+          date.setTime(date.getTime() + (1000));
+          const expires = "expires=" + date.toUTCString();
+          document.cookie = cookiename + "=new_value;path=/;" + expires;
+          return document.cookie.indexOf(cookiename + '=') == -1;
+        }
+      if (doesHttpOnlyCookieExist('token') && to.path !== '/auth/login') {
         next();
       } else {
         next({name:'login'});
       }
     }
   })
+
 
 export default router;

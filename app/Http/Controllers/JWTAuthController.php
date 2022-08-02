@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -19,24 +21,21 @@ class JWTAuthController extends Controller
             'password'  => 'required'
         ]);
 
-        //Pronadji korsnika sa emailom
-        // Auth::attempt($data);
-        //uporedi password
-
         if (!$jwt_token = auth()->attempt($data)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid Email or Password',
             ],Response::HTTP_UNAUTHORIZED);
         }
-        // $user = Auth::user();
+        $payload = [
+            'name'  => auth()->user()->name,
+            'role'    => Role::get_role_name(auth()->user()->role_id),
+            'email'  => auth()->user()->email,
+        ];
         return response()->json([
             'success' => true,
-            'token' => $jwt_token,
-        ]);
-       
-        // return $this->respondWithToken($jwt_token);
-
+            'user'    => $payload
+        ])->withCookie('token', $jwt_token, config('jwt.ttl'), "/", null, false, true);
     }
 
     public function logout(Request $request)

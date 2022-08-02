@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\LogController;
 use App\Http\Controllers\User\UserProjectController;
@@ -29,14 +30,18 @@ Route::post('login',[JWTAuthController::class, 'login']);
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('user',[JWTAuthController::class, 'getUser']);
     Route::get('logout', [JWTAuthController::class, 'logout']);
-
     Route::resource('logs',LogController::class);
-    Route::resource('client',ClientController::class);
-    Route::resource('country',CountryController::class);
-    Route::resource('project',ProjectController::class);
     Route::get('user/project/',UserProjectController::class);
-    Route::apiResource('category',CategoryController::class);
-    Route::apiResource('employee',EmployeeController::class);
     Route::get('calendar/{from}/{to}',CalendarController::class);
-    Route::get('leads',LeadController::class);
+
+    Route::middleware(['middleware'=>'admin'])->group(function() {
+        Route::resource('client',ClientController::class);
+        Route::resource('country',CountryController::class);
+        Route::resource('project',ProjectController::class);
+        Route::apiResource('employee',EmployeeController::class);
+        Route::get('leads',LeadController::class);
+        Route::apiResource('category',CategoryController::class);
+        Route::get('role', RoleController::class);
+
+    });
 });

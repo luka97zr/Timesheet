@@ -1,5 +1,5 @@
 <template>
-    <div class="accordion" @click.prevent="openAccordion()">
+    <div class="accordion" @click="openAccordion()">
         <div class="accordion__intro">
             <h4 class="accordion__title">{{employee.name}}</h4>
         </div>
@@ -37,14 +37,11 @@
                         <li class="info__list-title">
                             <h4 class="radio-button__title">Role:</h4>
                         </li>
-                        <li class="info__list-radio-button">
-                            <input type="radio" checked="" class="radio-input" name="radio-group-role">
-                            <label class="radio-label"> <span class="radio-border"></span>Admin</label>
+                        <li class="info__list-radio-button" v-for="(role, index) in $store.state.roles" :key="'role'+index">
+                            <input type="radio"  class="radio-input" :value="role.id" name="role" v-model="userRole">
+                            <label class="radio-label" :for="role.name"> <span class="radio-border"></span>{{role.name}}</label>
                         </li>
-                        <li class="info__list-radio-button">
-                            <input type="radio" class="radio-input" name="radio-group-role">
-                            <label class="radio-label"> <span class="radio-border"></span>Worker</label>
-                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -66,7 +63,8 @@ export default {
             employeeName: null,
             username: null,
             hoursPerWeek: null,
-            email: null
+            email: null,
+            userRole : ''
         }
     },
     methods: {
@@ -76,6 +74,9 @@ export default {
         showName() {
             this.employeeName = this.employee.name;
         },
+        selectRole(id) {
+            this.userRole = id;
+        }
     },
     watch: {
         employee: {

@@ -5,19 +5,20 @@ import { isLoggedIn, logOut } from './shared/utils/auth'
 
 export default {
 	state: {
-			isLoggedIn: false,
-			user: {},
-			calendar: null,
-			startDate: null,
-			endDate: null,
-			totalHours: 0,
-			gotToken: false,
-			countries: [],
-			clients: [],
-			projects: [],
-			leads: [],
-			categories: [],
-			employees: []
+		isLoggedIn: false,
+		user: {},
+		calendar: null,
+		startDate: null,
+		endDate: null,
+		totalHours: 0,
+		gotToken: false,
+		countries: [],
+		clients: [],
+		projects: [],
+		leads: [],
+		categories: [],
+		employees: [],
+		roles: []
 	},
 	mutations: {
 		setUser(state, payload) {
@@ -62,6 +63,9 @@ export default {
 		setEmployees(state, payload) {
 			state.employees = payload;
 		},
+		setRoles(state, payload) {
+			state.roles = payload;
+		}
 	},
 	actions: {
 		async loadUser({commit,dispatch}) {
@@ -111,14 +115,22 @@ export default {
 
             }
 		},
-		async getProjects() {
+		async getProjects({commit}) {
             try {
                 const data = await axios.get(`/api/project`);
-                this.$store.commit('setProjects',data.data);
+                commit('setProjects',data.data);
             }catch(error) {
 
             }
         },
+		async getRoles({commit}) {
+			try {
+                const data = await axios.get(`/api/role`);
+                commit('setRoles',data.data);
+            } catch(error) {
+
+            }
+		}
 	},
 	getters: {
 		async getUser(state) {

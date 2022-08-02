@@ -24,11 +24,10 @@ window.axios.interceptors.response.use(
         return response;
     },
     error => {
-        // if (error.response.status === 401 && router.currentRoute.path !== '/auth/login') {
-        //     localStorage.removeItem('jwt');
-        //     router.push({name : 'login'})
-        //     store.dispatch('logout');
-        // }
+        if (error.response.status === 401 && router.currentRoute.path !== '/auth/login') {
+            localStorage.removeItem('user');
+            router.push('/auth/login');
+        }
         return Promise.reject(error)
     }
     )
@@ -48,7 +47,7 @@ const app = new Vue({
         'index': index,
     },
     beforeCreate() {
-        if (localStorage.getItem('jwt'))
-        store.dispatch('loadUser')
+        if (localStorage.getItem('user'))
+        store.commit('setLoggedIn', true)
     }
 });

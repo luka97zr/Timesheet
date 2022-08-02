@@ -42,17 +42,13 @@ export default {
     methods: {
         async login() {
 			try {
-				this.$store.commit('setGettingToken', true)
 				this.loading = true;
 				this.errors = null;
 				const data = await axios.post('/api/login',{
 					email: this.email,
                     password: this.password
                 });
-				console.log(this.parseJwt(data.data.token));
-				localStorage.setItem('jwt', data.data.token);
-            	axios.defaults.headers.common['Authorization'] = `Bearer ${data.data.token}`;
-				// await this.$store.dispatch('loadUser');
+				localStorage.setItem('user', JSON.stringify(data.data.user));
 				this.$store.commit('setLoggedIn', true);
 				await this.$router.push({name: 'home'})
             } catch(error) {
@@ -73,6 +69,16 @@ export default {
 				name: name
 			}
 			localStorage.setItem('user', JSON.stringify(user));
+		},
+		getCookie(name) {
+			var nameEQ = name + "=";
+			var ca = document.cookie.split(';');
+			for(var i=0;i < ca.length;i++) {
+				var c = ca[i];
+				while (c.charAt(0)==' ') c = c.substring(1,c.length);
+				if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+			}
+			return null;
 		}
 
     }
