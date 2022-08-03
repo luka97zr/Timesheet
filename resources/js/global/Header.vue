@@ -1,9 +1,9 @@
 <template>
     <header class="header">
         <div class="inner-wrap">
-            <router-link to="/" class="logo">
-                <img src="images/logo/logo-white.png" alt="">
-            </router-link>
+            <a href="/" class="logo">
+                <img :src="Logo" alt="">
+            </a>
             <nav class="navigation">
                 <button id="navigation__link" type="button" class="navigation__link"><span id="navigation__text" class="nav-toggle"></span></button>
                 <ul class="navigation__menu">
@@ -11,7 +11,7 @@
                         <router-link to="/" class="btn navigation__button">Timesheet</router-link>
                     </li>
                     <li class="navigation__list">
-                        <router-link to="/clients" class="btn navigation__button" v-if="isAdmin">Clients</router-link>
+                        <router-link to="/clients" class="btn navigation__button">Clients</router-link>
                     </li>
                     <li class="navigation__list">
                         <router-link to="/projects" class="btn navigation__button" v-if="isAdmin">Projects</router-link>
@@ -47,10 +47,12 @@
 </template>
 
 <script>
+    import Logo from '../../images/logo/logo-white.png';
 export default {
     data() {
         return {
-            isAdmin: false
+            isAdmin: false,
+            Logo
         }
     },
     computed: {
@@ -76,6 +78,9 @@ export default {
         role() {
            this.isAdmin = (JSON.parse(localStorage.getItem('user')).role === 'Admin')? true : false;
         },
+        capitilizeFirstLetter(string) {
+             return string.charAt(0).toUpperCase() + string.slice(1);
+        }
     }
 }
 </script>

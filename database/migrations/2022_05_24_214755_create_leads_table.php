@@ -17,6 +17,7 @@ class CreateLeadsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->date('deleted_at')->nullable();
         });
     }
 

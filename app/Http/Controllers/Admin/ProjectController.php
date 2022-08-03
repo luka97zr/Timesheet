@@ -74,5 +74,6 @@ class ProjectController extends Controller
     public function destroy($project_id)
     {
         Project::destroy($project_id);
+        Project::findOrFail($project_id)->is_deleted = 1;
     }
 }

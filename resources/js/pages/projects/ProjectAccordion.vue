@@ -31,16 +31,12 @@
                         </li>
                         <li class="info__list-title"><h4 class="radio-button__title">Status:</h4></li>
                         <li class="info__list-radio-button">
-                            <input type="radio" class="radio-input" name="radio-group">
+                            <input type="radio" class="radio-input" name="radio-group" v-model="status" :value="1">
                             <label class="radio-label"> <span class="radio-border"></span>Active</label>
                         </li>
                         <li class="info__list-radio-button">
-                            <input type="radio" checked="" class="radio-input" name="radio-group">
+                            <input type="radio" checked="" class="radio-input" name="radio-group" v-model="status" :value="0">
                             <label class="radio-label"> <span class="radio-border"></span>Inactive</label>
-                        </li>
-                        <li class="info__list-radio-button">
-                            <input type="radio" class="radio-input" name="radio-group">
-                            <label class="radio-label"> <span class="radio-border"></span>Archive</label>
                         </li>
                     </ul>
                 </div>
@@ -62,13 +58,14 @@ export default {
             projectId: '',
             clientId: '',
             projectName: '',
-            leadId: null
+            leadId: null,
+            status: 1
         }
     },
     computed: {
         getAllClients() {
             return Object.values(this.$store.state.clients).flat()
-        }
+        },
     },
     methods: {
         openAccordion() {
@@ -80,12 +77,16 @@ export default {
         showClient() {
             this.clientId = this.project.client.id;
         },
+        showStatus() {
+            this.status = this.project.status;
+        },
         async updateProject() {
             try {
                 await axios.put(`/api/project/${this.project.id}`,{
                     client_id: this.clientId,
                     name: this.projectName,
-                    lead_id: this.leadId
+                    lead_id: this.leadId,
+                    status: this.status
                 });
                 this.$emit('resend');
                 this.$emit('updated');
@@ -108,6 +109,7 @@ export default {
             handler() {
                 this.showName();
                 this.showClient();
+                this.showStatus();
             },
             immediate: true
         }

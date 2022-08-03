@@ -26,7 +26,8 @@ class ProjectRequest extends FormRequest
         return [
             'client_id' => ['required', 'exists:clients,id'],
             'lead_id'   => ['required', 'exists:leads,id'],
-            'name'      => ['required', 'unique:projects,name']
+            'name'      => ['required', 'unique:projects,name'],
+            'status'    => ['boolean']
         ];
     }
 }

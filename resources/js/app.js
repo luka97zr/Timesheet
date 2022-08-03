@@ -5,6 +5,7 @@ import Vue from 'vue';
 import Vuex from 'vuex'
 import storeDefinition from './store'
 import  Modal  from './components/Modal/Modal';
+import ModalDelete from './components/ModalDelete/ModalDelete'
 import Vuetify from 'vuetify';
 import VuetifyContainer from './components/vuetify/VuetifyContainer'
 
@@ -13,6 +14,7 @@ require('./bootstrap');
 
 Vue.component('vuetify-container',VuetifyContainer)
 Vue.component('Modal',Modal)
+Vue.component('ModalDelete',ModalDelete)
 
 window.Vue = require('vue').default;
 Vue.use(VueRouter);
@@ -27,6 +29,9 @@ window.axios.interceptors.response.use(
         if (error.response.status === 401 && router.currentRoute.path !== '/auth/login') {
             localStorage.removeItem('user');
             router.push('/auth/login');
+        }
+        if (error.response.status === 403) {
+            router.push('*');
         }
         return Promise.reject(error)
     }

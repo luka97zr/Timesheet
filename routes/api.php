@@ -34,10 +34,10 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('user/project/',UserProjectController::class);
     Route::get('calendar/{from}/{to}',CalendarController::class);
 
-    Route::middleware(['middleware'=>'admin'])->group(function() {
-        Route::resource('client',ClientController::class);
-        Route::resource('country',CountryController::class);
-        Route::resource('project',ProjectController::class);
+    Route::middleware(['admin'])->group(function() {
+        Route::apiResource('client',ClientController::class);
+        Route::apiResource('country',CountryController::class);
+        Route::apiResource('project',ProjectController::class);
         Route::apiResource('employee',EmployeeController::class);
         Route::get('leads',LeadController::class);
         Route::apiResource('category',CategoryController::class);

@@ -76,7 +76,9 @@ const routes = [
       path: '/reports',
       name: 'reports',
       component: Reports,
-      requiresAuth: true
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '*',
@@ -88,12 +90,13 @@ const routes = [
 ]
 const router = new VueRouter({
     routes,
-    mode: 'history'
+    mode: 'history',
+    linkExactActiveClass: "navigation__button--active"
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     if(to.matched.some(record => record.meta.adminRequired)) {
-      if (store.state.isLoggedIn && JSON.parse(localStorage.getItem('user')).role === 'Admin') {
+      if (store.getters.isUserAuth && JSON.parse(localStorage.getItem('user')).role === 'Admin') {
         next();
       } else {
         next('*');

@@ -18,6 +18,7 @@ class CreateUsersProjectsTable extends Migration
             $table->timestamps();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('project_id')->constrained()->cascadeOnDelete();
+            $table->date('deleted_at')->nullable();
         });
     }
 

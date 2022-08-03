@@ -47,7 +47,7 @@
             </div>
             <div class="btn-wrap">
                 <button type="submit" class="btn btn--green"><span>Save changes</span></button>
-                <button type="button" class="btn btn--red"><span>Delete</span></button>
+                <button type="button" class="btn btn--red" @click="deleteEmployee()"><span>Delete</span></button>
                 <button type="button" class="btn btn--orange"><span>Change passwword</span></button>
             </div>
         </form>
@@ -74,14 +74,26 @@ export default {
         showName() {
             this.employeeName = this.employee.name;
         },
+        showEmail() {
+            this.email = this.employee.email;
+        },
         selectRole(id) {
             this.userRole = id;
+        },
+        async deleteEmployee() {
+             try {
+                await axios.delete(`/api/employee/${this.employee.id}`);
+                this.$emit('resend');
+            } catch(error) {
+                console.log(error)
+            }
         }
     },
     watch: {
         employee: {
             handler() {
                 this.showName();
+                this.showEmail()
             },
             immediate: true
         }

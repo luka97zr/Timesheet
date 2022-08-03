@@ -35,9 +35,10 @@
             </div>
             <div class="btn-wrap">
                 <button type="submit" class="btn btn--green" @click.prevent="updateClient()"><span>Save changes</span></button>
-                <button type="button" class="btn btn--red" @click.prevent="deleteClient()"><span>Delete</span></button>
+                <button type="button" class="btn btn--red" @click="deleteModal = !deleteModal"><span>Delete</span></button>
             </div>
         </form>
+    <ModalDelete v-if="deleteModal" :isOpen="deleteModal" @delete="deleteClient()"/>
     </div>
 </template>
 
@@ -48,7 +49,8 @@ export default {
         return {
             isOpened: false,
             countryId: '',
-            clientName: ''
+            clientName: '',
+            deleteModal: false
         }
     },
     methods: {
@@ -78,9 +80,13 @@ export default {
             try {
                 await axios.delete(`/api/client/${this.clientObj.id}`);
                 this.$emit('resend');
+                this.deleteModal = false;
             } catch(error) {
                 console.log(error)
             }
+        },
+        confirmationModal() {
+            this.deleteModal = !this.deleteModal;
         }
     },
     watch: {

@@ -6,7 +6,7 @@
                 <div class="table-navigation">
                     <a href="javascript:;" class="table-navigation__create btn-modal" @click.prevent="openModal()"><span>Create new employee</span></a>
                 </div>
-                <employee-accordion v-for="(employee, index) in $store.state.employees.data" :key="index" :employee="employee"></employee-accordion>
+                <employee-accordion v-for="(employee, index) in $store.state.employees.data" :key="index" :employee="employee" @resend="getEmployees()"></employee-accordion>
             </div>
             <div class="pagination">
                 <ul class="pagination__navigation" v-if="numOfPages">
