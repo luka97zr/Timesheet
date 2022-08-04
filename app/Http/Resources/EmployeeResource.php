@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Role;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EmployeeResource extends JsonResource
@@ -17,7 +18,11 @@ class EmployeeResource extends JsonResource
         return [
             'id'    => $this->id,
             'name'  => $this->name,
-            'email' => $this->email
+            'email' => $this->email,
+            'status'=> $this->status,
+            'role'  => RoleResource::make(
+                $this->whenLoaded('role')
+            )
         ];
     }
 }

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EmployeeStoreRequest;
+use App\Http\Requests\EmployeeUpdateRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Notifications\VerifyUserNotification;
+use Illuminate\Auth\Events\Registered;
 
 class EmployeeController extends Controller
 {
@@ -17,7 +20,7 @@ class EmployeeController extends Controller
     public function index()
     {
         return EmployeeResource::collection(
-            User::paginate(3)
+            User::with('role')->paginate(3)
         );
     }
 
@@ -28,9 +31,13 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmployeeStoreRequest $request)
     {
-        //
+        $data = $request->all();
+        $data['is_verified'] = false;
+        $user = User::create($data);
+
+        event(new Registered($user));
     }
 
     /**
@@ -52,9 +59,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EmployeeUpdateRequest $request, $id)
     {
-        //
+        User::findOrFail($id)->update($request->all());
     }
 
     /**

@@ -9,7 +9,7 @@
                     <ul class="info__wrapper">
                         <li class="info__list">
                             <label class="info__label">Name:</label>
-                            <input type="text" class="in-text" v-model="employeeName">
+                            <input type="text" class="in-text" v-model="userName">
                         </li>
                         <li class="info__list">
                             <label class="report__label">Username:</label>
@@ -27,11 +27,11 @@
                             <h4 class="radio-button__title">Status:</h4>
                         </li>
                         <li class="info__list-radio-button">
-                            <input type="radio" checked="" class="radio-input" name="radio-group-status">
+                            <input type="radio" checked="" class="radio-input" :value="1" name="radio-group-status" v-model="status">
                             <label for="rdo1" class="radio-label"> <span class="radio-border"></span>Active</label>
                         </li>
                         <li class="info__list-radio-button">
-                            <input type="radio" class="radio-input" name="radio-group-status">
+                            <input type="radio" class="radio-input" :value="0" name="radio-group-status" v-model="status">
                             <label class="radio-label"> <span class="radio-border"></span>Inactive</label>
                         </li>
                         <li class="info__list-title">
@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="btn-wrap">
-                <button type="submit" class="btn btn--green"><span>Save changes</span></button>
+                <button type="submit" class="btn btn--green" @click.prevent="updateEmployee()"><span>Save changes</span></button>
                 <button type="button" class="btn btn--red" @click="deleteEmployee()"><span>Delete</span></button>
                 <button type="button" class="btn btn--orange"><span>Change passwword</span></button>
             </div>
@@ -60,11 +60,12 @@ export default {
     data() {
         return {
             isOpened: false,
-            employeeName: null,
+            userName: null,
             username: null,
             hoursPerWeek: null,
             email: null,
-            userRole : ''
+            userRole : null,
+            status: null,
         }
     },
     methods: {
@@ -72,17 +73,39 @@ export default {
             this.isOpened = !this.isOpened;
         },
         showName() {
-            this.employeeName = this.employee.name;
+            this.userName = this.employee.name;
         },
         showEmail() {
             this.email = this.employee.email;
         },
+        showStatus() {
+            this.status = this.employee.status;
+        },
+        showRole() {
+            this.userRole = this.employee.role.id;
+        },
         selectRole(id) {
             this.userRole = id;
         },
+        setUserId() {
+            this.userId = this.employee.id;
+        },
         async deleteEmployee() {
-             try {
+            try {
                 await axios.delete(`/api/employee/${this.employee.id}`);
+                this.$emit('resend');
+            } catch(error) {
+                console.log(error)
+            }
+        },
+        async updateEmployee() {
+            try {
+                await axios.patch(`/api/employee/${this.employee.id}`, {
+                    name: this.userName,
+                    email: this.email,
+                    status: this.status,
+                    role_id: this.userRole
+                });
                 this.$emit('resend');
             } catch(error) {
                 console.log(error)
@@ -93,7 +116,10 @@ export default {
         employee: {
             handler() {
                 this.showName();
-                this.showEmail()
+                this.showEmail();
+                this.showStatus();
+                this.showRole();
+                this.setUserId();
             },
             immediate: true
         }

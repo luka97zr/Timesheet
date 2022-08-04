@@ -112,8 +112,8 @@ export default {
         },
         populateClientAcc() {
             if (this.clientsAcc.length === 0) {
-                this.clientsAcc = Object.values(this.$store.state.projects)
-                this.generateAlphabet(Object.keys(this.$store.state.projects)[0]);
+                this.clientsAcc = Object.values(this.$store.state.clients)
+                this.generateAlphabet(Object.keys(this.$store.state.clients)[0]);
             }
         },
         buildPage() {

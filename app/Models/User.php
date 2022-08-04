@@ -53,6 +53,8 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'status',
+        'role_id'
     ];
 
     /**
@@ -84,6 +86,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function lead() {
         return $this->hasOne(Lead::class);
+    }
+
+    public function role() {
+        return $this->belongsTo(Role::class);
     }
 
     // public function setPasswordAttribute($value) {
