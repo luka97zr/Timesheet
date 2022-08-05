@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\Verified;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeStoreRequest;
 use App\Http\Requests\EmployeeUpdateRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\User;
-use App\Notifications\VerifyUserNotification;
+use App\Models\VerifyUser;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Notification;
 
 class EmployeeController extends Controller
 {
@@ -36,8 +38,8 @@ class EmployeeController extends Controller
         $data = $request->all();
         $data['is_verified'] = false;
         $user = User::create($data);
-
-        event(new Registered($user));
+        $token = VerifyUser::generateToken($user->id);
+        event(new Verified($user, $token));
     }
 
     /**

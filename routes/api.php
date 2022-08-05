@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\VerifyUserController;
 use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\LogController;
 use App\Http\Controllers\User\UserProjectController;
@@ -26,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('login',[JWTAuthController::class, 'login']);
-
+Route::get('/verify', VerifyUserController::class);
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('user',[JWTAuthController::class, 'getUser']);
     Route::get('logout', [JWTAuthController::class, 'logout']);

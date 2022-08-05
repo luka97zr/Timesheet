@@ -9,6 +9,7 @@ import Categories from './pages/categories/Categories'
 import Employees from './pages/employees/Employees'
 import Reports from './pages/reports/Reports'
 import NotFound from './pages/404/NotFound'
+import Verify from './pages/verify/Verify'
 
 
 const routes = [
@@ -83,6 +84,13 @@ const routes = [
     {
       path: '*',
       component: NotFound,
+      meta: {
+          hideNavbar: true
+      }
+    },
+    {
+      path: '/verify',
+      component: Verify,
       meta: {
           hideNavbar: true
       }

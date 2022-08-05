@@ -55,7 +55,7 @@
                 </ul>
                 </div>
                 <div class="btn-wrap">
-                    <button type="submit" class="btn btn--green"><span>Invite an employee</span></button>
+                    <button type="submit" class="btn btn--green" @click.prevent="inviteEmployee()"><span>Invite an employee</span></button>
                 </div>
             </form>
         </div>
@@ -70,19 +70,23 @@ export default {
             name: null,
             username: null,
             hoursPerWeek: null,
-            email: null
+            email: null,
+            status: 1,
+            role: 1
         }
     },
     methods: {
         closeModal() {
             this.$emit('closeModal')
         },
-        async createClient() {
+        async inviteEmployee() {
           try {
               this.errors = [];
-              await axios.post('/api/client', {
-                  country_id: this.countryId,
-                  name: this.clientName
+              await axios.post('/api/employee', {
+                  email: this.email,
+                  name: this.name,
+                  status: this.status,
+                  role_id: this.role
               })
             this.$emit('closeModal')
             this.$emit('resend');

@@ -2,26 +2,28 @@
 
 namespace App\Notifications;
 
-use App\Traits\EmailVerfiyTokenTrait;
+use App\Models\VerifyUser;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Hash;
 
 class VerifyUserNotification extends Notification
 {
     use Queueable;
-    use EmailVerfiyTokenTrait;
 
-    public $id;
+    public $userId;
+    public $token;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($id)
+    public function __construct($userId, $token)
     {
-        $this->id = $id;
+        $this->userId = $userId;
+        $this->token = $token;
     }
 
     /**
@@ -43,9 +45,10 @@ class VerifyUserNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        echo $this->token.env('VERIFY_SECRET');
         return (new MailMessage)
                     ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/token='.EmailVerfiyTokenTrait::generate().'id='.$this->id))
+                    ->action('Notification Action', url('/verify?token=' . bcrypt( $this->token.env('VERIFY_SECRET')) . '&uuid=' . $this->userId))
                     ->line('Thank you for using our application!');
     }
 

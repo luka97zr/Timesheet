@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\Verified;
 use App\Notifications\VerifyUserNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -26,8 +27,8 @@ class SendUserVerifyNotification
      * @param  object Registered $event
      * @return void
      */
-    public function handle(Registered $event)
+    public function handle(Verified $event)
     {
-        Notification::send($event->user, new VerifyUserNotification($event->user->id));
+        Notification::send($event->user, new VerifyUserNotification($event->user->id, $event->token));
     }
 }
