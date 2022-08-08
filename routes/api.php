@@ -27,11 +27,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('login',[JWTAuthController::class, 'login']);
-Route::get('/verify', VerifyUserController::class);
+Route::prefix('verify')->group(function() {
+    Route::get('/', [VerifyUserController::class,'index']);
+    Route::post('/user/create', [VerifyUserController::class, 'store']);
+});
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('user',[JWTAuthController::class, 'getUser']);
     Route::get('logout', [JWTAuthController::class, 'logout']);
-    Route::resource('logs',LogController::class);
+    Route::apiResource('logs',LogController::class);
     Route::get('user/project/',UserProjectController::class);
     Route::get('calendar/{from}/{to}',CalendarController::class);
 

@@ -45,7 +45,6 @@ class VerifyUserNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        echo $this->token.env('VERIFY_SECRET');
         return (new MailMessage)
                     ->line('The introduction to the notification.')
                     ->action('Notification Action', url('/verify?token=' . bcrypt( $this->token.env('VERIFY_SECRET')) . '&uuid=' . $this->userId))

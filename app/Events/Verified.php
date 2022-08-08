@@ -14,8 +14,8 @@ class Verified
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user;
-    public $token;
+    private $user;
+    private $token;
     /**
      * Create a new event instance.
      *
@@ -27,6 +27,13 @@ class Verified
         $this->token = $token;
     }
 
+    public function getUser() {
+        return $this->user;
+    }
+
+    public function getToken() {
+        return $this->token;
+    }
     /**
      * Get the channels the event should broadcast on.
      *

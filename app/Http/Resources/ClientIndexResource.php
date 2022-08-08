@@ -18,7 +18,7 @@ class ClientIndexResource extends JsonResource
         return [
             'id'    => $this->id,
             'name'  => $this->name,
-            'country' => CountryResource::make($this->whenLoaded('country'))
+            'country' => CountryResource::make($this->whenLoaded('country')),
         ];
     }
 }

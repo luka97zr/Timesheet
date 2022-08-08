@@ -14,7 +14,7 @@ export default {
     },
     methods: {
         checkCountries() {
-            if (this.$store.state.countries.length <= 0) this.$store.dispatch('getCountries');
+            if (this.$store.state.countries.length <= 0 && this.$route.path !== '/verify') this.$store.dispatch('getCountries');
         }
     },
 

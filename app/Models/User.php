@@ -52,7 +52,9 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'status',
-        'role_id'
+        'role_id',
+        'is_verified',
+        'email_verified_at'
     ];
 
     /**
@@ -94,7 +96,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(VerifyUser::class);
     }
 
-    // public function setPasswordAttribute($value) {
-    //     $this->attributes['password'] = bcrypt($value);
-    // }
+    public function setPasswordAttribute($value) {
+        $this->attributes['password'] = bcrypt($value);
+    }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CratePasswordUsersNullableTable extends Migration
+class CreatePasswordUsersNullableTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class CratePasswordUsersNullableTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('password')->nullable()->change();
-            $table->boolean('is_verified')->default(1);
+            $table->boolean('is_verified')->nullable();
         });
     }
 
@@ -28,7 +28,7 @@ class CratePasswordUsersNullableTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('password')->nullable()->change();
-            $table->boolean('is_verified')->default(1);
+            $table->boolean('is_verified')->nullable();
         });
     }
 }

@@ -29,6 +29,6 @@ class SendUserVerifyNotification
      */
     public function handle(Verified $event)
     {
-        Notification::send($event->user, new VerifyUserNotification($event->user->id, $event->token));
+        Notification::send($event->getUser(), new VerifyUserNotification($event->getUser()->id, $event->getToken()));
     }
 }
