@@ -48,6 +48,5 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::get('leads',LeadController::class);
         Route::apiResource('category',CategoryController::class);
         Route::get('role', RoleController::class);
-
     });
 });

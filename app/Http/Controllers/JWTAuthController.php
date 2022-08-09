@@ -21,7 +21,7 @@ class JWTAuthController extends Controller
             'password'  => 'required'
         ]);
 
-        if (!$jwt_token = auth()->attempt($data)) {
+        if (!$jwt_token = auth()->attempt($data, true)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid Email or Password',

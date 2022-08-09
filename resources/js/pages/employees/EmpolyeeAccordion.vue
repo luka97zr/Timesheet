@@ -23,6 +23,13 @@
                             <label class="report__label">Email:</label>
                             <input type="text" class="in-text" v-model="email">
                         </li>
+                        <li class="info__list">
+                            <label class="report__label">Projects</label>
+                            <button type="button" class="report_button in-text" @click="toggleDropdown()">Select Projects</button>
+                            <ul class="report__container" :class="{'active' : projectSelect}">
+                                <li class="report__select" v-for="(project, index) in Object.values($store.state.projects).flat()" :key="index"><input type="checkbox" class="in-text">{{project.name}}</li>
+                            </ul>
+                        </li>
                         <li class="info__list-title">
                             <h4 class="radio-button__title">Status:</h4>
                         </li>
@@ -46,7 +53,7 @@
                 </div>
             </div>
             <div class="btn-wrap">
-                <button type="submit" class="btn btn--green" @click.prevent="updateEmployee()"><span>Save changes</span></button>
+                <button type="submit" class="btn btn--green" @click="updateEmployee()"><span>Save changes</span></button>
                 <button type="button" class="btn btn--red" @click="deleteEmployee()"><span>Delete</span></button>
                 <button type="button" class="btn btn--orange" @click="changePassword()"><span>Change passwword</span></button>
             </div>
@@ -66,7 +73,11 @@ export default {
             email: null,
             userRole : null,
             status: null,
+            projectSelect: false
         }
+    },
+    created() {
+        if(this.$store.state.projects.length <= 0) this.$store.dispatch('getProjects');
     },
     methods: {
         openAccordion() {
@@ -89,6 +100,9 @@ export default {
         },
         setUserId() {
             this.userId = this.employee.id;
+        },
+        toggleDropdown() {
+            this.projectSelect = !this.projectSelect
         },
         async deleteEmployee() {
             try {
@@ -136,6 +150,24 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.report__container {
+    overflow: auto;
+    height: 100px;
+    display: none;
+}
+.report__container.active {
+    display: block;
+}
+.report__select {
+    display: grid;
+   grid-template-columns: 1fr 1fr;
+   grid-template-rows: 1fr;
+   align-items: center;
+   gap: 10px;
+}
+.report_button {
+    background-color: #f1592a;
+    color: white;
+}
 </style>

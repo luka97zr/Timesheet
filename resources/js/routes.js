@@ -10,6 +10,7 @@ import Employees from './pages/employees/Employees'
 import Reports from './pages/reports/Reports'
 import NotFound from './pages/404/NotFound'
 import Verify from './pages/verify/Verify'
+import AsignProject from './pages/asign/AsignProject'
 
 
 const routes = [
@@ -73,6 +74,15 @@ const routes = [
             requiresAuth: true
         }
     },
+    {
+      path: '/asign/project',
+      name: 'asign',
+      component: AsignProject,
+      meta: {
+          adminRequired: true,
+          requiresAuth: true
+      }
+  },
     {
       path: '/reports',
       name: 'reports',
