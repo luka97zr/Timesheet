@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ChangePasswordController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\CountryController;
@@ -27,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('login',[JWTAuthController::class, 'login']);
+Route::post('password/change',[ChangePasswordController::class, 'store']);
 Route::prefix('verify')->group(function() {
     Route::get('/', [VerifyUserController::class,'index']);
     Route::post('/user/create', [VerifyUserController::class, 'store']);

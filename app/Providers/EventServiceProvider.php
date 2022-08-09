@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\ChangePassword;
+use App\Events\UpdatePassword;
 use App\Events\Verified;
 use App\Listeners\SendUserVerifyNotification;
 use Illuminate\Auth\Events\Registered;
@@ -20,7 +22,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        Verified::class => [
+        UpdatePassword::class => [
             SendUserVerifyNotification::class
         ]
     ];

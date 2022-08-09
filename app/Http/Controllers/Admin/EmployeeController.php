@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\UpdatePassword;
 use App\Events\Verified;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeStoreRequest;
@@ -9,8 +10,6 @@ use App\Http\Requests\EmployeeUpdateRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\User;
 use App\Models\VerifyUser;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Notification;
 
 class EmployeeController extends Controller
 {
@@ -39,7 +38,7 @@ class EmployeeController extends Controller
         $data['is_verified'] = false;
         $user = User::create($data);
         $token = VerifyUser::generateToken($user->id);
-        event(new Verified($user, $token));
+        event(new UpdatePassword($user, $token));
     }
 
     /**

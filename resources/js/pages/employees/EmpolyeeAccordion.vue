@@ -48,7 +48,7 @@
             <div class="btn-wrap">
                 <button type="submit" class="btn btn--green" @click.prevent="updateEmployee()"><span>Save changes</span></button>
                 <button type="button" class="btn btn--red" @click="deleteEmployee()"><span>Delete</span></button>
-                <button type="button" class="btn btn--orange"><span>Change passwword</span></button>
+                <button type="button" class="btn btn--orange" @click="changePassword()"><span>Change passwword</span></button>
             </div>
         </form>
     </div>
@@ -109,6 +109,15 @@ export default {
                 this.$emit('resend');
             } catch(error) {
                 console.log(error)
+            }
+        },
+        async changePassword() {
+            try {
+                axios.post('/api/password/change', {
+                    user_id: this.userId
+                })
+            }catch(error) {
+
             }
         }
     },

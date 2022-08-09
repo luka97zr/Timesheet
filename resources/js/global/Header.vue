@@ -11,7 +11,7 @@
                         <router-link to="/" class="btn navigation__button">Timesheet</router-link>
                     </li>
                     <li class="navigation__list">
-                        <router-link to="/clients" class="btn navigation__button">Clients</router-link>
+                        <router-link to="/clients" class="btn navigation__button" v-if="isAdmin">Clients</router-link>
                     </li>
                     <li class="navigation__list">
                         <router-link to="/projects" class="btn navigation__button" v-if="isAdmin">Projects</router-link>
