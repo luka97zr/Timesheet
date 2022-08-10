@@ -20,13 +20,16 @@ class ClientController extends Controller
      */
     public function index()
     {
-
         $clients = ClientIndexResource::collection(
             Client::with('country')->orderBy('name')->get()
         );
-
        return $this->getResults($clients);
+    }
 
+    public function allClients() {
+        return ClientIndexResource::collection(
+            Client::all()
+        );
     }
 
     /**
@@ -47,10 +50,10 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $clients
      * @return \Illuminate\Http\Response
      */
-    public function show($term)
+    public function show($letter)
     {
         return ClientIndexResource::collection(
-            Client::where('name','LIKE','%'.$term.'%')->with('country')->get()
+            Client::where('name','LIKE', $letter.'%')->with('country')->paginate(3)
         );
     }
 

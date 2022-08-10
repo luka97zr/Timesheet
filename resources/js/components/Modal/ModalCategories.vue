@@ -2,7 +2,7 @@
     <Modal :showModal="showModal">
         <div class="modal__content">
             <h2 class="heading">Create new category</h2>
-            <a href="#" class="modal__close" @click.prevent="closeModal()">
+            <a href="#" class="modal__close" @click="closeModal()">
                 <span class="modal__icon"></span>
             </a>
             <form class="info" action="javascript:;" >

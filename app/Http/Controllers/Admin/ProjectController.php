@@ -27,6 +27,12 @@ class ProjectController extends Controller
 
     }
 
+
+    public function allProjects() {
+       return ProjectResource::collection(
+            Project::where('status', 1)->get()
+       );
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -45,10 +51,10 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $term)
+    public function show($letter)
     {
         return ProjectResource::collection(
-            Project::where('name','LIKE','%'.$term.'%')->with('client')->get()
+            Project::where('name','LIKE', $letter.'%')->with('client')->paginate(3)
         );
 
     }

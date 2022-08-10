@@ -13,6 +13,9 @@ export default {
 		totalHours: 0,
 		gotToken: false,
 		countries: [],
+		clientsAlphabet: [],
+		projectsAlphabet: [],
+		categoriesAlphabet: [],
 		clients: [],
 		projects: [],
 		leads: [],
@@ -48,10 +51,16 @@ export default {
 		setCountries(state, payload) {
 			state.countries = payload;
 		},
-		setClients(state, payload) {
+		setClientsAlphabet(state, payload) {
+			state.clientsAlphabet = payload;
+		},
+		setAllClients(state, payload) {
 			state.clients = payload;
 		},
-		setProjects(state, payload) {
+		setProjectsAlphabet(state, payload) {
+			state.projectsAlphabet = payload;
+		},
+		setAllProjects(state, payload) {
 			state.projects = payload;
 		},
 		setLeads(state,payload) {
@@ -59,6 +68,9 @@ export default {
 		},
 		setCategories(state,payload) {
 			state.categories = payload;
+		},
+		setCategoriesAlphabet(state, payload) {
+			state.categoriesAlphabet = payload;
 		},
 		setEmployees(state, payload) {
 			state.employees = payload;
@@ -101,8 +113,8 @@ export default {
         },
 		async getClients({commit}) {
 			try {
-                const data = await axios.get(`/api/client`);
-                commit('setClients', data.data);
+                const data = await axios.get(`/api/client/all`);
+                commit('setAllClients', data.data.data);
             }catch(error) {
 
             }
@@ -117,8 +129,8 @@ export default {
 		},
 		async getProjects({commit}) {
             try {
-                const data = await axios.get(`/api/project`);
-                commit('setProjects',data.data);
+                const data = await axios.get(`/api/project/all`);
+                commit('setAllProjects',data.data.data);
             }catch(error) {
 
             }

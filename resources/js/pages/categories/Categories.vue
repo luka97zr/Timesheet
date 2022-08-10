@@ -4,7 +4,7 @@
             <div class="main-content">
                 <h2 class="main-content__title">Category</h2>
                 <div class="table-navigation">
-                    <a href="javascript:;" class="table-navigation__create btn-modal"  @click.prevent="openModal()"><span>Create new category</span></a>
+                    <a href="javascript:;" class="table-navigation__create btn-modal"  @click="openModal()"><span>Create new category</span></a>
                     <form class="table-navigation__input-container" action="javascript:;">
                         <input type="text" class="table-navigation__search">
                         <button type="submit" class="icon__search"></button>
@@ -13,22 +13,22 @@
                 <div class="alphabet">
                     <ul class="alphabet__navigation">
                         <li class="alphabet__list" v-for="(letter,index) in getAlphabet" :key="index">
-                            <a class="alphabet__button" href="javascript:;" :class="{'alphabet__button--disabled' : !checkCategoryName(letter)}" @click.prevent="generateAlphabet(letter)">{{letter}}</a>
+                            <a class="alphabet__button" href="javascript:;" :class="{'alphabet__button--disabled' : !checkCategoryName(letter)}" @click="getCategories(letter)">{{letter}}</a>
                         </li>
                     </ul>
                 </div>
-                <category-accordion v-for="(category, index) in categories" :key="index" :category="category" @resend="getProjects()"></category-accordion>
+                <category-accordion v-for="(category, index) in categories" :key="index" :category="category" @resend="getCategoriesAlphabet()"></category-accordion>
             </div>
-            <div class="pagination" v-if="categoryAcc.length>0">
+            <div class="pagination" v-if="categories.length>0">
                 <ul class="pagination__navigation">
                     <li class="pagination__list">
-                        <a class="pagination__button" href="javascript:;" @click.prevent="prevPage()">Previous</a>
+                        <a class="pagination__button" href="javascript:;" @click="prevPage()">Previous</a>
                     </li>
                     <li class="pagination__list" v-for="(page, index) in numOfPages" :key="index">
-                        <a class="pagination__button pagination__button--active" href="javascript:;" @click.prevent="goToPage(page)">{{page}}</a>
+                        <a class="pagination__button pagination__button--active" href="javascript:;" @click="goToPage(page)">{{page}}</a>
                     </li>
                     <li class="pagination__list">
-                        <a class="pagination__button" href="javascript:;" @click.prevent="nextPage()">Next</a>
+                        <a class="pagination__button" href="javascript:;" @click="nextPage()">Next</a>
                     </li>
                 </ul>
             </div>
@@ -37,8 +37,7 @@
             :showModal="showNewModal"
             @closed="this.showNewModal = false"
             @closeModal="closeModal()"
-            @resend="getCategories()">
-
+            @resend="getCategoriesAlphabet()">
         </modal-categories>
     </div>
 </template>
@@ -55,31 +54,23 @@ export default {
         return {
             showNewModal: false,
             categories: [],
-            categoryAcc: [],
+            categoryKey: null,
+            numOfPages: null,
             isLoaded: true,
             perPage: 3,
             currentPage: 1,
             isSuccess: false,
             search: '',
-            typingTimer: null
+            typingTimer: null,
+            categoriesAlphabet: null
         }
     },
     created() {
-        if(this.$store.state.categories.length === 0)  this.getCategories();
-        this.populateCategoryAcc()
+        if(this.$store.state.categories.length === 0)  this.getCategoriesAlphabet();
     },
      computed: {
         getAlphabet() {
            return [...Array(26)].map((_,i) => String.fromCharCode(i + 65))
-        },
-        numOfPages() {
-            return Math.ceil(this.categoryAcc.length / this.perPage);
-        },
-        startPage() {
-            return (this.currentPage - 1) * this.perPage;
-        },
-        endPage() {
-            return this.startPage + this.perPage;
         },
     },
     methods: {
@@ -90,36 +81,18 @@ export default {
             this.showNewModal = false
         },
         checkCategoryName(letter) {
-            return Object.keys(this.$store.state.categories).some(el => el === letter);
-        },
-        generateAlphabet(letter) {
-            if(!this.$store.state.categories[letter]) return;
-            this.currentPage = 1;
-            this.categoryAcc = Object.values(this.$store.state.categories[letter])
-            this.buildPage();
-        },
-        buildPage() {
-            this.categories = this.categoryAcc.slice(this.startPage, this.endPage);
-        },
-        populateCategoryAcc() {
-            if (this.categoryAcc.length === 0) {
-                this.categoryAcc = Object.values(this.$store.state.categories)
-                this.generateAlphabet(Object.keys(this.$store.state.categories)[0]);
-            }
+            return (this.$store.state.categoriesAlphabet.includes(letter))? true : false;
         },
         nextPage() {
             if (this.currentPage >= this.numOfPages) return
             this.currentPage++;
-            this.buildPage()
         },
         prevPage() {
             if (this.currentPage <= 1) return
             this.currentPage--;
-            this.buildPage()
         },
         goToPage(page) {
             this.currentPage = page;
-            this.buildPage();
         },
         timeout(ms) {
             return new Promise((resolve)=> {
@@ -127,12 +100,23 @@ export default {
                 return this.typingTimer = setTimeout(()=> resolve(true), ms);
             })
         },
-        async getCategories() {
+        async getCategoriesAlphabet() {
             try {
                 this.isLoaded = false
-                const data = await axios.get(`/api/category`);
-                this.$store.commit('setCategories',data.data);
-                this.generateAlphabet(Object.keys(this.$store.state.categories)[0]);
+                this.categoriesAlphabet = ( await axios.get(`/api/category`)).data;
+                this.isLoaded = true
+                this.$store.commit('setCategoriesAlphabet', this.categoriesAlphabet)
+            }catch(error) {
+
+            }
+        },
+        async getCategories(letter) {
+            try {
+                this.isLoaded = false
+                this.categoryKey = letter;
+                const data =( await axios.get(`/api/category/${letter}?page=${this.currentPage}`)).data;
+                this.categories = data.data;
+                this.numOfPages = data.meta.last_page;
                 this.isLoaded = true
             }catch(error) {
 

@@ -37,12 +37,14 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('user',[JWTAuthController::class, 'getUser']);
     Route::get('logout', [JWTAuthController::class, 'logout']);
     Route::apiResource('logs',LogController::class);
-    Route::get('user/project/',UserProjectController::class);
+    Route::apiResource('user/project/',UserProjectController::class);
     Route::get('calendar/{from}/{to}',CalendarController::class);
 
     Route::middleware(['admin'])->group(function() {
+        Route::get('client/all',[ClientController::class, 'allClients']);
         Route::apiResource('client',ClientController::class);
         Route::apiResource('country',CountryController::class);
+        Route::get('project/all',[ProjectController::class, 'allProjects']);
         Route::apiResource('project',ProjectController::class);
         Route::apiResource('employee',EmployeeController::class);
         Route::get('leads',LeadController::class);

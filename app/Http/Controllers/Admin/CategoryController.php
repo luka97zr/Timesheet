@@ -24,6 +24,7 @@ class CategoryController extends Controller
        return $this->getResults($categories);
     }
 
+
     /**
      * Store a newly created resource in storage.
      *
@@ -34,6 +35,20 @@ class CategoryController extends Controller
     {
         Category::create($request->only('name'));
         return response()->json(['success'=>true]);
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Project  $project
+     * @return \Illuminate\Http\Response
+     */
+    public function show($letter)
+    {
+        return CategoryResource::collection(
+            Category::where('name','LIKE', $letter.'%')->paginate(3)
+        );
+
     }
 
 

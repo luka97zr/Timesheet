@@ -13,16 +13,16 @@
                 <div class="alphabet">
                     <ul class="alphabet__navigation">
                         <li class="alphabet__list" v-for="(letter,index) in getAlphabet" :key="index">
-                            <a class="alphabet__button" :class="{'alphabet__button--disabled' : !checkClientName(letter)}" href="javascript:;" @click.prevent="generateAlphabet(letter)" >{{letter}}</a>
+                            <a class="alphabet__button" :class="{'alphabet__button--disabled' : !checkClientName(letter)}" href="javascript:;" @click.prevent="getClients(letter)" >{{letter}}</a>
                         </li>
                     </ul>
                 </div>
-                <client-accordion v-for="(client, index) in clients" :key="index" :client-obj="client" @resend="getClients()" @updated="clientUpdatedSuccessfuly()"></client-accordion>
+                <client-accordion v-for="(client, index) in clients" :key="index" :client-obj="client" @resend="getClientsAlphabet()" @updated="clientUpdatedSuccessfuly()"></client-accordion>
                 <vuetify-container>
                     <alert :isSuccess="isSuccess"></alert>
                 </vuetify-container>
             </div>
-            <div class="pagination" v-if="clientsAcc.length>0">
+            <div class="pagination" v-if="clients.length>0">
                 <ul class="pagination__navigation">
                     <li class="pagination__list">
                         <a class="pagination__button" href="javascript:;" @click.prevent="prevPage()">Previous</a>
@@ -40,7 +40,7 @@
             :showModal="showNewModal"
             @closed="this.showNewModal = false"
             @closeModal="closeModal()"
-            @resend="getClients()"
+            @resend="getClientsAlphabet()"
         >
         </modal-clients>
         <v-overlay value="overlay" v-if="!isLoaded">
@@ -64,12 +64,13 @@ export default {
     },
     data() {
         return {
+            clientsAlphabet: [],
+            clientKey: null,
+            checkAlphabet: false,
+            numOfPages: null,
             showNewModal: false,
             clients: {},
-            clientsAcc: [],
-            perPage: 3,
             currentPage: 1,
-            clientCopy: [],
             isLoaded: true,
             isSuccess: false,
             search: '',
@@ -77,22 +78,13 @@ export default {
         }
     },
     created() {
-        if(this.$store.state.clients.length <= 0) this.getClients();
-        this.populateClientAcc()
+        if(this.$store.state.clientsAlphabet.length <= 0)
+        this.getClientsAlphabet();
     },
     computed: {
         getAlphabet() {
            return [...Array(26)].map((_,i) => String.fromCharCode(i + 65))
         },
-        numOfPages() {
-            return Math.ceil(this.clientsAcc.length / this.perPage);
-        },
-        startPage() {
-            return (this.currentPage - 1) * this.perPage;
-        },
-        endPage() {
-            return this.startPage + this.perPage;
-        }
     },
     methods: {
         openModal() {
@@ -102,32 +94,15 @@ export default {
             this.showNewModal = false
         },
         checkClientName(letter) {
-            return Object.keys(this.$store.state.clients).some(el => el === letter);
-        },
-        generateAlphabet(letter) {
-            if(!this.$store.state.clients[letter]) return;
-            this.currentPage = 1;
-            this.clientsAcc = Object.values(this.$store.state.clients[letter])
-            this.buildPage()
-        },
-        populateClientAcc() {
-            if (this.clientsAcc.length === 0) {
-                this.clientsAcc = Object.values(this.$store.state.clients)
-                this.generateAlphabet(Object.keys(this.$store.state.clients)[0]);
-            }
-        },
-        buildPage() {
-            this.clients = this.clientsAcc.slice(this.startPage, this.endPage);
+            return (this.$store.state.clientsAlphabet.includes(letter))? true : false;
         },
         nextPage() {
             if (this.currentPage >= this.numOfPages) return
             this.currentPage++;
-            this.buildPage()
         },
         prevPage() {
             if (this.currentPage <= 1) return
             this.currentPage--;
-            this.buildPage()
         },
         clientUpdatedSuccessfuly() {
             this.isSuccess = true;
@@ -143,14 +118,24 @@ export default {
         },
         goToPage(page) {
             this.currentPage = page;
-            this.buildPage();
         },
-        async getClients() {
+        async getClientsAlphabet() {
             try {
                 this.isLoaded = false
-                const data = await axios.get(`/api/client`);
-                this.$store.commit('setClients', data.data);
-                this.generateAlphabet(Object.keys(this.$store.state.clients)[0]);
+                this.clientsAlphabet = ( await axios.get(`/api/client`)).data;
+                this.isLoaded = true
+                this.$store.commit('setClientsAlphabet', this.clientsAlphabet)
+            }catch(error) {
+
+            }
+        },
+        async getClients(letter) {
+            try {
+                this.isLoaded = false
+                this.clientKey = letter;
+                const data =( await axios.get(`/api/client/${letter}?page=${this.currentPage}`)).data;
+                this.clients = data.data;
+                this.numOfPages = data.meta.last_page;
                 this.isLoaded = true
             }catch(error) {
 
@@ -176,6 +161,11 @@ export default {
         search: {
             handler() {
                this.searchClients()
+            }
+        },
+        currentPage: {
+            handler() {
+                this.getClients(this.clientKey);
             }
         }
     }

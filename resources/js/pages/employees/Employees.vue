@@ -53,6 +53,7 @@ export default {
     created() {
         if(this.$store.state.employees.length <= 0) this.getEmployees();
         if(this.$store.state.roles.length <= 0) this.$store.dispatch('getRoles');
+        if(this.$store.state.projects.length <= 0) this.$store.dispatch('getProjects');
     },
     computed: {
         numOfPages() {

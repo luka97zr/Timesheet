@@ -23,13 +23,6 @@
                             <label class="report__label">Email:</label>
                             <input type="text" class="in-text" v-model="email">
                         </li>
-                        <li class="info__list">
-                            <label class="report__label">Projects</label>
-                            <button type="button" class="report_button in-text" @click="toggleDropdown()">Select Projects</button>
-                            <ul class="report__container" :class="{'active' : projectSelect}">
-                                <li class="report__select" v-for="(project, index) in Object.values($store.state.projects).flat()" :key="index"><input type="checkbox" class="in-text">{{project.name}}</li>
-                            </ul>
-                        </li>
                         <li class="info__list-title">
                             <h4 class="radio-button__title">Status:</h4>
                         </li>
@@ -57,13 +50,19 @@
                 <button type="button" class="btn btn--red" @click="deleteEmployee()"><span>Delete</span></button>
                 <button type="button" class="btn btn--orange" @click="changePassword()"><span>Change passwword</span></button>
             </div>
+            <asign-table :employee="employee"></asign-table>
         </form>
     </div>
 </template>
 
 <script>
+import AsignTable from '../../components/AsignProject/AsignTable.vue';
+
 export default {
     props: ['employee'],
+    components: {
+        AsignTable,
+    },
     data() {
         return {
             isOpened: false,
@@ -75,9 +74,6 @@ export default {
             status: null,
             projectSelect: false
         }
-    },
-    created() {
-        if(this.$store.state.projects.length <= 0) this.$store.dispatch('getProjects');
     },
     methods: {
         openAccordion() {
@@ -151,6 +147,11 @@ export default {
 </script>
 
 <style scoped>
+.project-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
 .report__container {
     overflow: auto;
     height: 100px;

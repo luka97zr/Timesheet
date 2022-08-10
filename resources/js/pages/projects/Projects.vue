@@ -13,16 +13,16 @@
             <div class="alphabet">
                 <ul class="alphabet__navigation">
                     <li class="alphabet__list" v-for="(letter,index) in getAlphabet" :key="index">
-                        <a class="alphabet__button" :class="{'alphabet__button--disabled' : !checkProjectName(letter)}" href="javascript:;" @click.prevent="generateAlphabet(letter)" >{{letter}}</a>
+                        <a class="alphabet__button" :class="{'alphabet__button--disabled' : !checkProjectName(letter)}" href="javascript:;" @click.prevent="getProjects(letter)" >{{letter}}</a>
                     </li>
                 </ul>
             </div>
-            <project-accordion v-for="(project, index) in projects" :key="index" :project="project" @resend="getProjects()"></project-accordion>
+            <project-accordion v-for="(project, index) in projects" :key="index" :project="project" @resend="getProjectsAlphabet()"></project-accordion>
             <vuetify-container>
                 <alert :isSuccess="isSuccess"></alert>
             </vuetify-container>
         </div>
-        <div class="pagination" v-if="projectsAcc.length>0">
+        <div class="pagination"  v-if="projects.length>0">
             <ul class="pagination__navigation">
                 <li class="pagination__list">
                     <a class="pagination__button" href="javascript:;" @click.prevent="prevPage()">Previous</a>
@@ -39,7 +39,7 @@
     <modal-project
         :showModal="showNewModal"
         @closeModal="closeModal()"
-        @resend="getProjects()">
+        @resend="getProjectsAlphabet()">
     </modal-project>
     <v-overlay value="overlay" v-if="!isLoaded">
         <v-progress-circular
@@ -63,10 +63,11 @@ export default {
      data() {
         return {
             showNewModal: false,
+            projectsAlphabet: null,
+            projectKey: null,
             projects: [],
-            projectsAcc: [],
+            numOfPages: null,
             isLoaded: true,
-            perPage: 3,
             currentPage: 1,
             isSuccess: false,
             search: '',
@@ -74,23 +75,13 @@ export default {
         }
     },
     created() {
-        if(this.$store.state.projects.length === 0)  this.getProjects();
-        this.populateProjectAcc()
+         if(this.$store.state.projectsAlphabet.length <= 0) this.getProjectsAlphabet();
         this.checkClients();
         this.checkLeads();
     },
      computed: {
         getAlphabet() {
            return [...Array(26)].map((_,i) => String.fromCharCode(i + 65))
-        },
-        numOfPages() {
-            return Math.ceil(this.projectsAcc.length / this.perPage);
-        },
-        startPage() {
-            return (this.currentPage - 1) * this.perPage;
-        },
-        endPage() {
-            return this.startPage + this.perPage;
         },
     },
     methods: {
@@ -101,36 +92,18 @@ export default {
             this.showNewModal = false
         },
         checkProjectName(letter) {
-            return Object.keys(this.$store.state.projects).some(el => el === letter);
-        },
-        generateAlphabet(letter) {
-            if(!this.$store.state.projects[letter]) return;
-            this.currentPage = 1;
-            this.projectsAcc = Object.values(this.$store.state.projects[letter])
-            this.buildPage();
-        },
-        buildPage() {
-            this.projects = this.projectsAcc.slice(this.startPage, this.endPage);
-        },
-        populateProjectAcc() {
-            if (this.projectsAcc.length === 0) {
-                this.projectsAcc = Object.values(this.$store.state.projects)
-                this.generateAlphabet(Object.keys(this.$store.state.projects)[0]);
-            }
+             return (this.$store.state.projectsAlphabet.includes(letter))? true : false;
         },
         nextPage() {
             if (this.currentPage >= this.numOfPages) return
             this.currentPage++;
-            this.buildPage()
         },
         prevPage() {
             if (this.currentPage <= 1) return
             this.currentPage--;
-            this.buildPage()
         },
         goToPage(page) {
             this.currentPage = page;
-            this.buildPage();
         },
         checkClients() {
             if(this.$store.state.clients.length <= 0)
@@ -146,13 +119,24 @@ export default {
                 return this.typingTimer = setTimeout(()=> resolve(true), ms);
             })
         },
-        async getProjects() {
+        async getProjectsAlphabet() {
             try {
                 this.isLoaded = false
-                const data = await axios.get(`/api/project`);
-                this.$store.commit('setProjects',data.data);
-                this.generateAlphabet(Object.keys(this.$store.state.projects)[0]);
+                this.projectsAlphabet = ( await axios.get(`/api/project`)).data;
                 this.isLoaded = true
+                this.$store.commit('setProjectsAlphabet', this.projectsAlphabet)
+            }catch(error) {
+
+            }
+        },
+        async getProjects(letter) {
+            try {
+                this.isLoaded = false
+                this.projectKey = letter;
+                const data = (await axios.get(`/api/project/${letter}?page=${this.currentPage}`)).data;
+                this.isLoaded = true
+                this.projects = data.data;
+                this.numOfPages = data.meta.last_page;
             }catch(error) {
 
             }
@@ -177,6 +161,11 @@ export default {
         search: {
             handler() {
                this.searchProjects()
+            }
+        },
+        currentPage: {
+            handler() {
+                this.getProjects(this.clientKey);
             }
         }
     }

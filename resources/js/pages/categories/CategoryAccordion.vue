@@ -15,8 +15,8 @@
                 </div>
             </div>
             <div class="btn-wrap">
-                <button type="submit" class="btn btn--green" @click.prevent="updateCategory()"><span>Save changes</span></button>
-                <button type="button" class="btn btn--red" @click.prevent="deleteCategory()"><span>Delete</span></button>
+                <button type="submit" class="btn btn--green" @click="updateCategory()"><span>Save changes</span></button>
+                <button type="button" class="btn btn--red" @click="deleteCategory()"><span>Delete</span></button>
             </div>
         </form>
     </div>
@@ -40,7 +40,7 @@ props: ['category'],
         },
         async updateCategory() {
             try {
-                await axios.put(`/api/category/${this.project.id}`,{
+                await axios.put(`/api/category/${this.category.id}`,{
                     name: this.categoryName,
                 });
                 this.$emit('resend');
@@ -52,7 +52,7 @@ props: ['category'],
         },
         async deleteCategory() {
             try {
-                await axios.delete(`/api/category/${this.project.id}`);
+                await axios.delete(`/api/category/${this.category.id}`);
                 this.$emit('resend');
             } catch(error) {
                 console.log(error)
@@ -60,7 +60,7 @@ props: ['category'],
         }
     },
     watch: {
-        project: {
+        category: {
             handler() {
                 this.showName();
             },

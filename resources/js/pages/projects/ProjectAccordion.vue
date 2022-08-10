@@ -19,7 +19,7 @@
                             <label class="report__label">Client:</label>
                             <select class="info__select" v-model="clientId">
                                 <option :value="null">All</option>
-                            <option :value="client.id" v-for="(client,index) in getAllClients" :key="index">{{client.name}}</option>
+                            <option :value="client.id" v-for="(client,index) in $store.state.clients" :key="index">{{client.name}}</option>
                             </select>
                         </li>
                         <li class="info__list">
@@ -63,9 +63,9 @@ export default {
         }
     },
     computed: {
-        getAllClients() {
-            return Object.values(this.$store.state.clients).flat()
-        },
+        // getAllClients() {
+        //     return Object.values(this.$store.state.clients).flat()
+        // },
     },
     methods: {
         openAccordion() {
