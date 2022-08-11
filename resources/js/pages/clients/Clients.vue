@@ -13,14 +13,12 @@
                 <div class="alphabet">
                     <ul class="alphabet__navigation">
                         <li class="alphabet__list" v-for="(letter,index) in getAlphabet" :key="index">
-                            <a class="alphabet__button" :class="{'alphabet__button--disabled' : !checkClientName(letter)}" href="javascript:;" @click.prevent="getClients(letter)" >{{letter}}</a>
+                            <a class="alphabet__button" :class="{'alphabet__button--disabled' : !checkClientName(letter)}" href="javascript:;" @click.prevent="searchClients(letter)" >{{letter}}</a>
                         </li>
                     </ul>
                 </div>
-                <client-accordion v-for="(client, index) in clients" :key="index" :client-obj="client" @resend="getClientsAlphabet()" @updated="clientUpdatedSuccessfuly()"></client-accordion>
-                <vuetify-container>
+                <client-accordion v-for="(client, index) in clients" :key="index" :client-obj="client" @resend="refreshData()" @updated="clientUpdatedSuccessfuly()"></client-accordion>
                     <alert :isSuccess="isSuccess"></alert>
-                </vuetify-container>
             </div>
             <div class="pagination" v-if="clients.length>0">
                 <ul class="pagination__navigation">
@@ -40,7 +38,7 @@
             :showModal="showNewModal"
             @closed="this.showNewModal = false"
             @closeModal="closeModal()"
-            @resend="getClientsAlphabet()"
+            @resend="refreshData()"
         >
         </modal-clients>
         <v-overlay value="overlay" v-if="!isLoaded">
@@ -80,6 +78,9 @@ export default {
     created() {
         if(this.$store.state.clientsAlphabet.length <= 0)
         this.getClientsAlphabet();
+        this.getClients();
+
+
     },
     computed: {
         getAlphabet() {
@@ -99,10 +100,12 @@ export default {
         nextPage() {
             if (this.currentPage >= this.numOfPages) return
             this.currentPage++;
+            this.getClients();
         },
         prevPage() {
             if (this.currentPage <= 1) return
             this.currentPage--;
+            this.getClients();
         },
         clientUpdatedSuccessfuly() {
             this.isSuccess = true;
@@ -118,60 +121,62 @@ export default {
         },
         goToPage(page) {
             this.currentPage = page;
+            this.getClients();
+        },
+        refreshData() {
+            this.getClientsAlphabet();
+            this.getClients();
         },
         async getClientsAlphabet() {
             try {
                 this.isLoaded = false
-                this.clientsAlphabet = ( await axios.get(`/api/client`)).data;
+                this.clientsAlphabet = ( await axios.get(`/api/client/alphabet`)).data;
                 this.isLoaded = true
                 this.$store.commit('setClientsAlphabet', this.clientsAlphabet)
             }catch(error) {
-
+                console.log(error)
             }
         },
-        async getClients(letter) {
+        async getClients() {
             try {
                 this.isLoaded = false
-                this.clientKey = letter;
-                const data =( await axios.get(`/api/client/${letter}?page=${this.currentPage}`)).data;
+                const data =(await axios.get(`/api/client/?page=${this.currentPage}`)).data;
                 this.clients = data.data;
-                this.numOfPages = data.meta.last_page;
                 this.isLoaded = true
+                this.numOfPages = data.meta.last_page;
             }catch(error) {
-
+                console.log(error)
             }
         },
-        async searchClients() {
+        async searchClients(term) {
             try {
-                if (this.search.length>0) {
-                    await this.timeout(500);
-                    const data = await axios.get(`/api/client/${this.search}`);
-                    this.clientsAcc = data.data.data;
-                   this.buildPage()
-                } else {
-                    await this.timeout(200);
-                    this.generateAlphabet(Object.keys(this.$store.state.clients)[0]);
-                }
+                this.currentPage = 1;
+                await this.timeout(500);
+                this.isLoaded = false
+                const data =(await axios.get(`/api/client/${term}?page=${this.currentPage}`)).data;
+                this.clients = data.data;
+                this.isLoaded = true;
+                this.numOfPages = data.meta.last_page;
             }catch(error) {
-
+                console.log(error)
             }
         }
     },
     watch: {
         search: {
             handler() {
-               this.searchClients()
+               this.searchClients(this.search)
             }
         },
-        currentPage: {
-            handler() {
-                this.getClients(this.clientKey);
-            }
-        }
     }
 }
 </script>
 
-<style>
-
+<style lang='scss'>
+.alphabet__button {
+    color: #f1592a !important;
+    &--disabled {
+        color: #ececec !important;
+    }
+}
 </style>

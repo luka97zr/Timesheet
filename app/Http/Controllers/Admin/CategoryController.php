@@ -7,10 +7,10 @@ use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Traits\ShowAllTrait;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
-    use ShowAllTrait;
     /**
      * Display a listing of the resource.
      *
@@ -18,10 +18,19 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = CategoryResource::collection(
-            Category::orderBy('name')->get()
+        return CategoryResource::collection(
+            Category::orderBy('name')->paginate(3)
         );
-       return $this->getResults($categories);
+    }
+
+    public function getAlphabet() {
+        $letters = DB::table('categories')
+                ->selectRaw("SUBSTRING(name, 1,1) AS letter")
+                ->groupBy("letter")->get();
+
+        return collect($letters)->map(function($letter) {
+            return $letter->letter;
+        });
     }
 
 

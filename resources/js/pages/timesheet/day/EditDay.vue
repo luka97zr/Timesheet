@@ -225,4 +225,7 @@ export default {
 	.table-navigation.disabled {
 		pointer-events: none;
 	}
+	.v-application a {
+		color: #f1592a !important;
+	}
 </style>

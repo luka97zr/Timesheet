@@ -4,12 +4,13 @@
             <h4 class="accordion__title">{{clientObj.name}}</h4>
         </div>
         <form class="accordion__content" action="javascript:;" :class="{'accorion-open' : isOpened}" @click="openAccordion()">
-            <div class="info">
+            <div>
                 <div class="info__form">
                     <ul class="info__wrapper">
                         <li class="info__list">
                             <label class="info__label">Client name:</label>
                             <input type="text" class="in-text" v-model="clientName">
+                            <span v-if="errors && errors.name">{{errors.name[0]}}</span>
                         </li>
                         <li class="info__list">
                             <label class="report__label">Address:</label>
@@ -26,9 +27,10 @@
                         <li class="info__list">
                             <label class="report__label">Country:</label>
                             <select class="info__select" v-model="countryId">
-                            <option :value="null">All</option>
-                            <option :value="country.id" v-for="(country, index) in $store.state.countries" :key="index" >{{country.country}}</option>
+                                <option :value="null">All</option>
+                                <option :value="country.id" v-for="(country, index) in $store.state.countries" :key="index" >{{country.country}}</option>
                             </select>
+                            <span v-if="errors && errors.country_id">{{errors.country_id[0]}}</span>
                         </li>
                     </ul>
                 </div>
@@ -50,7 +52,8 @@ export default {
             isOpened: false,
             countryId: '',
             clientName: '',
-            deleteModal: false
+            deleteModal: false,
+            errors: null
         }
     },
     methods: {
@@ -73,7 +76,7 @@ export default {
                 this.$emit('updated');
                 this.openAccordion();
             }catch(error) {
-                console.log(error)
+                this.errors = error.response.data.errors;
             }
         },
         async deleteClient() {
@@ -101,8 +104,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .accorion-open {
     display: block;
 }
+$alert-font-size: 5px;
 </style>

@@ -10657,7 +10657,7 @@ nav ul, nav ol, ul, li {
 }
 
 .table-navigation__create {
-  color: #f1592a;
+  color: #f1592a !important;
   font-weight: 600;
   font-size: 13px;
   display: flex;
@@ -10752,8 +10752,12 @@ nav ul, nav ol, ul, li {
     flex: initial;
   }
 }
-.container {
+.container-wrap {
   min-height: 100%;
+  max-width: none !important;
+}
+
+.container {
   max-width: none !important;
 }
 
@@ -10842,6 +10846,16 @@ nav ul, nav ol, ul, li {
 
 .month-table__day:hover {
   text-decoration: underline;
+}
+
+.modal form.info {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.accordion .v-application .info {
+  background-color: inherit !important;
+  border: none !important;
 }
 
 .month-table__regular--disabled .month-table__day {

@@ -88,6 +88,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.v-application a {
+	color: white !important; 
+}
 </style>

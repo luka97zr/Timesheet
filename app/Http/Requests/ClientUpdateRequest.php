@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClientRequest extends FormRequest
+class ClientUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,13 +25,14 @@ class ClientRequest extends FormRequest
     {
         return [
             'country_id' => ['required', 'exists:countries,id'],
-            'name'       => ['required', 'unique:clients,name']
+            'name'       => ['max:255', 'required']
         ];
     }
 
     public function messages() {
         return [
             'country_id.required' => 'Country is required',
+            'name.max' => 'Name contains too many characters',
             'name.required' => 'Name is required',
         ];
     }

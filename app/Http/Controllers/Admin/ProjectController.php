@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
 use App\Http\Resources\ProjectResource;
-use Illuminate\Database\Eloquent\Builder;
 use App\Models\Project;
 use App\Traits\ShowAllTrait;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
-    use ShowAllTrait;
     /**
      * Display a listing of the resource.
      *
@@ -20,13 +18,21 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = ProjectResource::collection(
-            Project::with('client')->orderBy('name')->get()
+        return ProjectResource::collection(
+            Project::with('client')->orderBy('name')->paginate(3)
         );
-        return $this->getResults($projects);
 
     }
 
+    public function getAlphabet() {
+        $letters = DB::table('projects')
+                ->selectRaw("SUBSTRING(name, 1,1) AS letter")
+                ->groupBy("letter")->get();
+
+        return collect($letters)->map(function($letter) {
+            return $letter->letter;
+        });
+    }
 
     public function allProjects() {
        return ProjectResource::collection(

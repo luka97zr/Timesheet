@@ -27,6 +27,12 @@
             @closed="this.showNewModal = false"
             @closeModal="closeModal()">
         </modal-employees>
+        <v-overlay value="overlay" v-if="!isLoaded">
+            <v-progress-circular
+                indeterminate
+                size="64"
+            ></v-progress-circular>
+        </v-overlay>
     </div>
 </template>
 
@@ -73,9 +79,11 @@ export default {
         },
         async getEmployees() {
             try {
+                this.isLoaded = false;
                 const data = await axios.get(`/api/employee/?page=${this.currentPage}`);
                 this.$store.commit('setEmployees', data.data)
                 this.employees = data.data.data
+                this.isLoaded = true;
             }catch(error) {
 
             }
@@ -84,6 +92,6 @@ export default {
 }
 </script>
 
-<style>
+<style >
 
 </style>

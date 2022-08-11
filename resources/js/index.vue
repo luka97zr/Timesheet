@@ -1,9 +1,15 @@
 <template>
-    <div class="container">
-        <header-component v-if="!$route.meta.hideNavbar"></header-component>
-            <router-view></router-view>
-        <footer-component v-if="!$route.meta.hideNavbar"></footer-component>
-    </div>
+    <v-app>
+        <v-main>
+            <v-container>
+                <div class="container-wrap">
+                    <header-component v-if="!$route.meta.hideNavbar"></header-component>
+                        <router-view></router-view>
+                    <footer-component v-if="!$route.meta.hideNavbar"></footer-component>
+                </div>
+            </v-container>
+        </v-main>
+    </v-app>
 </template>
 <script>
 import HeaderComponent from './global/Header.vue'

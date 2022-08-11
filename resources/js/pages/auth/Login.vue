@@ -4,7 +4,7 @@
 			<div class="wrapper">
 				<div class="main-content">
 					<h1 class="main-content__title">Login</h1>
-					<form class="info" action="index.html">
+					<form action="index.html">
 						<ul class="info__form">
 							<li class="info__list">
 								<label class="info__label">Email:</label>

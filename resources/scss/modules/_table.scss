@@ -35,7 +35,7 @@
 }
 
 .table-navigation__create {
-	color: $orange;
+	color: $orange !important;
 	font-weight: 600;
 	font-size: 13px;
 	display: flex;
@@ -136,8 +136,12 @@
 	}
 }
 
-.container {
+.container-wrap {
 	min-height: 100%;
+	max-width: none !important;
+}
+
+.container {
 	max-width: none !important;
 }
 
@@ -230,6 +234,15 @@
 	text-decoration: underline;
 }
 
+.modal form.info {
+	background-color: transparent !important;
+	border: none !important;
+}
+
+.accordion .v-application .info {
+	background-color: inherit !important;
+	border: none !important;
+}
 .month-table__regular--disabled {
 	.month-table__day {
 		color: $grey-3;

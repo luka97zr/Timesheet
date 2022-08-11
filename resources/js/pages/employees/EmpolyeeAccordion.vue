@@ -4,7 +4,7 @@
             <h4 class="accordion__title">{{employee.name}}</h4>
         </div>
         <form class="accordion__content" action="javascript:;" :class="{'accorion-open' : isOpened}" @click="openAccordion()">
-            <div class="info">
+            <div>
                 <div class="info__form">
                     <ul class="info__wrapper">
                         <li class="info__list">
@@ -127,7 +127,7 @@ export default {
                     user_id: this.userId
                 })
             }catch(error) {
-
+                console.log(error);
             }
         }
     },

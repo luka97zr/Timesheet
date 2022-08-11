@@ -13,7 +13,6 @@ use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\LogController;
 use App\Http\Controllers\User\UserProjectController;
 use App\Http\Controllers\JWTAuthController;
-use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,7 +27,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('login',[JWTAuthController::class, 'login']);
-Route::post('password/change',[ChangePasswordController::class, 'store']);
 Route::prefix('verify')->group(function() {
     Route::get('/', [VerifyUserController::class,'index']);
     Route::post('/user/create', [VerifyUserController::class, 'store']);
@@ -42,12 +40,16 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::middleware(['admin'])->group(function() {
         Route::get('client/all',[ClientController::class, 'allClients']);
+        Route::get('client/alphabet',[ClientController::class, 'getAlphabet']);
         Route::apiResource('client',ClientController::class);
         Route::apiResource('country',CountryController::class);
         Route::get('project/all',[ProjectController::class, 'allProjects']);
+        Route::get('project/alphabet',[ProjectController::class, 'getAlphabet']);
         Route::apiResource('project',ProjectController::class);
+        Route::post('password/change',[ChangePasswordController::class, 'store']);
         Route::apiResource('employee',EmployeeController::class);
         Route::get('leads',LeadController::class);
+        Route::get('category/alphabet',[CategoryController::class, 'getAlphabet']);
         Route::apiResource('category',CategoryController::class);
         Route::get('role', RoleController::class);
     });

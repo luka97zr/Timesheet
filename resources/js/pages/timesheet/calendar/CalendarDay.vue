@@ -43,4 +43,10 @@ export default {
     .current-date {
         border: 2px solid green;
     }
+    .v-application a {
+	color: #444 !important; 
+    }
+    .month-table__regular--disabled .v-application a {
+	color: #bdbdbd !important; 
+    }
 </style>

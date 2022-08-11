@@ -57,6 +57,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.day-table__wrap {
+    padding: 0;
+    a {
+        color: #444;
+    }
+}
 </style>

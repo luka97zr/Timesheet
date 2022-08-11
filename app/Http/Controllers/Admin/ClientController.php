@@ -4,15 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
+use App\Http\Requests\ClientUpdateRequest;
 use App\Http\Resources\ClientIndexResource;
 use App\Models\Client;
 use App\Traits\ShowAllTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Input\Input;
 
 class ClientController extends Controller
 {
-    use ShowAllTrait;
     /**
      * Display a listing of the resource.
      *
@@ -20,10 +21,20 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = ClientIndexResource::collection(
-            Client::with('country')->orderBy('name')->get()
+        $this->clients = ClientIndexResource::collection(
+             Client::with('country')->orderBy('created_at', 'DESC')->paginate(3)
         );
-       return $this->getResults($clients);
+        return $this->clients;
+    }
+
+    public function getAlphabet() {
+       $letters = DB::table('clients')
+                ->selectRaw("SUBSTRING(name, 1,1) AS letter")
+                ->groupBy("letter")->get();
+
+        return collect($letters)->map(function($letter) {
+            return $letter->letter;
+        });
     }
 
     public function allClients() {
@@ -64,9 +75,10 @@ class ClientController extends Controller
      * @param  \App\Models\Clients  $clients
      * @return \Illuminate\Http\Response
      */
-    public function update(ClientRequest $request, Client $clients, $client_id)
+    public function update(ClientUpdateRequest $request, Client $clients, $client_id)
     {
         Client::findOrFail($client_id)->update($request->only(['country_id','name']));
+      
     }
 
     /**

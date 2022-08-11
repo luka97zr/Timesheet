@@ -6,18 +6,18 @@
                 <div class="table-navigation">
                     <a href="javascript:;" class="table-navigation__create btn-modal"  @click="openModal()"><span>Create new category</span></a>
                     <form class="table-navigation__input-container" action="javascript:;">
-                        <input type="text" class="table-navigation__search">
+                        <input type="text" class="table-navigation__search" v-model="search">
                         <button type="submit" class="icon__search"></button>
                     </form>
                 </div>
                 <div class="alphabet">
                     <ul class="alphabet__navigation">
                         <li class="alphabet__list" v-for="(letter,index) in getAlphabet" :key="index">
-                            <a class="alphabet__button" href="javascript:;" :class="{'alphabet__button--disabled' : !checkCategoryName(letter)}" @click="getCategories(letter)">{{letter}}</a>
+                            <a class="alphabet__button" href="javascript:;" :class="{'alphabet__button--disabled' : !checkCategoryName(letter)}" @click="searchCategory(letter)">{{letter}}</a>
                         </li>
                     </ul>
                 </div>
-                <category-accordion v-for="(category, index) in categories" :key="index" :category="category" @resend="getCategoriesAlphabet()"></category-accordion>
+                <category-accordion v-for="(category, index) in categories" :key="index" :category="category" @resend="refreshData()"></category-accordion>
             </div>
             <div class="pagination" v-if="categories.length>0">
                 <ul class="pagination__navigation">
@@ -37,8 +37,14 @@
             :showModal="showNewModal"
             @closed="this.showNewModal = false"
             @closeModal="closeModal()"
-            @resend="getCategoriesAlphabet()">
+            @resend="refreshData()">
         </modal-categories>
+        <v-overlay value="overlay" v-if="!isLoaded">
+            <v-progress-circular
+                indeterminate
+                size="64"
+            ></v-progress-circular>
+        </v-overlay>
     </div>
 </template>
 
@@ -67,6 +73,7 @@ export default {
     },
     created() {
         if(this.$store.state.categories.length === 0)  this.getCategoriesAlphabet();
+        this.getCategories();
     },
      computed: {
         getAlphabet() {
@@ -86,13 +93,20 @@ export default {
         nextPage() {
             if (this.currentPage >= this.numOfPages) return
             this.currentPage++;
+            this.getCategories();
         },
         prevPage() {
             if (this.currentPage <= 1) return
             this.currentPage--;
+            this.getCategories();
         },
         goToPage(page) {
             this.currentPage = page;
+            this.getCategories();
+        },
+        refreshData() {
+            this.getCategoriesAlphabet();
+            this.getCategories();
         },
         timeout(ms) {
             return new Promise((resolve)=> {
@@ -103,18 +117,17 @@ export default {
         async getCategoriesAlphabet() {
             try {
                 this.isLoaded = false
-                this.categoriesAlphabet = ( await axios.get(`/api/category`)).data;
+                this.categoriesAlphabet = ( await axios.get(`/api/category/alphabet`)).data;
                 this.isLoaded = true
                 this.$store.commit('setCategoriesAlphabet', this.categoriesAlphabet)
             }catch(error) {
 
             }
         },
-        async getCategories(letter) {
+        async getCategories() {
             try {
                 this.isLoaded = false
-                this.categoryKey = letter;
-                const data =( await axios.get(`/api/category/${letter}?page=${this.currentPage}`)).data;
+                const data =( await axios.get(`/api/category/?page=${this.currentPage}`)).data;
                 this.categories = data.data;
                 this.numOfPages = data.meta.last_page;
                 this.isLoaded = true
@@ -122,21 +135,24 @@ export default {
 
             }
         },
-        async searchCategory() {
+        async searchCategory(term) {
             try {
-                if (this.search.length>0) {
-                    await this.timeout(500);
-                    const data = await axios.get(`/api/project/search/${this.search}`);
-                    this.categoryAcc = data.data.data;
-                   this.buildPage()
-                } else {
-                    await this.timeout(200);
-                    this.generateAlphabet(Object.keys(this.$store.state.categories)[0]);
-                }
+                this.currentPage = 1;
+                await this.timeout(500);
+                const data = (await axios.get(`/api/category/${term}?page=${this.currentPage}`)).data;
+                this.categories = data.data;
+                this.numOfPages = data.meta.last_page;
             }catch(error) {
-
+                console.log(error);
             }
         }
+    },
+    watch: {
+        search: {
+            handler() {
+               this.searchCategory(this.search)
+            }
+        },
     }
 }
 </script>

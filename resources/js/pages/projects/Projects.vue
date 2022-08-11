@@ -13,11 +13,11 @@
             <div class="alphabet">
                 <ul class="alphabet__navigation">
                     <li class="alphabet__list" v-for="(letter,index) in getAlphabet" :key="index">
-                        <a class="alphabet__button" :class="{'alphabet__button--disabled' : !checkProjectName(letter)}" href="javascript:;" @click.prevent="getProjects(letter)" >{{letter}}</a>
+                        <a class="alphabet__button" :class="{'alphabet__button--disabled' : !checkProjectName(letter)}" href="javascript:;" @click.prevent="searchProjects(letter)" >{{letter}}</a>
                     </li>
                 </ul>
             </div>
-            <project-accordion v-for="(project, index) in projects" :key="index" :project="project" @resend="getProjectsAlphabet()"></project-accordion>
+            <project-accordion v-for="(project, index) in projects" :key="index" :project="project" @resend="refreshData()"></project-accordion>
             <vuetify-container>
                 <alert :isSuccess="isSuccess"></alert>
             </vuetify-container>
@@ -39,7 +39,7 @@
     <modal-project
         :showModal="showNewModal"
         @closeModal="closeModal()"
-        @resend="getProjectsAlphabet()">
+        @resend="refreshData()">
     </modal-project>
     <v-overlay value="overlay" v-if="!isLoaded">
         <v-progress-circular
@@ -76,6 +76,7 @@ export default {
     },
     created() {
          if(this.$store.state.projectsAlphabet.length <= 0) this.getProjectsAlphabet();
+        this.getProjects();
         this.checkClients();
         this.checkLeads();
     },
@@ -97,13 +98,16 @@ export default {
         nextPage() {
             if (this.currentPage >= this.numOfPages) return
             this.currentPage++;
+            this.getProjects();
         },
         prevPage() {
             if (this.currentPage <= 1) return
             this.currentPage--;
+            this.getProjects();
         },
         goToPage(page) {
             this.currentPage = page;
+            this.getProjects();
         },
         checkClients() {
             if(this.$store.state.clients.length <= 0)
@@ -112,6 +116,10 @@ export default {
         checkLeads() {
             if(this.$store.state.leads.length <= 0)
             this.$store.dispatch('getLeads');
+        },
+        refreshData() {
+            this.getProjectsAlphabet();
+            this.getProjects();
         },
         timeout(ms) {
             return new Promise((resolve)=> {
@@ -122,52 +130,43 @@ export default {
         async getProjectsAlphabet() {
             try {
                 this.isLoaded = false
-                this.projectsAlphabet = ( await axios.get(`/api/project`)).data;
+                this.projectsAlphabet = ( await axios.get(`/api/project/alphabet`)).data;
                 this.isLoaded = true
                 this.$store.commit('setProjectsAlphabet', this.projectsAlphabet)
             }catch(error) {
-
+                console.log(error)
             }
         },
-        async getProjects(letter) {
+        async getProjects() {
             try {
                 this.isLoaded = false
-                this.projectKey = letter;
-                const data = (await axios.get(`/api/project/${letter}?page=${this.currentPage}`)).data;
+                const data = (await axios.get(`/api/project/?page=${this.currentPage}`)).data;
                 this.isLoaded = true
                 this.projects = data.data;
                 this.numOfPages = data.meta.last_page;
             }catch(error) {
-
+                console.log(error)
             }
         },
-        async searchProjects() {
+        async searchProjects(term) {
             try {
-                if (this.search.length>0) {
-                    await this.timeout(500);
-                    const data = await axios.get(`/api/project/${this.search}`);
-                    this.projectsAcc = data.data.data;
-                   this.buildPage()
-                } else {
-                    await this.timeout(200);
-                    this.generateAlphabet(Object.keys(this.$store.state.projects)[0]);
-                }
+                this.currentPage = 1;
+                await this.timeout(500);
+                const data = (await axios.get(`/api/project/${term}?page=${this.currentPage}`)).data;
+                this.projects = data.data;
+                this.isLoaded = true;
+                this.numOfPages = data.meta.last_page;
             }catch(error) {
-
+                console.log(error);
             }
         }
     },
     watch: {
         search: {
             handler() {
-               this.searchProjects()
+               this.searchProjects(this.search)
             }
         },
-        currentPage: {
-            handler() {
-                this.getProjects(this.clientKey);
-            }
-        }
     }
 }
 </script>

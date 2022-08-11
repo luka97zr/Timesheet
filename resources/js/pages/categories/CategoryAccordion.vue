@@ -4,7 +4,7 @@
             <h4 class="accordion__title">{{category.name}}</h4>
         </div>
         <form class="accordion__content" action="javascript:;" :class="{'accorion-open' : isOpened}" @click="openAccordion()">
-            <div class="info">
+            <div>
                 <div class="info__form">
                     <ul class="info__wrapper">
                         <li class="info__list">
@@ -18,6 +18,9 @@
                 <button type="submit" class="btn btn--green" @click="updateCategory()"><span>Save changes</span></button>
                 <button type="button" class="btn btn--red" @click="deleteCategory()"><span>Delete</span></button>
             </div>
+            <div class="alert alert-success">
+  <strong>Success!</strong> Indicates a successful or positive action.
+</div>
         </form>
     </div>
 </template>
