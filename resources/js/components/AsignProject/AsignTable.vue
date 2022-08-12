@@ -24,7 +24,7 @@
                             <td>{{employee.email}}</td>
                             <td>projekat</td>
                             <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit" @click="toggleModal()">&#xE254;</i></a>
+                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit" @click="openModal()">&#xE254;</i></a>
                             </td>
                         </tr>
                     </tbody>
@@ -37,13 +37,13 @@
                     <form>
                         <div class="modal-header">
                             <h4 class="modal-title">Edit</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" @click="toggleModal()">&times;</button>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" @click="closeModal()">&times;</button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
                                 <h5>Projects</h5>
                                 <ul class="project__dropdown">
-                                    <li class="input__block" v-for="(project, index) in $store.state.projects" :key="index">{{ project.name }}<input type="checkbox" :value="project.id" class="form-control" v-model="checkedProjects"></li>
+                                    <li class="input__block" v-for="(project, index) in $store.state.projects" :key="index">{{ project.name }}<input type="checkbox" :value="project.id" class="form-control" v-model="checkedProjects" >{{checkProjects(project.id)}}</li>
                                 </ul>
                             </div>
                         </div>
@@ -65,20 +65,35 @@ export default {
         return {
             isModalOpen: false,
             checkedProjects: [],
+            userProjects: null
         }
+    },
+    computed() {
+      
     },
     methods: {
-        toggleModal() {
-            this.isModalOpen = !this.isModalOpen
+        openModal() {
+            this.isModalOpen = true;
+        },
+        closeModal() {
+            this.isModalOpen = false;
+        },
+        checkProjects(projects) {
+            this.checkedProjects = projects.forEach(element => {
+                console.log(element);
+            });
+        },
+        async showUserProjects(id) {
+            try {
+                this.userProjects = (await axios.post('/api/user/project', {
+                    user_id: this.employee.id
+                })).data
+                this.checkedProjects(this.userProjects)
+            }catch(error) {
+                console.log(error)
+            }
         }
     },
-    async saveUserProjects() {
-        try {
-            axios.post()
-        }catch(error) {
-
-        }
-    }
 }
 </script>
 

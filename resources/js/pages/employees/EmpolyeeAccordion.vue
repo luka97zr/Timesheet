@@ -97,9 +97,6 @@ export default {
         setUserId() {
             this.userId = this.employee.id;
         },
-        toggleDropdown() {
-            this.projectSelect = !this.projectSelect
-        },
         async deleteEmployee() {
             try {
                 await axios.delete(`/api/employee/${this.employee.id}`);

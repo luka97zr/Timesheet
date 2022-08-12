@@ -35,17 +35,18 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('user',[JWTAuthController::class, 'getUser']);
     Route::get('logout', [JWTAuthController::class, 'logout']);
     Route::apiResource('logs',LogController::class);
-    Route::apiResource('user/project/',UserProjectController::class);
+    Route::get('user/project',[UserProjectController::class, 'index']);
     Route::get('calendar/{from}/{to}',CalendarController::class);
 
     Route::middleware(['admin'])->group(function() {
         Route::get('client/all',[ClientController::class, 'allClients']);
         Route::get('client/alphabet',[ClientController::class, 'getAlphabet']);
         Route::apiResource('client',ClientController::class);
-        Route::apiResource('country',CountryController::class);
+        Route::get('country',CountryController::class);
         Route::get('project/all',[ProjectController::class, 'allProjects']);
         Route::get('project/alphabet',[ProjectController::class, 'getAlphabet']);
         Route::apiResource('project',ProjectController::class);
+        Route::post('user/project',[UserProjectController::class, 'show']);
         Route::post('password/change',[ChangePasswordController::class, 'store']);
         Route::apiResource('employee',EmployeeController::class);
         Route::get('leads',LeadController::class);

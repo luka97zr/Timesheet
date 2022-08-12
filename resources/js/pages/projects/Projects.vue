@@ -18,9 +18,7 @@
                 </ul>
             </div>
             <project-accordion v-for="(project, index) in projects" :key="index" :project="project" @resend="refreshData()"></project-accordion>
-            <vuetify-container>
-                <alert :isSuccess="isSuccess"></alert>
-            </vuetify-container>
+                <alert v-if="isSuccess" :message="'Project Successfully updated'"></alert>
         </div>
         <div class="pagination"  v-if="projects.length>0">
             <ul class="pagination__navigation">
@@ -39,6 +37,7 @@
     <modal-project
         :showModal="showNewModal"
         @closeModal="closeModal()"
+        @created="projectCreatedSuccessfuly()"
         @resend="refreshData()">
     </modal-project>
     <v-overlay value="overlay" v-if="!isLoaded">
@@ -47,6 +46,7 @@
             size="64"
         ></v-progress-circular>
     </v-overlay>
+    <alert v-if="isCreated" :message="'Project created successfuly'"></alert>
 </div>
 </template>
 
@@ -70,6 +70,7 @@ export default {
             isLoaded: true,
             currentPage: 1,
             isSuccess: false,
+            isCreated: false,
             search: '',
             typingTimer: null
         }
@@ -121,6 +122,12 @@ export default {
             this.getProjectsAlphabet();
             this.getProjects();
         },
+        projectCreatedSuccessfuly() {
+            this.isCreated = true;
+            setTimeout(() => {
+                this.isCreated = false;
+            }, 2000);
+        },
         timeout(ms) {
             return new Promise((resolve)=> {
                 clearTimeout(this.typingTimer);
@@ -151,6 +158,7 @@ export default {
         async searchProjects(term) {
             try {
                 this.currentPage = 1;
+                this.isLoaded = false
                 await this.timeout(500);
                 const data = (await axios.get(`/api/project/${term}?page=${this.currentPage}`)).data;
                 this.projects = data.data;

@@ -37,6 +37,7 @@
             :showModal="showNewModal"
             @closed="this.showNewModal = false"
             @closeModal="closeModal()"
+            @created="categoryCreatedSuccessfuly()"
             @resend="refreshData()">
         </modal-categories>
         <v-overlay value="overlay" v-if="!isLoaded">
@@ -45,16 +46,19 @@
                 size="64"
             ></v-progress-circular>
         </v-overlay>
+        <alert v-if="isCreated" :message="'Category created successfuly'"></alert>
     </div>
 </template>
 
 <script>
 import ModalCategories from '../../components/Modal/ModalCategories.vue'
 import CategoryAccordion from './CategoryAccordion.vue'
+import Alert from '../../components/vuetify/Alert.vue'
 export default {
     components: {
         ModalCategories,
-        CategoryAccordion
+        CategoryAccordion,
+        Alert
     },
     data() {
         return {
@@ -66,6 +70,7 @@ export default {
             perPage: 3,
             currentPage: 1,
             isSuccess: false,
+            isCreated: false,
             search: '',
             typingTimer: null,
             categoriesAlphabet: null
@@ -113,6 +118,12 @@ export default {
                 clearTimeout(this.typingTimer);
                 return this.typingTimer = setTimeout(()=> resolve(true), ms);
             })
+        },
+        categoryCreatedSuccessfuly() {
+            this.isCreated = true;
+            setTimeout(() => {
+                this.isCreated = false;
+            }, 2000);
         },
         async getCategoriesAlphabet() {
             try {

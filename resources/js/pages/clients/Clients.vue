@@ -18,7 +18,7 @@
                     </ul>
                 </div>
                 <client-accordion v-for="(client, index) in clients" :key="index" :client-obj="client" @resend="refreshData()" @updated="clientUpdatedSuccessfuly()"></client-accordion>
-                    <alert :isSuccess="isSuccess"></alert>
+                    <alert v-if="isSuccess" :message="'Client Successfully updated'"></alert>
             </div>
             <div class="pagination" v-if="clients.length>0">
                 <ul class="pagination__navigation">
@@ -38,6 +38,7 @@
             :showModal="showNewModal"
             @closed="this.showNewModal = false"
             @closeModal="closeModal()"
+            @success="clientCreatedSuccessfuly()"
             @resend="refreshData()"
         >
         </modal-clients>
@@ -47,6 +48,8 @@
                 size="64"
             ></v-progress-circular>
         </v-overlay>
+        <alert v-if="isCreated" :isSuccess="isSuccess" :message="'Client created successfuly'"></alert>
+
     </div>
 </template>
 
@@ -71,6 +74,7 @@ export default {
             currentPage: 1,
             isLoaded: true,
             isSuccess: false,
+            isCreated: false,
             search: '',
             typingTimer: null
         }
@@ -113,6 +117,12 @@ export default {
                 this.isSuccess = false;
             }, 2000);
         },
+        clientCreatedSuccessfuly() {
+            this.isCreated = true;
+            setTimeout(() => {
+                this.isCreated = false;
+            }, 2000);
+        },
         timeout(ms) {
             return new Promise((resolve)=> {
                 clearTimeout(this.typingTimer);
@@ -151,8 +161,8 @@ export default {
         async searchClients(term) {
             try {
                 this.currentPage = 1;
-                await this.timeout(500);
                 this.isLoaded = false
+                await this.timeout(500);
                 const data =(await axios.get(`/api/client/${term}?page=${this.currentPage}`)).data;
                 this.clients = data.data;
                 this.isLoaded = true;

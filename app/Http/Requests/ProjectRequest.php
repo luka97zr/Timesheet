@@ -30,4 +30,15 @@ class ProjectRequest extends FormRequest
             'status'    => ['boolean']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'client_id.required' => 'Client field is required',
+            'lead_id.required' => 'Lead field is required',
+            'client_id.exists' => 'Please select valid client',
+            'lead_id.exists' => 'Please select valid lead',
+            'name.unique' => 'Name already exists',
+        ];
+    }
 }

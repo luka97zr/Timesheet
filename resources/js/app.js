@@ -8,6 +8,7 @@ import  Modal  from './components/Modal/Modal';
 import ModalDelete from './components/ModalDelete/ModalDelete'
 import Vuetify from 'vuetify';
 import VuetifyContainer from './components/vuetify/VuetifyContainer'
+import InputError from './components/Bootstrap/InputError'
 
 
 require('./bootstrap');
@@ -15,6 +16,7 @@ require('./bootstrap');
 Vue.component('vuetify-container',VuetifyContainer)
 Vue.component('Modal',Modal)
 Vue.component('ModalDelete',ModalDelete)
+Vue.component('InputError',InputError)
 
 window.Vue = require('vue').default;
 Vue.use(VueRouter);

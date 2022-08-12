@@ -5,12 +5,13 @@
             <a href="#" class="modal__close" @click.prevent="closeModal()">
                 <span class="modal__icon"></span>
             </a>
-            <form class="info" action="javascript:;">
+            <form class="info" action="javascript:;" :class="{'was-validated' : isValidated}">
                 <ul class="info__form">
                     <li class="info__list">
                         <label class="info__label">Project name:</label>
-                        <input type="text" class="in-text" v-model="projectName">
-                        <div v-if="errors.name" class="invalid-feedback">{{errors.name[0]}}</div>
+                        <input type="text" class="in-text" v-model="projectName" required>
+                        <input-error v-if="errors.name" :message="errors.name[0]"></input-error>
+
                     </li>
                     <li class="info__list">
                         <label class="report__label">Description:</label>
@@ -18,19 +19,19 @@
                     </li>
                     <li class="info__list">
                         <label class="report__label">Client:</label>
-                        <select class="info__select" v-model="clientId">
+                        <select class="info__select" v-model="clientId" required>
                             <option :value="null">All</option>
                             <option :value="client.id" v-for="(client,index) in getAllClients" :key="index">{{client.name}}</option>
                         </select>
-                        <div v-if="errors.client_id" class="invalid-feedback">{{errors.client_id[0]}}</div>
+                        <input-error v-if="errors.client_id" :message="errors.client_id[0]"></input-error>
                     </li>
                     <li class="info__list">
                         <label class="report__label">Lead:</label>
-                        <select class="info__select" v-model="leadId">
+                        <select class="info__select" v-model="leadId" required>
                             <option :value="null">All</option>
                                 <option :value="lead.id" v-for="(lead, index) in $store.state.leads" :key="index">{{lead.user.name}}</option>
                         </select>
-                        <div v-if="errors.lead_id" class="invalid-feedback">{{errors.lead_id[0]}}</div>
+                        <input-error v-if="errors.lead_id" :message="errors.lead_id[0]"></input-error>
                     </li>
                 </ul>
                 <div class="btn-wrap">
@@ -50,7 +51,8 @@ export default {
             errors: [],
             projectName: null,
             clientId: null,
-            leadId: null
+            leadId: null,
+            isValidated: false
         }
     },
     computed: {
@@ -73,7 +75,9 @@ export default {
             this.$emit('closeModal')
             this.$emit('resend');
             this.clearForm();
+            this.$emit('created');
           } catch(error) {
+              this.isValidated = true;
               this.errors = error.response.data.errors
           }
         },

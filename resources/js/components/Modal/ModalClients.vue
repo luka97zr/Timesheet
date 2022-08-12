@@ -5,12 +5,12 @@
             <a href="javascript:;" class="modal__close" @click.prevent="$emit('closeModal')">
             <span class="modal__icon"></span>
             </a>
-            <form class="info" action="javascript:;">
+            <form class="info" :class="{'was-validated' : isValidated}" action="javascript:;">
                 <ul class="info__form">
                     <li class="info__list">
                         <label class="info__label">Client name:</label>
-                        <input type="text" class="in-text" v-model="clientName">
-                        <div v-if="errors.name" class="invalid-feedback">{{errors.name[0]}}</div>
+                        <input type="text" class="in-text" v-model="clientName" required>
+                        <input-error v-if="errors.name" :message="errors.name[0]"></input-error>
                     </li>
                     <li class="info__list">
                         <label class="report__label">Address:</label>
@@ -26,11 +26,11 @@
                     </li>
                     <li class="info__list">
                         <label class="report__label">Country:</label>
-                        <select class="info__select" v-model="countryId">
-                            <option :value="null">All</option>
+                        <select class="info__select" v-model="countryId" required>
+                            <option :value="null" disabled>Select Country</option>
                             <option :value="country.id" v-for="(country, index) in $store.state.countries" :key="index">{{country.country}}</option>
                         </select>
-                        <div v-if="errors.country_id" class="invalid-feedback">{{errors.country_id[0]}}</div>
+                        <input-error v-if="errors.country_id" :message="errors.country_id[0]"></input-error>
                     </li>
                 </ul>
                 <div class="btn-wrap">
@@ -43,7 +43,9 @@
 </template>
 
 <script>
+import InputError from '../Bootstrap/InputError.vue';
 export default {
+  components: { InputError },
     props: ['showModal'],
     data() {
         return {
@@ -52,7 +54,8 @@ export default {
             city: '',
             address: '',
             clientName: '',
-            errors : []
+            errors : [],
+            isValidated: false
         }
     },
     created() {
@@ -63,16 +66,18 @@ export default {
         },
         async createClient() {
           try {
-              this.errors = [];
-              await axios.post('/api/client', {
-                  country_id: this.countryId,
-                  name: this.clientName
-              })
+            this.errors = [];
+            await axios.post('/api/client', {
+                country_id: this.countryId,
+                name: this.clientName
+            })
             this.$emit('closeModal')
             this.$emit('resend');
             this.clearForm();
+            this.$emit('success')
           } catch(error) {
-              this.errors = error.response.data.errors
+            this.isValidated = true;
+            this.errors = error.response.data.errors
           }
         },
         clearForm() {
@@ -83,8 +88,3 @@ export default {
 }
 </script>
 
-<style>
-.invalid-feedback {
-    color: red;
-}
-</style>

@@ -15,7 +15,9 @@ class UserProjectResource extends JsonResource
     public function toArray($request)
     {
         return [
-            ''
+            'id' => $this->id,
+            'project' => ProjectResource::make($this->whenLoaded('project')),
+            'user'    => EmployeeResource::make($this->whenLoaded('user'))
         ];
     }
 }

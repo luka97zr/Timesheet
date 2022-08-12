@@ -45,6 +45,7 @@ export default {
               })
             this.$emit('closeModal')
             this.$emit('resend');
+            this.$emit('created');
             this.clearForm();
           } catch(error) {
               this.errors = error.response.data.errors

@@ -19,7 +19,7 @@ class ProjectController extends Controller
     public function index()
     {
         return ProjectResource::collection(
-            Project::with('client')->orderBy('name')->paginate(3)
+            Project::with('client')->orderBy('created_at', 'DESC')->paginate(3)
         );
 
     }
