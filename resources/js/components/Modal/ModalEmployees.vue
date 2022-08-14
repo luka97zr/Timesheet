@@ -30,11 +30,11 @@
                                 <h4 class="radio-button__title">Status:</h4>
                             </li>
                             <li class="info__list-radio-button">
-                                <input type="radio" id="rdo1" checked="" class="radio-input" name="radio-group-status">
+                                <input type="radio" id="rdo1" class="radio-input" name="radio-group-status" v-model="status" :value="1">
                                 <label for="rdo1" class="radio-label"> <span class="radio-border"></span>Active</label>
                             </li>
                             <li class="info__list-radio-button">
-                                <input type="radio" class="radio-input" name="radio-group-status">
+                                <input type="radio" class="radio-input" name="radio-group-status" v-model="status" :value="0">
                                 <label for="rdo1" class="radio-label"> <span class="radio-border"></span>Inactive</label>
                             </li>
                         </ul>
@@ -42,20 +42,16 @@
                             <li class="info__list-title">
                                 <h4 class="radio-button__title">Role:</h4>
                             </li>
-                            <li class="info__list-radio-button">
-                                <input type="radio" id="rdo2" checked="" class="radio-input" name="radio-group-role">
-                                <label for="rdo2" class="radio-label"> <span class="radio-border"></span>Admin</label>
-                            </li>
-                            <li class="info__list-radio-button">
-                                <input type="radio" class="radio-input" name="radio-group-role">
-                                <label for="rdo2" class="radio-label"> <span class="radio-border"></span>Worker</label>
-                            </li>
+                            <li class="info__list-radio-button" v-for="(role, index) in $store.state.roles" :key="'role'+index">
+                            <input type="radio"  class="radio-input" :value="role.id" name="role" v-model="userRole">
+                            <label class="radio-label" :for="role.name"> <span class="radio-border"></span>{{role.name}}</label>
+                        </li>
                         </ul>
                     </li>
                 </ul>
                 </div>
                 <div class="btn-wrap">
-                    <button type="submit" class="btn btn--green" @click.prevent="inviteEmployee()"><span>Invite an employee</span></button>
+                    <button type="submit" class="btn btn--green" @click.prevent="inviteEmployee()" :disabled="isValidated"><span>Invite an employee</span></button>
                 </div>
             </form>
         </div>
@@ -71,8 +67,13 @@ export default {
             username: null,
             hoursPerWeek: null,
             email: null,
-            status: 1,
-            role: 1
+            status: 0,
+            userRole: 1
+        }
+    },
+    computed: {
+        isValidated() {
+            return (this.name && this.email)? false : true;
         }
     },
     methods: {
@@ -86,7 +87,7 @@ export default {
                   email: this.email,
                   name: this.name,
                   status: this.status,
-                  role_id: this.role
+                  role_id: this.userRoleole
               })
             this.$emit('closeModal')
             this.$emit('resend');

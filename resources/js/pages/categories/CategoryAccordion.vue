@@ -10,6 +10,7 @@
                         <li class="info__list">
                             <label class="info__label">Category name:</label>
                             <input type="text" class="in-text" v-model="categoryName">
+                            <span v-if="errors && errors.name">{{errors.name[0]}}</span>
                         </li>
                     </ul>
                 </div>
@@ -18,9 +19,6 @@
                 <button type="submit" class="btn btn--green" @click="updateCategory()"><span>Save changes</span></button>
                 <button type="button" class="btn btn--red" @click="deleteCategory()"><span>Delete</span></button>
             </div>
-            <div class="alert alert-success">
-  <strong>Success!</strong> Indicates a successful or positive action.
-</div>
         </form>
     </div>
 </template>
@@ -32,6 +30,7 @@ props: ['category'],
         return {
             isOpened: false,
             categoryName: '',
+            errors: []
         }
     },
     methods: {
@@ -50,7 +49,7 @@ props: ['category'],
                 this.$emit('updated');
                 this.openAccordion();
             }catch(error) {
-                console.log(error)
+                this.errors = error.response.data.error
             }
         },
         async deleteCategory() {
@@ -58,7 +57,7 @@ props: ['category'],
                 await axios.delete(`/api/category/${this.category.id}`);
                 this.$emit('resend');
             } catch(error) {
-                console.log(error)
+                this.errors = error.response.data.error
             }
         }
     },

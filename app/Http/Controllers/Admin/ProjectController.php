@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
+use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use App\Traits\ShowAllTrait;
@@ -72,7 +73,7 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(ProjectRequest $request, $project_id)
+    public function update(ProjectUpdateRequest $request, $project_id)
     {
         Project::findOrFail($project_id)->update($request->all());
     }

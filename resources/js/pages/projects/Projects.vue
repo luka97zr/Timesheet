@@ -17,8 +17,8 @@
                     </li>
                 </ul>
             </div>
-            <project-accordion v-for="(project, index) in projects" :key="index" :project="project" @resend="refreshData()"></project-accordion>
-                <alert v-if="isSuccess" :message="'Project Successfully updated'"></alert>
+            <project-accordion v-for="(project, index) in projects" :key="index" :project="project" @resend="refreshData()" @updated="updatedSuccessfuly()"></project-accordion>
+            <alert v-if="isSuccess" :message="'Project Successfully updated'"></alert>
         </div>
         <div class="pagination"  v-if="projects.length>0">
             <ul class="pagination__navigation">
@@ -37,10 +37,10 @@
     <modal-project
         :showModal="showNewModal"
         @closeModal="closeModal()"
-        @created="projectCreatedSuccessfuly()"
+        @created="createdSuccessfuly()"
         @resend="refreshData()">
     </modal-project>
-    <v-overlay value="overlay" v-if="!isLoaded">
+    <v-overlay value="overlay" v-if="!isLoaded" opacity=".85">
         <v-progress-circular
             indeterminate
             size="64"
@@ -54,12 +54,18 @@
 import ModalProject from '../../components/Modal/ModalProjects.vue';
 import ProjectAccordion from './ProjectAccordion.vue';
 import Alert from '../../components/vuetify/Alert.vue'
+import getAlphabetMixin from '../../mixins/getAlphabetMixin';
+import toggleModal from '../../mixins/toggleModalMixin';
+import timeoutMixin from '../../mixins/timeoutMixin';
+import succesMessage from '../../mixins/successMessageMixin';
+
 export default {
        components: {
         ModalProject,
         ProjectAccordion,
         Alert
     },
+    mixins: [getAlphabetMixin, toggleModal, timeoutMixin, succesMessage],
      data() {
         return {
             showNewModal: false,
@@ -81,18 +87,7 @@ export default {
         this.checkClients();
         this.checkLeads();
     },
-     computed: {
-        getAlphabet() {
-           return [...Array(26)].map((_,i) => String.fromCharCode(i + 65))
-        },
-    },
     methods: {
-        openModal() {
-            this.showNewModal = true;
-        },
-        closeModal() {
-            this.showNewModal = false
-        },
         checkProjectName(letter) {
              return (this.$store.state.projectsAlphabet.includes(letter))? true : false;
         },
@@ -121,18 +116,6 @@ export default {
         refreshData() {
             this.getProjectsAlphabet();
             this.getProjects();
-        },
-        projectCreatedSuccessfuly() {
-            this.isCreated = true;
-            setTimeout(() => {
-                this.isCreated = false;
-            }, 2000);
-        },
-        timeout(ms) {
-            return new Promise((resolve)=> {
-                clearTimeout(this.typingTimer);
-                return this.typingTimer = setTimeout(()=> resolve(true), ms);
-            })
         },
         async getProjectsAlphabet() {
             try {

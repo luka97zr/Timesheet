@@ -39,6 +39,7 @@ class ProjectRequest extends FormRequest
             'client_id.exists' => 'Please select valid client',
             'lead_id.exists' => 'Please select valid lead',
             'name.unique' => 'Name already exists',
+            'name.required' => 'Name is required',
         ];
     }
 }

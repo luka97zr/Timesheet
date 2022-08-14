@@ -10,6 +10,7 @@
                         <li class="info__list">
                             <label class="info__label">Project name:</label>
                             <input type="text" class="in-text" v-model="projectName">
+                            <span v-if="errors && errors.name">{{errors.name[0]}}</span>
                         </li>
                         <li class="info__list">
                             <label class="report__label">Description:</label>
@@ -19,8 +20,10 @@
                             <label class="report__label">Client:</label>
                             <select class="info__select" v-model="clientId">
                                 <option :value="null">All</option>
-                            <option :value="client.id" v-for="(client,index) in $store.state.clients" :key="index">{{client.name}}</option>
+                                <option :value="client.id" v-for="(client,index) in $store.state.clients" :key="index">{{client.name}}</option>
                             </select>
+                            <span v-if="errors && errors.client_id">{{errors.client_id[0]}}</span>
+
                         </li>
                         <li class="info__list">
                             <label class="report__label">Lead:</label>
@@ -28,6 +31,7 @@
                                 <option :value="null">All</option>
                                 <option :value="lead.id" v-for="(lead, index) in $store.state.leads" :key="index">{{lead.user.name}}</option>
                             </select>
+                            <span v-if="errors && errors.lead_id">{{errors.lead_id[0]}}</span>
                         </li>
                         <li class="info__list-title"><h4 class="radio-button__title">Status:</h4></li>
                         <li class="info__list-radio-button">
@@ -42,7 +46,7 @@
                 </div>
             </div>
             <div class="btn-wrap">
-                <button type="submit" class="btn btn--green" @click.prevent="updateProject()"><span>Save changes</span></button>
+                <button type="submit" class="btn btn--green" @click.prevent="updateProject()" :disabled="isValidated"><span>Save changes</span></button>
                 <button type="button" class="btn btn--red" @click.prevent="deleteProject()"><span>Delete</span></button>
             </div>
         </form>
@@ -55,17 +59,17 @@ export default {
     data() {
         return {
             isOpened: false,
-            projectId: '',
-            clientId: '',
-            projectName: '',
+            clientId: null,
+            projectName: null,
             leadId: null,
-            status: 1
+            status: 1,
+            errors: []
         }
     },
     computed: {
-        // getAllClients() {
-        //     return Object.values(this.$store.state.clients).flat()
-        // },
+        isValidated() {
+            return (this.projectName && this.leadId && this.clientId)? false : true;
+        },
     },
     methods: {
         openAccordion() {
@@ -92,7 +96,7 @@ export default {
                 this.$emit('updated');
                 this.openAccordion();
             }catch(error) {
-                console.log(error)
+                this.errors = error.response.data.errors
             }
         },
         async deleteProject() {

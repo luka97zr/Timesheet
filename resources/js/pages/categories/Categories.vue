@@ -17,7 +17,8 @@
                         </li>
                     </ul>
                 </div>
-                <category-accordion v-for="(category, index) in categories" :key="index" :category="category" @resend="refreshData()"></category-accordion>
+                <category-accordion v-for="(category, index) in categories" :key="index" :category="category" @resend="refreshData()" @updated="updatedSuccessfuly()"></category-accordion>
+                <alert v-if="isSuccess" :message="'Category Successfully updated'"></alert>
             </div>
             <div class="pagination" v-if="categories.length>0">
                 <ul class="pagination__navigation">
@@ -40,7 +41,7 @@
             @created="categoryCreatedSuccessfuly()"
             @resend="refreshData()">
         </modal-categories>
-        <v-overlay value="overlay" v-if="!isLoaded">
+        <v-overlay value="overlay" v-if="!isLoaded"  opacity=".85">
             <v-progress-circular
                 indeterminate
                 size="64"
@@ -54,6 +55,12 @@
 import ModalCategories from '../../components/Modal/ModalCategories.vue'
 import CategoryAccordion from './CategoryAccordion.vue'
 import Alert from '../../components/vuetify/Alert.vue'
+import getAlphabetMixin from '../../mixins/getAlphabetMixin';
+import toggleModal from '../../mixins/toggleModalMixin';
+import timeoutMixin from '../../mixins/timeoutMixin';
+import succesMessage from '../../mixins/successMessageMixin';
+
+
 export default {
     components: {
         ModalCategories,
@@ -76,22 +83,12 @@ export default {
             categoriesAlphabet: null
         }
     },
+    mixins: [getAlphabetMixin , toggleModal, timeoutMixin, succesMessage],
     created() {
         if(this.$store.state.categories.length === 0)  this.getCategoriesAlphabet();
         this.getCategories();
     },
-     computed: {
-        getAlphabet() {
-           return [...Array(26)].map((_,i) => String.fromCharCode(i + 65))
-        },
-    },
     methods: {
-        openModal() {
-            this.showNewModal = true;
-        },
-        closeModal() {
-            this.showNewModal = false
-        },
         checkCategoryName(letter) {
             return (this.$store.state.categoriesAlphabet.includes(letter))? true : false;
         },
@@ -112,12 +109,6 @@ export default {
         refreshData() {
             this.getCategoriesAlphabet();
             this.getCategories();
-        },
-        timeout(ms) {
-            return new Promise((resolve)=> {
-                clearTimeout(this.typingTimer);
-                return this.typingTimer = setTimeout(()=> resolve(true), ms);
-            })
         },
         categoryCreatedSuccessfuly() {
             this.isCreated = true;

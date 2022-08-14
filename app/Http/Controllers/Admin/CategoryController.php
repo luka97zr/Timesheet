@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use App\Traits\ShowAllTrait;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
@@ -68,9 +68,12 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, $category_id)
+    public function update(Request $request, $categoryId)
     {
-        Category::findOrFail($category_id)->update($request->only(['name']));
+        $data = $request->validate([
+            'name' => ['required', 'max:255']
+        ]);
+        Category::findOrFail($categoryId)->update($data);
     }
 
     /**
@@ -79,8 +82,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($category_id)
+    public function destroy($categoryId)
     {
-        Category::destroy($category_id);
+        Category::destroy($categoryId);
     }
 }

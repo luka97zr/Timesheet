@@ -5,7 +5,7 @@
             <a href="javascript:;" class="modal__close" @click.prevent="$emit('closeModal')">
             <span class="modal__icon"></span>
             </a>
-            <form class="info" :class="{'was-validated' : isValidated}" action="javascript:;">
+            <form class="info"  action="javascript:;">
                 <ul class="info__form">
                     <li class="info__list">
                         <label class="info__label">Client name:</label>
@@ -33,8 +33,13 @@
                         <input-error v-if="errors.country_id" :message="errors.country_id[0]"></input-error>
                     </li>
                 </ul>
+                <div v-if="errors">
+                    <ul>
+                        <li v-for="(error, index) in errors" :key="index" class="error-item"><span class="invalid">{{error[0]}}</span></li>
+                    </ul>
+                </div>
                 <div class="btn-wrap">
-                    <button type="submit" class="btn btn--green" @click.prevent="createClient()"><span>Save changes</span></button>
+                    <button type="submit" class="btn btn--green" @click.prevent="createClient()" :disabled="isValidated"><span>Save changes</span></button>
                     <button type="button" class="btn btn--red" @click.prevent="clearForm()"><span>Delete</span></button>
                 </div>
             </form>
@@ -44,6 +49,7 @@
 
 <script>
 import InputError from '../Bootstrap/InputError.vue';
+import isValidatedMixin from '../../mixins/isValidatedMixin'
 export default {
   components: { InputError },
     props: ['showModal'],
@@ -53,12 +59,10 @@ export default {
             postalCode: '',
             city: '',
             address: '',
-            clientName: '',
+            clientName: null,
             errors : [],
-            isValidated: false
+            btnDisabled: true,
         }
-    },
-    created() {
     },
     methods: {
         closeModal() {
@@ -76,14 +80,14 @@ export default {
             this.clearForm();
             this.$emit('success')
           } catch(error) {
-            this.isValidated = true;
             this.errors = error.response.data.errors
           }
         },
         clearForm() {
             this.clientName=this.countryId=null
         }
-    }
+    },
+    mixins: [isValidatedMixin]
 
 }
 </script>

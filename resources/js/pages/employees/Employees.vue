@@ -27,7 +27,7 @@
             @closed="this.showNewModal = false"
             @closeModal="closeModal()">
         </modal-employees>
-        <v-overlay value="overlay" v-if="!isLoaded">
+        <v-overlay value="overlay" v-if="!isLoaded" opacity=".85">
             <v-progress-circular
                 indeterminate
                 size="64"

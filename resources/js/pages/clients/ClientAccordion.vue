@@ -27,7 +27,7 @@
                         <li class="info__list">
                             <label class="report__label">Country:</label>
                             <select class="info__select" v-model="countryId">
-                                <option :value="null">All</option>
+                                <option :value="null" disabled>All</option>
                                 <option :value="country.id" v-for="(country, index) in $store.state.countries" :key="index" >{{country.country}}</option>
                             </select>
                             <span v-if="errors && errors.country_id">{{errors.country_id[0]}}</span>
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="btn-wrap">
-                <button type="submit" class="btn btn--green" @click.prevent="updateClient()"><span>Save changes</span></button>
+                <button type="submit" class="btn btn--green" @click.prevent="updateClient()" :disabled="isValidated"><span>Save changes</span></button>
                 <button type="button" class="btn btn--red" @click="deleteModal = !deleteModal"><span>Delete</span></button>
             </div>
         </form>
@@ -45,13 +45,14 @@
 </template>
 
 <script>
+import isValidatedClientMixin from '../../mixins/isValidatedMixin'
 export default {
     props:['clientObj'],
     data() {
         return {
             isOpened: false,
-            countryId: '',
-            clientName: '',
+            countryId: null,
+            clientName: null,
             deleteModal: false,
             errors: null
         }
@@ -85,13 +86,14 @@ export default {
                 this.$emit('resend');
                 this.deleteModal = false;
             } catch(error) {
-                console.log(error)
+                this.errors = error.response.data.errors;
             }
         },
         confirmationModal() {
             this.deleteModal = !this.deleteModal;
         }
     },
+    mixins: [isValidatedClientMixin],
     watch: {
         clientObj: {
             handler() {
@@ -108,5 +110,4 @@ export default {
 .accorion-open {
     display: block;
 }
-$alert-font-size: 5px;
 </style>

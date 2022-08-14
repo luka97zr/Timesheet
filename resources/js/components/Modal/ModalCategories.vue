@@ -10,11 +10,15 @@
                     <li class="info__list">
                         <label class="info__label">Category name:</label>
                         <input type="text" class="in-text" v-model="categoryName">
-                        <div v-if="errors.name" class="invalid-feedback">{{errors.name[0]}}</div>
                     </li>
                 </ul>
+                <div v-if="errors">
+                    <ul>
+                        <li v-for="(error, index) in errors" :key="index" class="error-item"><span class="invalid">{{error[0]}}</span></li>
+                    </ul>
+                </div>
                 <div class="btn-wrap">
-                    <button type="submit" class="btn btn--green" @click="createCategory()"><span>Save changes</span></button>
+                    <button type="submit" class="btn btn--green" @click="createCategory()" :disabled="isValidated"><span>Save changes</span></button>
                     <button type="button" class="btn btn--red"><span>Delete</span></button>
                 </div>
             </form>
@@ -32,6 +36,11 @@ export default {
             errors: [],
             categoryName: null,
         }
+    },
+    computed: {
+        isValidated() {
+            return (this.categoryName)? false : true;
+        },
     },
     methods: {
         closeModal() {

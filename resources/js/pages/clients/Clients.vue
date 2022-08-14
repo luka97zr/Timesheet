@@ -17,7 +17,7 @@
                         </li>
                     </ul>
                 </div>
-                <client-accordion v-for="(client, index) in clients" :key="index" :client-obj="client" @resend="refreshData()" @updated="clientUpdatedSuccessfuly()"></client-accordion>
+                <client-accordion v-for="(client, index) in clients" :key="index" :client-obj="client" @resend="refreshData()" @updated="updatedSuccessfuly()"></client-accordion>
                     <alert v-if="isSuccess" :message="'Client Successfully updated'"></alert>
             </div>
             <div class="pagination" v-if="clients.length>0">
@@ -38,11 +38,11 @@
             :showModal="showNewModal"
             @closed="this.showNewModal = false"
             @closeModal="closeModal()"
-            @success="clientCreatedSuccessfuly()"
+            @success="createdSuccessfuly()"
             @resend="refreshData()"
         >
         </modal-clients>
-        <v-overlay value="overlay" v-if="!isLoaded">
+        <v-overlay value="overlay" v-if="!isLoaded" opacity=".85">
             <v-progress-circular
                 indeterminate
                 size="64"
@@ -57,12 +57,18 @@
 import ModalClients from '../../components/Modal/ModalClients.vue'
 import ClientAccordion from './ClientAccordion.vue'
 import Alert from '../../components/vuetify/Alert.vue'
+import getAlphabetMixin from '../../mixins/getAlphabetMixin'
+import toggleModal from '../../mixins/toggleModalMixin';
+import timeoutMixin from '../../mixins/timeoutMixin';
+import succesMessage from '../../mixins/successMessageMixin';
+
 export default {
     components: {
         ModalClients,
         ClientAccordion,
         Alert,
     },
+    mixins: [getAlphabetMixin, toggleModal, timeoutMixin, succesMessage],
     data() {
         return {
             clientsAlphabet: [],
@@ -83,25 +89,12 @@ export default {
         if(this.$store.state.clientsAlphabet.length <= 0)
         this.getClientsAlphabet();
         this.getClients();
-
-
-    },
-    computed: {
-        getAlphabet() {
-           return [...Array(26)].map((_,i) => String.fromCharCode(i + 65))
-        },
     },
     methods: {
-        openModal() {
-            this.showNewModal = true;
-        },
-        closeModal() {
-            this.showNewModal = false
-        },
         checkClientName(letter) {
             return (this.$store.state.clientsAlphabet.includes(letter))? true : false;
         },
-        nextPage() {
+         nextPage() {
             if (this.currentPage >= this.numOfPages) return
             this.currentPage++;
             this.getClients();
@@ -110,24 +103,6 @@ export default {
             if (this.currentPage <= 1) return
             this.currentPage--;
             this.getClients();
-        },
-        clientUpdatedSuccessfuly() {
-            this.isSuccess = true;
-            setTimeout(() => {
-                this.isSuccess = false;
-            }, 2000);
-        },
-        clientCreatedSuccessfuly() {
-            this.isCreated = true;
-            setTimeout(() => {
-                this.isCreated = false;
-            }, 2000);
-        },
-        timeout(ms) {
-            return new Promise((resolve)=> {
-                clearTimeout(this.typingTimer);
-                return this.typingTimer = setTimeout(()=> resolve(true), ms);
-            })
         },
         goToPage(page) {
             this.currentPage = page;

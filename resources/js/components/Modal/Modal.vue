@@ -22,5 +22,8 @@ export default {
 </script>
 
 <style>
+.invalid {
+    color: red;
+}
 
 </style>
