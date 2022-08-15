@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\UpdatePassword;
-use App\Events\Verified;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeStoreRequest;
 use App\Http\Requests\EmployeeUpdateRequest;
-use App\Http\Resources\EmployeeResource;
 use App\Models\User;
-use App\Models\VerifyUser;
+use App\Repository\EmployeeRepository;
 
 class EmployeeController extends Controller
 {
+    private $repository;
+
+    public function __construct(EmployeeRepository $repository)
+    {
+        return $this->repository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,9 +24,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return EmployeeResource::collection(
-            User::with('role')->paginate(3)
-        );
+        return $this->repository->index();
     }
 
 
@@ -34,24 +36,8 @@ class EmployeeController extends Controller
      */
     public function store(EmployeeStoreRequest $request)
     {
-        $data = $request->all();
-        $data['is_verified'] = false;
-        $user = User::create($data);
-        $token = VerifyUser::generateToken($user->id);
-        event(new UpdatePassword($user, $token));
+        return $this->repository->store($request);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
 
     /**
      * Update the specified resource in storage.
@@ -62,7 +48,7 @@ class EmployeeController extends Controller
      */
     public function update(EmployeeUpdateRequest $request, $id)
     {
-        User::findOrFail($id)->update($request->all());
+        return $this->repository->update($request, $id);
     }
 
     /**
@@ -71,8 +57,8 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $employee)
     {
-        User::destroy($id);
+        return $this->repository->destroy($employee->id);
     }
 }

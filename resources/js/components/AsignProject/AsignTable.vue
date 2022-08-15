@@ -42,13 +42,16 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <h5>Projects</h5>
-                                <ul class="project__dropdown">
-                                    <li class="input__block" v-for="(project, index) in $store.state.projects" :key="index">{{ project.name }}<input type="checkbox" :value="project.id" class="form-control" v-model="checkedProjects" >{{checkProjects(project.id)}}</li>
+                                <ul class="project__dropdown" v-if="userProjects">
+                                    <li class="input__block" v-for="(project, index) in userProjects" :key="index" >{{ project.project.name }}<button>x</button></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                            <select type="button" class="btn btn-info" v-model="projectSelect">
+                                <option :value="null" disabled>All</option>
+                                <option :value="project.id" v-for="(project, index) in all" :key="index">{{project.name}}</option>
+                            </select>
                             <button type="submit" class="btn btn-info" @click="saveUserProjects()">Save</button>
                         </div>
                     </form>
@@ -65,30 +68,40 @@ export default {
         return {
             isModalOpen: false,
             checkedProjects: [],
-            userProjects: null
+            userProjects: null,
+            activeProjects: [],
+            all: [],
+            loaded: false,
+            projectSelect: null
         }
-    },
-    computed() {
-      
     },
     methods: {
         openModal() {
             this.isModalOpen = true;
+            this.showUserProjects();
         },
         closeModal() {
             this.isModalOpen = false;
         },
-        checkProjects(projects) {
-            this.checkedProjects = projects.forEach(element => {
-                console.log(element);
+        checkProjects(item) {
+            if(this.loaded)
+            return this.userProjects.find((element) => {
+               return (item.id===element.id)? true : false;
             });
         },
-        async showUserProjects(id) {
+        saveUserProjects() {
+            let key = undefined;
+            this.all.findIndex((project, index) => {
+                key = project.id === this.projectSelect;
+            })
+               console.log(key);
+        },
+        async showUserProjects() {
             try {
+                this.all = this.$store.state.projects;
                 this.userProjects = (await axios.post('/api/user/project', {
                     user_id: this.employee.id
-                })).data
-                this.checkedProjects(this.userProjects)
+                })).data.data
             }catch(error) {
                 console.log(error)
             }

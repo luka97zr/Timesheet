@@ -5,40 +5,31 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
 use App\Http\Requests\ProjectUpdateRequest;
-use App\Http\Resources\ProjectResource;
 use App\Models\Project;
-use App\Traits\ShowAllTrait;
-use Illuminate\Support\Facades\DB;
+use App\Repository\ProjectRepository;
 
 class ProjectController extends Controller
 {
+    private $repository;
+
+    public function __construct(ProjectRepository $repository) {
+        $this->repository = $repository;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return ProjectResource::collection(
-            Project::with('client')->orderBy('created_at', 'DESC')->paginate(3)
-        );
-
+    public function index() {
+       return $this->repository->index();
     }
 
     public function getAlphabet() {
-        $letters = DB::table('projects')
-                ->selectRaw("SUBSTRING(name, 1,1) AS letter")
-                ->groupBy("letter")->get();
-
-        return collect($letters)->map(function($letter) {
-            return $letter->letter;
-        });
+       return $this->repository->alphabet();
     }
 
     public function allProjects() {
-       return ProjectResource::collection(
-            Project::where('status', 1)->get()
-       );
+        return $this->repository->all();
     }
     /**
      * Store a newly created resource in storage.
@@ -46,10 +37,8 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProjectRequest $request)
-    {
-        Project::create($request->all());
-        return response()->json(['success'=> true]);
+    public function store(ProjectRequest $request) {
+        return $this->repository->store($request);
     }
 
     /**
@@ -58,12 +47,8 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function show($letter)
-    {
-        return ProjectResource::collection(
-            Project::where('name','LIKE', $letter.'%')->with('client')->paginate(3)
-        );
-
+    public function show($letter) {
+        return $this->repository->show($letter);
     }
 
     /**
@@ -73,9 +58,8 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(ProjectUpdateRequest $request, $project_id)
-    {
-        Project::findOrFail($project_id)->update($request->all());
+    public function update(ProjectUpdateRequest $request, $projectId) {
+        return $this->repository->update($request, $projectId);
     }
 
     /**
@@ -84,9 +68,7 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $projects
      * @return \Illuminate\Http\Response
      */
-    public function destroy($project_id)
-    {
-        Project::destroy($project_id);
-        Project::findOrFail($project_id)->is_deleted = 1;
+    public function destroy(Project $project) {
+        return $this->repository->destroy($project->id);
     }
 }

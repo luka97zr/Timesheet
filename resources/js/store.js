@@ -114,7 +114,7 @@ export default {
 		async getClients({commit}) {
 			try {
                 const data = await axios.get(`/api/client/all`);
-                commit('setAllClients', data.data.data);
+                commit('setAllClients', data.data);
             }catch(error) {
 
             }

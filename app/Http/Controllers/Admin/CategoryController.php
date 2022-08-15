@@ -4,13 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
-use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Repository\CategoryRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 
 class CategoryController extends Controller
 {
+    private $repository;
+    public function __construct(CategoryRepository $repository) {
+        $this->repository = $repository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,19 +22,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return CategoryResource::collection(
-            Category::orderBy('name')->paginate(3)
-        );
+       return $this->repository->index();
     }
 
-    public function getAlphabet() {
-        $letters = DB::table('categories')
-                ->selectRaw("SUBSTRING(name, 1,1) AS letter")
-                ->groupBy("letter")->get();
-
-        return collect($letters)->map(function($letter) {
-            return $letter->letter;
-        });
+    public function getAlphabet()
+    {
+        return $this->repository->alphabet();
     }
 
 
@@ -42,8 +39,7 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        Category::create($request->only('name'));
-        return response()->json(['success'=>true]);
+        return $this->repository->store($request);
     }
 
      /**
@@ -54,12 +50,8 @@ class CategoryController extends Controller
      */
     public function show($letter)
     {
-        return CategoryResource::collection(
-            Category::where('name','LIKE', $letter.'%')->paginate(3)
-        );
-
+        return $this->repository->show($letter);
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -70,10 +62,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $categoryId)
     {
-        $data = $request->validate([
-            'name' => ['required', 'max:255']
-        ]);
-        Category::findOrFail($categoryId)->update($data);
+        return $this->repository->update($request, $categoryId);
     }
 
     /**
@@ -82,8 +71,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($categoryId)
+    public function destroy(Category $category)
     {
-        Category::destroy($categoryId);
+        return $this->repository->destroy($category->id);
     }
 }
