@@ -141,8 +141,8 @@ export default {
         async searchProjects(term) {
             try {
                 this.currentPage = 1;
-                this.isLoaded = false
                 await this.timeout(500);
+                this.isLoaded = false
                 const data = (await axios.get(`/api/project/${term}?page=${this.currentPage}`)).data;
                 this.projects = data.data;
                 this.isLoaded = true;

@@ -13,6 +13,7 @@ use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\LogController;
 use App\Http\Controllers\User\UserProjectController;
 use App\Http\Controllers\JWTAuthController;
+use App\Repository\Test;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +48,7 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::get('project/alphabet',[ProjectController::class, 'getAlphabet']);
         Route::apiResource('project',ProjectController::class);
         Route::post('user/project',[UserProjectController::class, 'show']);
+        Route::post('user/project/store',[UserProjectController::class, 'store']);
         Route::post('password/change',[ChangePasswordController::class, 'store']);
         Route::apiResource('employee',EmployeeController::class);
         Route::get('leads',LeadController::class);

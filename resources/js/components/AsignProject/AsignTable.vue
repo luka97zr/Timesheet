@@ -14,7 +14,6 @@
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Projects</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -22,7 +21,6 @@
                         <tr>
                             <td>{{employee.name}}</td>
                             <td>{{employee.email}}</td>
-                            <td>projekat</td>
                             <td>
                                 <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit" @click="openModal()">&#xE254;</i></a>
                             </td>
@@ -43,16 +41,17 @@
                             <div class="form-group">
                                 <h5>Projects</h5>
                                 <ul class="project__dropdown" v-if="userProjects">
-                                    <li class="input__block" v-for="(project, index) in userProjects" :key="index" >{{ project.project.name }}<button>x</button></li>
+                                    <li class="input__block" v-for="(project, index) in userProjects" :key="index" >{{ project.name }}<button>x</button></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <select type="button" class="btn btn-info" v-model="projectSelect">
                                 <option :value="null" disabled>All</option>
-                                <option :value="project.id" v-for="(project, index) in all" :key="index">{{project.name}}</option>
+                                <option :value="project.id" v-for="(project, index) in allProjects" :key="index" >{{project.name}}</option>
                             </select>
-                            <button type="submit" class="btn btn-info" @click="saveUserProjects()">Save</button>
+                            <button type="submit" class="btn btn-info" @click.prevent="saveUserProjects()">Add Project</button>
+                            <button type="submit" class="btn btn-info" @click.prevent="updateUserProjects()">Save</button>
                         </div>
                     </form>
                 </div>
@@ -70,9 +69,9 @@ export default {
             checkedProjects: [],
             userProjects: null,
             activeProjects: [],
-            all: [],
+            allProjects: [],
             loaded: false,
-            projectSelect: null
+            projectSelect:null,
         }
     },
     methods: {
@@ -83,25 +82,39 @@ export default {
         closeModal() {
             this.isModalOpen = false;
         },
-        checkProjects(item) {
-            if(this.loaded)
-            return this.userProjects.find((element) => {
-               return (item.id===element.id)? true : false;
-            });
-        },
         saveUserProjects() {
-            let key = undefined;
-            this.all.findIndex((project, index) => {
-                key = project.id === this.projectSelect;
-            })
-               console.log(key);
+            if (!this.projectSelect) return
+            const projectIndex = this.allProjects.findIndex(project => project.id === this.projectSelect);
+            const data = this.allProjects.splice(projectIndex, 1);
+            this.userProjects.push(data[0]);
+            this.projectSelect = null;
         },
         async showUserProjects() {
             try {
-                this.all = this.$store.state.projects;
                 this.userProjects = (await axios.post('/api/user/project', {
                     user_id: this.employee.id
-                })).data.data
+                })).data.data.map(project => project.project)
+
+                this.allProjects = [...this.$store.state.projects].filter(project => !this.userProjects.find(userProject => userProject.id === project.id))
+            }catch(error) {
+                console.log(error)
+            }
+        },
+        async updateUserProjects() {
+            try {
+                let payload = [];
+                payload = this.userProjects.map(project => {
+                    return {
+                        user_id: this.employee.id,
+                        project_id: project.id
+                    }
+                });
+                await axios.post('/api/user/project/store', {
+                    projects: payload
+                });
+                this.$emit('updated');
+                this.closeModal();
+
             }catch(error) {
                 console.log(error)
             }

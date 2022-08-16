@@ -50,19 +50,24 @@
                 <button type="button" class="btn btn--red" @click="deleteEmployee()"><span>Delete</span></button>
                 <button type="button" class="btn btn--orange" @click="changePassword()"><span>Change passwword</span></button>
             </div>
-            <asign-table :employee="employee"></asign-table>
+            <asign-table :employee="employee" @updated="updatedSuccessfuly()"></asign-table>
         </form>
+        <alert v-if="isSuccess" :message="'Projects added successfuly'"></alert>
     </div>
 </template>
 
 <script>
 import AsignTable from '../../components/AsignProject/AsignTable.vue';
+import successMessage from '../../mixins/successMessageMixin';
+import Alert from '../../components/vuetify/Alert.vue';
 
 export default {
     props: ['employee'],
     components: {
         AsignTable,
+        Alert
     },
+    mixins: [successMessage],
     data() {
         return {
             isOpened: false,
@@ -72,7 +77,8 @@ export default {
             email: null,
             userRole : null,
             status: null,
-            projectSelect: false
+            projectSelect: false,
+            isSuccess: false,
         }
     },
     methods: {
@@ -114,6 +120,7 @@ export default {
                     role_id: this.userRole
                 });
                 this.$emit('resend');
+                this.$emit('updated');
             } catch(error) {
                 console.log(error)
             }
@@ -123,6 +130,8 @@ export default {
                 axios.post('/api/password/change', {
                     user_id: this.userId
                 })
+                this.$emit('changePwd');
+
             }catch(error) {
                 console.log(error);
             }

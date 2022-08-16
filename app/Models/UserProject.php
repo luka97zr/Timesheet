@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class UserProject extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $guarded = [];
     protected $table = 'users_projects';
 
     public function user() {

@@ -26,4 +26,15 @@ class UserProjectController extends Controller
             UserProject::where('user_id', $userId)->with('project')->get()
         );
     }
+
+    public function store(Request $request) {
+
+        collect($request->get('projects'))->each(function($project) {
+            UserProject::updateOrCreate([
+                'user_id' => $project['user_id'],
+                'project_id' => $project['project_id'],
+            ]);
+        });
+        return 'success';
+    }
 }

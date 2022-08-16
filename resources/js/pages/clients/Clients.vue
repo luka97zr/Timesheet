@@ -18,7 +18,7 @@
                     </ul>
                 </div>
                 <client-accordion v-for="(client, index) in clients" :key="index" :client-obj="client" @resend="refreshData()" @updated="updatedSuccessfuly()"></client-accordion>
-                    <alert v-if="isSuccess" :message="'Client Successfully updated'"></alert>
+                <alert v-if="isSuccess" :message="'Client Successfully updated'"></alert>
             </div>
             <div class="pagination" v-if="clients.length>0">
                 <ul class="pagination__navigation">
@@ -136,8 +136,8 @@ export default {
         async searchClients(term) {
             try {
                 this.currentPage = 1;
-                this.isLoaded = false
                 await this.timeout(500);
+                this.isLoaded = false
                 const data =(await axios.get(`/api/client/${term}?page=${this.currentPage}`)).data;
                 this.clients = data.data;
                 this.isLoaded = true;

@@ -12,5 +12,11 @@ export default {
                 this.isCreated = false;
             }, 2000);
         },
+        passwordUpdatedSuccessfuly() {
+            this.isPasswordUpdated = true;
+            setTimeout(() => {
+                this.isPasswordUpdated = false;
+            }, 2000);
+        },
     },
 }

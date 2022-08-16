@@ -6,7 +6,9 @@
                 <div class="table-navigation">
                     <a href="javascript:;" class="table-navigation__create btn-modal" @click.prevent="openModal()"><span>Create new employee</span></a>
                 </div>
-                <employee-accordion v-for="(employee, index) in $store.state.employees.data" :key="index" :employee="employee" @resend="getEmployees()"></employee-accordion>
+                <employee-accordion v-for="(employee, index) in $store.state.employees.data" :key="index" :employee="employee" @resend="getEmployees()" @updated="updatedSuccessfuly()" @changePwd="passwordUpdatedSuccessfuly()"></employee-accordion>
+                <alert v-if="isSuccess" :message="'Employee updated'"></alert>
+                <alert v-if="isPasswordUpdated" :message="'Password reset link is sent'"></alert>
             </div>
             <div class="pagination">
                 <ul class="pagination__navigation" v-if="numOfPages">
@@ -38,12 +40,16 @@
 
 <script>
 import ModalEmployees from '../../components/Modal/ModalEmployees.vue'
+import Alert from '../../components/vuetify/Alert.vue'
 import EmployeeAccordion from './EmpolyeeAccordion.vue'
+import successMessage from '../../mixins/successMessageMixin';
 export default {
     components: {
         ModalEmployees,
-        EmployeeAccordion
+        EmployeeAccordion,
+        Alert
     },
+    mixins: [successMessage],
     data() {
         return {
             showNewModal: false,
@@ -52,12 +58,13 @@ export default {
             isLoaded: true,
             currentPage: 1,
             isSuccess: false,
+            isPasswordUpdated: false,
             search: '',
             typingTimer: null
         }
     },
     created() {
-        if(this.$store.state.employees.length <= 0) this.getEmployees();
+        this.getEmployees();
         if(this.$store.state.roles.length <= 0) this.$store.dispatch('getRoles');
         if(this.$store.state.projects.length <= 0) this.$store.dispatch('getProjects');
     },
