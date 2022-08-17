@@ -56,20 +56,19 @@ export default {
             }
             this.loading = false
         },
-		parseJwt(token) {
-			if (!token) {
-			return;
-			}
-			const base64Url = token.split(".")[1];
-			const base64 = base64Url.replace("-", "+").replace("_", "/");
-			const {email, name, role} = JSON.parse(window.atob(base64));
-			const user = {
-				email : email,
-				role: role,
-				name: name
-			}
-			localStorage.setItem('user', JSON.stringify(user));
-		},
+		// parseJwt(token) {
+		// 	if (!token) return;
+		// 	const base64Url = token.split(".")[1];
+		// 	const base64 = base64Url.replace("-", "+").replace("_", "/");
+		// 	const {email, name, role} = JSON.parse(window.atob(base64));
+		// 	const user = {
+		// 		email : email,
+		// 		role: role,
+		// 		name: name,
+		// 		id: id
+		// 	}
+		// 	localStorage.setItem('user', JSON.stringify(user));
+		// },
 		getCookie(name) {
 			var nameEQ = name + "=";
 			var ca = document.cookie.split(';');

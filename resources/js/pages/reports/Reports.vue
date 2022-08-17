@@ -7,18 +7,15 @@
                     <ul class="reports__form">
                         <li class="reports__list">
                             <label class="report__label">Client</label>
-                            <select class="reports__select">
-                                <option value="">All</option>
-                                <option value="223">Internal</option>
-                                <option value="241">Internal</option>
-                                <option value="300">Internal</option>
-                                <option value="1341">Internal</option>
+                            <select class="reports__select" v-model="clientId">
+                                <option :value="null" selected>All</option>
+                                <option :value="client.client.id" v-for="(client, index) in allClientsProjects" :key="index">{{ client.client.name }}</option>
                             </select>
                         </li>
                         <li class="reports__list">
                             <label class="report__label">Project</label>
                             <select class="reports__select">
-                                <option value="">All</option>
+                                <option :value="null">All</option>
                                 <option value="">All</option>
                                 <option value="">All</option>
                                 <option value="">All</option>
@@ -35,8 +32,9 @@
                     <ul class="reports__form">
                         <li class="reports__list">
                             <label class="report__label">Employee</label>
-                            <select class="reports__select">
-                                <option value="2723">Ognjen Adamović</option>
+                            <select class="reports__select" v-model="employeeId">
+                                <option :value="userId" selected>{{employeeName}}</option>
+                                <option :value="user.id" v-for="(user, index) in allUsers" :key="'user:'+index">{{user.name}}</option>
                             </select>
                         </li>
                     </ul>
@@ -75,108 +73,7 @@
                     </div>
                 </form>
                 <div class="table-wrapper">
-                    <table class="projects-table">
-                        <thead>
-                            <tr>
-                                <th class="small"><span>Date</span></th>
-                                <th class="small"><span>Employees</span></th>
-                                <th class="small"><span>Projects</span></th>
-                                <th class="small"><span>Categories</span></th>
-                                <th class="small"><span>Description</span></th>
-                                <th class="small"><span>Time</span></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>14.12.2020.</td>
-                                <td>Ognjen Adamović</td>
-                                <td>Internal</td>
-                                <td>Internal</td>
-                                <td>Front-end Development</td>
-                                <td>7.5</td>
-                            </tr>
-                            <tr>
-                                <td>14.12.2020.</td>
-                                <td>Ognjen Adamović</td>
-                                <td>Internal</td>
-                                <td>Learning</td>
-                                <td>Front-end Development</td>
-                                <td>7.5</td>
-                            </tr>
-                            <tr>
-                                <td>15.12.2020.</td>
-                                <td>Ognjen Adamović</td>
-                                <td>Internal</td>
-                                <td>Internal</td>
-                                <td>Front-end Development</td>
-                                <td>7.5</td>
-                            </tr>
-                            <tr>
-                                <td>15.12.2020.</td>
-                                <td>Ognjen Adamović</td>
-                                <td>Internal</td>
-                                <td>Learning</td>
-                                <td>Front-end Development</td>
-                                <td>7.5</td>
-                            </tr>
-                            <tr>
-                                <td>16.12.2020.</td>
-                                <td>Ognjen Adamović</td>
-                                <td>Internal</td>
-                                <td>Internal</td>
-                                <td>Front-end Development</td>
-                                <td>7.5</td>
-                            </tr>
-                            <tr>
-                                <td>16.12.2020.</td>
-                                <td>Ognjen Adamović</td>
-                                <td>Internal</td>
-                                <td>Learning</td>
-                                <td>Front-end Development</td>
-                                <td>7.5</td>
-                            </tr>
-                            <tr>
-                                <td>17.12.2020.</td>
-                                <td>Ognjen Adamović</td>
-                                <td>Internal</td>
-                                <td>Internal</td>
-                                <td>Front-end Development</td>
-                                <td>7.5</td>
-                            </tr>
-                            <tr>
-                                <td>17.12.2020.</td>
-                                <td>Ognjen Adamović</td>
-                                <td>Internal</td>
-                                <td>Learning</td>
-                                <td>Front-end Development</td>
-                                <td>7.5</td>
-                            </tr>
-                            <tr>
-                                <td>18.12.2020.</td>
-                                <td>Ognjen Adamović</td>
-                                <td>Internal</td>
-                                <td>Internal</td>
-                                <td>Front-end Development</td>
-                                <td>7.5</td>
-                            </tr>
-                            <tr>
-                                <td>18.12.2020.</td>
-                                <td>Ognjen Adamović</td>
-                                <td>Internal</td>
-                                <td>Learning</td>
-                                <td>Front-end Development</td>
-                                <td>7.5</td>
-                            </tr>
-                            <tr>
-                                <td>21.12.2020.</td>
-                                <td>Ognjen Adamović</td>
-                                <td>Internal</td>
-                                <td>Internal</td>
-                                <td>Front-end Development</td>
-                                <td>7.5</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <report-table></report-table>
                 </div>
                 <div class="table-navigation">
                     <div class="table-navigation__next">
@@ -195,8 +92,83 @@
 </template>
 
 <script>
+import ReportTable from './ReportTable.vue'
 export default {
-
+    components: {
+        ReportTable
+    },
+    data() {
+        return {
+            employeeId: JSON.parse(localStorage.getItem('user')).id,
+            allUsers: [],
+            allClientsProjects: [],
+            allProjects: [],
+            allCategories: [],
+            clientId: null,
+            projectId: null,
+            categoryId: null,
+        }
+    },
+    computed: {
+        employeeName() {
+            return JSON.parse(localStorage.getItem('user')).name
+        },
+        userId() {
+            return JSON.parse(localStorage.getItem('user')).id
+        }
+    },
+    created() {
+        this.getUsersData();
+    },
+    methods: {
+        // filteredClients(data) {
+        //     this.allClientsProjects = [...new Map(data.map(item =>
+        //         [item.project.client['name'], item.project])).values()];
+        //     if(!this.client){
+        //         this.project = null;
+        //         this.category = null;
+        //     }
+        // },
+        // filteredProjects() {
+        //     if(!this.projectId) this.categoryId=null
+        //     const projects = []
+        //      this.allClientsProjects.forEach(project => {
+        //          console.log(client);
+        //             // if(client.project.id === this.clientId)
+        //             // projects.push(project)
+        //     })
+        //    return projects
+        // },
+        async getUsersData() {
+            try {
+                const data = (await axios.get('/api/report')).data;
+                this.allUsers = data.data;
+            }catch(error) {
+                console.log(error)
+            }
+        },
+        async getClientsData() {
+            try {
+                const data = (await axios.get(`/api/report/user/${this.employeeId}`)).data;
+                this.filteredClients(data.data);
+            }catch(error) {
+                console.log(error)
+            }
+        }
+    },
+    watch: {
+        employeeId: {
+           handler() {
+                this.getClientsData();
+           },
+           immediate: true
+        },
+        clientId: {
+            handler() {
+                this.filteredProjects();
+            }
+        }
+    }
 }
 </script>
 

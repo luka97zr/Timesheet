@@ -22,7 +22,8 @@ class EmployeeResource extends JsonResource
             'status'=> $this->status,
             'role'  => RoleResource::make(
                 $this->whenLoaded('role')
-            )
+            ),
+            'project'=> $this->whenLoaded('project')
         ];
     }
 }

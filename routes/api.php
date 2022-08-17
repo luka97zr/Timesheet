@@ -13,6 +13,7 @@ use App\Http\Controllers\User\CalendarController;
 use App\Http\Controllers\User\LogController;
 use App\Http\Controllers\User\UserProjectController;
 use App\Http\Controllers\JWTAuthController;
+use App\Http\Controllers\ReportController;
 use App\Repository\Test;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,11 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::apiResource('logs',LogController::class);
     Route::get('user/project',[UserProjectController::class, 'index']);
     Route::get('calendar/{from}/{to}',CalendarController::class);
+    Route::prefix('report')->group(function() {
+        Route::get('/', [ReportController::class, 'index']);
+        Route::get('/user/{user}', [ReportController::class, 'userClients']);
+        Route::get('/category/{project}', [ReportController::class, 'projectCategory']);
+    });
 
     Route::middleware(['admin'])->group(function() {
         Route::get('client/all',[ClientController::class, 'allClients']);

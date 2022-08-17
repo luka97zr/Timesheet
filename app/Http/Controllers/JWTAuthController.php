@@ -31,6 +31,7 @@ class JWTAuthController extends Controller
             'name'  => auth()->user()->name,
             'role'    => Role::get_role_name(auth()->user()->role_id),
             'email'  => auth()->user()->email,
+            'id'     => auth()->user()->id
         ];
         return response()->json([
             'success' => true,

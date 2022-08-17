@@ -23,9 +23,6 @@
                         <router-link to="/employees" class="btn navigation__button" v-if="isAdmin">Employees</router-link>
                     </li>
                     <li class="navigation__list">
-                        <router-link to="/asign/project" class="btn navigation__button" v-if="isAdmin">Asign Project</router-link>
-                    </li>
-                    <li class="navigation__list">
                         <router-link to="/reports" class="btn navigation__button">Reports</router-link>
                     </li>
                 </ul>
