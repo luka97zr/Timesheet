@@ -164,4 +164,7 @@ export default {
         color: #ececec !important;
     }
 }
+.alphabet__button--disabled {
+    pointer-events: none;
+}
 </style>

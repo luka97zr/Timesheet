@@ -105,7 +105,7 @@ export default {
 		},
 		async getCountries({commit}) {
             try {
-                const data = await axios.get('/api/country');
+                const data = (await axios.get('/api/country')).data;
                	commit('setCountries', data.data)
             } catch(error) {
 				console.log(error)

@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="btn-wrap">
-                <button type="submit" class="btn btn--green" @click="updateEmployee()"><span>Save changes</span></button>
+                <button type="submit" class="btn btn--green" @click="updateEmployee()" :disabled="isValidated"><span>Save changes</span></button>
                 <button type="button" class="btn btn--red" @click="deleteEmployee()"><span>Delete</span></button>
                 <button type="button" class="btn btn--orange" @click="changePassword()"><span>Change passwword</span></button>
             </div>
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import AsignTable from '../../components/AsignProject/AsignTable.vue';
+import AsignTable from './AsignProjectTable.vue';
 import successMessage from '../../mixins/successMessageMixin';
 import Alert from '../../components/vuetify/Alert.vue';
 
@@ -79,6 +79,11 @@ export default {
             status: null,
             projectSelect: false,
             isSuccess: false,
+        }
+    },
+    computed: {
+        isValidated() {
+            return (this.userName && this.email)? false : true;
         }
     },
     methods: {

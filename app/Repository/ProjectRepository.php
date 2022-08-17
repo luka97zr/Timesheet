@@ -18,7 +18,7 @@ class ProjectRepository {
 
     public function alphabet()
     {
-        return Cache::remember('project-alphabet', 60*10, function() {
+        return Cache::remember('project-alphabet', 60*60, function() {
             $letters = DB::table('projects')
                 ->selectRaw("SUBSTRING(name, 1,1) AS letter")
                 ->groupBy("letter")->get();
@@ -31,7 +31,7 @@ class ProjectRepository {
 
     public function all()
     {
-        return Cache::remember('projects', 60*10, function() {
+        return Cache::remember('projects', 60*60*24, function() {
             return ProjectResource::collection(
                 Project::where('status', 1)->get()
            );

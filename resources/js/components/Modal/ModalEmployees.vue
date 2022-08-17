@@ -50,8 +50,21 @@
                     </li>
                 </ul>
                 </div>
+                <div v-if="errors">
+                    <ul>
+                        <li v-for="(error, index) in errors" :key="index" class="error-item"><span class="invalid">{{error[0]}}</span></li>
+                    </ul>
+                </div>
                 <div class="btn-wrap">
-                    <button type="submit" class="btn btn--green" @click.prevent="inviteEmployee()" :disabled="isValidated"><span>Invite an employee</span></button>
+                    <v-btn
+                    color="primary"
+                    :disabled="isValidated"
+                    elevation="2"
+                    @click.prevent="inviteEmployee()"
+                    :loading="loading"
+                    >
+                    Invite an employee
+                    </v-btn>
                 </div>
             </form>
         </div>
@@ -68,7 +81,9 @@ export default {
             hoursPerWeek: null,
             email: null,
             status: 0,
-            userRole: 1
+            userRole: 1,
+            errors: [],
+            loading: false,
         }
     },
     computed: {
@@ -83,14 +98,17 @@ export default {
         async inviteEmployee() {
           try {
               this.errors = [];
+              this.loading = true;
               await axios.post('/api/employee', {
-                  email: this.email,
-                  name: this.name,
-                  status: this.status,
-                  role_id: this.userRoleole
+                email: this.email,
+                name: this.name,
+                status: this.status,
+                role_id: this.userRole
               })
+              this.loading = false;
             this.$emit('closeModal')
             this.$emit('resend');
+            this.$emit('created');
             this.clearForm();
           } catch(error) {
               this.errors = error.response.data.errors

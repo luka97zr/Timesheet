@@ -25,9 +25,21 @@ class EmployeeStoreRequest extends FormRequest
     {
         return [
             'name'  => ['required'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,name'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'status'=> ['required', 'boolean'],
             'role_id'=> ['required', 'exists:roles,id']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Name is required',
+            'email.required' => 'Email is required',
+            'email.unique' => 'User with that email already exists',
+            'status.required' => 'Status is required',
+            'status.boolean' => 'Status value is wrong',
+            'role_id.required' => 'Role is required',
         ];
     }
 }

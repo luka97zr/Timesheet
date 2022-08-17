@@ -64,4 +64,7 @@ export default {
         color: #444;
     }
 }
+.navigation__button--active {
+    border: none;
+}
 </style>

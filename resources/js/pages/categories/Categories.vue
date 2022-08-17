@@ -38,7 +38,7 @@
             :showModal="showNewModal"
             @closed="this.showNewModal = false"
             @closeModal="closeModal()"
-            @created="categoryCreatedSuccessfuly()"
+            @created="createdSuccessfuly()"
             @resend="refreshData()">
         </modal-categories>
         <v-overlay value="overlay" v-if="!isLoaded"  opacity=".85">

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Http\Controllers\CalendarController;
+use App\Models\Client;
+use App\Observers\ClientObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

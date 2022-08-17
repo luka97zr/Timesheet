@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="btn-wrap">
-                <button type="submit" class="btn btn--green" @click="updateCategory()"><span>Save changes</span></button>
+                <button type="submit" class="btn btn--green" @click="updateCategory()" :disabled="isValidated"><span>Save changes</span></button>
                 <button type="button" class="btn btn--red" @click="deleteCategory()"><span>Delete</span></button>
             </div>
         </form>
@@ -29,8 +29,13 @@ props: ['category'],
     data() {
         return {
             isOpened: false,
-            categoryName: '',
+            categoryName: null,
             errors: []
+        }
+    },
+    computed: {
+        isValidated() {
+            return (this.categoryName)? false : true;
         }
     },
     methods: {

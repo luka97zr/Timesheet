@@ -47,7 +47,7 @@
         },
         computed: {
             year() {
-			return moment(this.day).format('YYYY');
+			return moment(this.dateContext).format('YYYY');
 		    },
             month() {
                 return this.dateContext.format('MMMM');

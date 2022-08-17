@@ -67,7 +67,7 @@ class ClientController extends Controller
      */
     public function update(ClientUpdateRequest $request, Client $client)
     {
-        return $this->repository->show($request, $client->id);
+        return $this->repository->update($request, $client->id);
     }
 
     /**
@@ -76,7 +76,8 @@ class ClientController extends Controller
      * @param  \App\Models\Clients  $clients
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client) {
+    public function destroy(Client $client)
+    {
         return $this->repository->destroy($client->id);
     }
 }

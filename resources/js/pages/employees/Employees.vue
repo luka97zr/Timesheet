@@ -13,13 +13,13 @@
             <div class="pagination">
                 <ul class="pagination__navigation" v-if="numOfPages">
                     <li class="pagination__list">
-                        <a class="pagination__button" href="javascript:;">Previous</a>
+                        <a class="pagination__button" href="javascript:;"  @click.prevent="prevPage()">Previous</a>
                     </li>
                     <li class="pagination__list"  v-for="(page,index) in numOfPages" :key="index">
                         <a class="pagination__button pagination__button--active" href="javascript:;" @click.prevent="goToPage(page)">{{page}}</a>
                     </li>
-                    <li class="pagination__list">
-                        <a class="pagination__button" href="javascript:;">Next</a>
+                    <li class="pagination__list" >
+                        <a class="pagination__button" href="javascript:;" @click.prevent="nextPage()">Next</a>
                     </li>
                 </ul>
             </div>
@@ -27,6 +27,7 @@
         <modal-employees
             :showModal="showNewModal"
             @closed="this.showNewModal = false"
+            @created="createdSuccessfuly()"
             @closeModal="closeModal()">
         </modal-employees>
         <v-overlay value="overlay" v-if="!isLoaded" opacity=".85">
@@ -35,6 +36,7 @@
                 size="64"
             ></v-progress-circular>
         </v-overlay>
+        <alert v-if="isCreated" :message="'Employee invitation sent'"></alert>
     </div>
 </template>
 
@@ -58,6 +60,7 @@ export default {
             isLoaded: true,
             currentPage: 1,
             isSuccess: false,
+            isCreated: false,
             isPasswordUpdated: false,
             search: '',
             typingTimer: null
@@ -71,6 +74,12 @@ export default {
     computed: {
         numOfPages() {
             return this.$store.state.employees.meta?.last_page;
+        },
+        firstPages() {
+            return [this.currentPage, this.currentPage+1, this.currentPage+2]
+        },
+        lastPages() {
+            return [this.numOfPages-2,this.numOfPages-1, this.numOfPages]
         }
     },
     methods: {
@@ -79,6 +88,16 @@ export default {
         },
         closeModal() {
             this.showNewModal = false
+        },
+         nextPage() {
+            if (this.currentPage >= this.numOfPages) return
+            this.currentPage++;
+             this.getEmployees();
+        },
+        prevPage() {
+            if (this.currentPage <= 1) return
+            this.currentPage--;
+             this.getEmployees();
         },
          goToPage(page) {
             this.currentPage = page;

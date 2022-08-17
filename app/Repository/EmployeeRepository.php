@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Events\UpdatePassword;
+use App\Http\Requests\EmployeeStoreRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\User;
 use App\Models\VerifyUser;
@@ -16,7 +17,7 @@ class EmployeeRepository {
         );
     }
 
-    public function store($request)
+    public function store(EmployeeStoreRequest $request)
     {
         $data = $request->all();
         $data['is_verified'] = false;

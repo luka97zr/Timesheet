@@ -20,7 +20,7 @@ class ClientRepository {
     }
 
     public function alphabet(){
-        return Cache::remember('client-alphabet', 60*10, function() {
+        return Cache::remember('client-alphabet', 60*60, function() {
             $letters = DB::table('clients')
                 ->selectRaw("SUBSTRING(name, 1,1) AS letter")
                 ->groupBy("letter")->get();
@@ -32,7 +32,7 @@ class ClientRepository {
     }
 
     public function all(){
-        return Cache::remember('clients', 60*10, function() {
+        return Cache::remember('clients', 60*60*24, function() {
             return ClientIndexResource::collection(
                 Client::all()
             )->toJson();
