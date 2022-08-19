@@ -40,9 +40,9 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('user/project',[UserProjectController::class, 'index']);
     Route::get('calendar/{from}/{to}',CalendarController::class);
     Route::prefix('report')->group(function() {
-        Route::get('/', [ReportController::class, 'index']);
-        Route::get('/user/{user}', [ReportController::class, 'userClients']);
-        Route::get('/category/{project}', [ReportController::class, 'projectCategory']);
+        Route::post('/', [ReportController::class, 'index']);
+        Route::post('/clients', [ReportController::class, 'userClients']);
+        Route::post('/category', [ReportController::class, 'projectCategory']);
     });
 
     Route::middleware(['admin'])->group(function() {

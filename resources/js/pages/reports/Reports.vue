@@ -9,23 +9,21 @@
                             <label class="report__label">Client</label>
                             <select class="reports__select" v-model="clientId">
                                 <option :value="null" selected>All</option>
-                                <option :value="client.client.id" v-for="(client, index) in allClientsProjects" :key="index">{{ client.client.name }}</option>
+                                <option :value="client.id" v-for="(client, index) in allClients" :key="index">{{ client.name }}</option>
                             </select>
                         </li>
                         <li class="reports__list">
                             <label class="report__label">Project</label>
-                            <select class="reports__select">
-                                <option :value="null">All</option>
-                                <option value="">All</option>
-                                <option value="">All</option>
-                                <option value="">All</option>
-                                <option value="">All</option>
+                            <select class="reports__select" v-model="projectId">
+                                <option :value="null" selected>All</option>
+                                <option :value="project.project.id" v-for="(project, index) in selectedProjects" :key="index">{{project.project.name}}</option>
                             </select>
                         </li>
                         <li class="reports__list">
                             <label class="report__label">Category:</label>
-                            <select class="reports__select">
-                                <option value="">All</option>
+                            <select class="reports__select" v-model="categoryId">
+                                <option :value="null">All</option>
+                                <option :value="category.id" v-for="(category, index) in allCategories" :key="index">{{category.name}}</option>
                             </select>
                         </li>
                     </ul>
@@ -41,8 +39,8 @@
                     <ul class="reports__form">
                         <li class="reports__list">
                             <label class="report__label">Quick date:</label>
-                            <select class="reports__select">
-                                <option value="">Select week</option>
+                            <select class="reports__select" v-model="week">
+                                <option :value="null">Select week</option>
                                 <option value="1">Next week</option>
                                 <option value="2">This week</option>
                                 <option value="3">Last week</option>
@@ -101,12 +99,19 @@ export default {
         return {
             employeeId: JSON.parse(localStorage.getItem('user')).id,
             allUsers: [],
+            allClients: [],
             allClientsProjects: [],
             allProjects: [],
+            selectedProjects: [],
             allCategories: [],
             clientId: null,
             projectId: null,
             categoryId: null,
+            errors: [],
+            week: null,
+            month: null,
+            startDate: null,
+            endDate: null
         }
     },
     computed: {
@@ -121,40 +126,53 @@ export default {
         this.getUsersData();
     },
     methods: {
-        // filteredClients(data) {
-        //     this.allClientsProjects = [...new Map(data.map(item =>
-        //         [item.project.client['name'], item.project])).values()];
-        //     if(!this.client){
-        //         this.project = null;
-        //         this.category = null;
-        //     }
-        // },
-        // filteredProjects() {
-        //     if(!this.projectId) this.categoryId=null
-        //     const projects = []
-        //      this.allClientsProjects.forEach(project => {
-        //          console.log(client);
-        //             // if(client.project.id === this.clientId)
-        //             // projects.push(project)
-        //     })
-        //    return projects
-        // },
+        filteredClients(data) {
+            this.clientId = null;
+            this.allClients = [...new Map(data.map(item =>
+                [item.project.client['name'], item.project.client])).values()];
+        },
+        filteredProjects() {
+            if(!this.clientId) {
+                this.projectId = this.categoryId = null
+            }
+            this.selectedProjects = [];
+             this.allClientsProjects.forEach(project => {
+                if(project.project.client.id === this.clientId)
+                    this.selectedProjects.push(project);
+            })
+        },
         async getUsersData() {
             try {
-                const data = (await axios.get('/api/report')).data;
+                const data = (await axios.post('/api/report', {
+                    user_id: this.employeeId
+                })).data;
                 this.allUsers = data.data;
             }catch(error) {
-                console.log(error)
+                this.errors = error.response
             }
         },
         async getClientsData() {
             try {
-                const data = (await axios.get(`/api/report/user/${this.employeeId}`)).data;
+                const data = (await axios.post(`/api/report/clients`, {
+                    user_id: this.employeeId
+                })).data;
+                this.allClientsProjects = data.data;
                 this.filteredClients(data.data);
             }catch(error) {
-                console.log(error)
+                this.errors = error.response.data.errors
+
             }
-        }
+        },
+         async getCategories() {
+            try {
+                const data = (await axios.post(`/api/report/category`, {
+                    project_id: this.projectId
+                })).data;
+                this.allCategories = data.data;
+            }catch(error) {
+                this.errors = error.response.data.error
+            }
+        },
     },
     watch: {
         employeeId: {
@@ -166,6 +184,11 @@ export default {
         clientId: {
             handler() {
                 this.filteredProjects();
+            }
+        },
+        projectId: {
+            handler() {
+                this.getCategories();
             }
         }
     }

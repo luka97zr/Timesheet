@@ -6,38 +6,54 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\EmployeeResource;
 use App\Http\Resources\UserProjectResource;
 use App\Models\Category;
-use App\Models\Client;
 use App\Models\Project;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserProject;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class ReportController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
+        $userId = $request->get('user_id');
         if(auth()->user()->role_id === Role::IS_ADMIN) {
-            return Cache::remember('employees', 60*10, function() {
+            $employees = Cache::remember('employees', 60*10, function() use ($userId) {
                 return EmployeeResource::collection(
                     User::get()
                 );
             });
+            $key = collect($employees)->search(function($employee) use ($userId) {
+                return $employee['id'] === $userId;
+            });
+            if ($key) unset($employees[$key]);
+            return $employees;
         } else {
             return auth()->user();
         }
     }
 
-    public function userClients(User $user) {
-        return  UserProjectResource::collection(
-            UserProject::where('user_id', $user->id)->with('project.client')->get()
-        );
+    public function userClients(Request $request) {
+        try {
+            $userId = $request->get('user_id');
+            if(auth()->user()->id !== $userId && auth()->user()->role_id !== Role::IS_ADMIN ) {
+                throw new Exception('You are not authorized');
+            }
+            return  UserProjectResource::collection(
+                UserProject::where('user_id', $userId)->with('project.client')->get()
+            );
+        } catch(\Exception $exception) {
+            return $exception->getMessage();
+        }
     }
 
-    public function projectCategory(Project $project) {
+    public function projectCategory(Request $request) {
+        $projectId = $request->get('project_id');
         return CategoryResource::collection(
-            Category::whereHas('categoryProject', function(Builder $query) use ($project) {
-                $query->where('project_id',$project->id);
+            Category::whereHas('categoryProject', function(Builder $query) use ($projectId) {
+                $query->where('project_id',$projectId);
             })->get()
         );
     }
