@@ -14,6 +14,7 @@ use App\Http\Controllers\User\LogController;
 use App\Http\Controllers\User\UserProjectController;
 use App\Http\Controllers\JWTAuthController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Admin\ResetPasswordController;
 use App\Repository\Test;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('login',[JWTAuthController::class, 'login']);
+Route::post('password/forgot', ResetPasswordController::class);
 Route::prefix('verify')->group(function() {
     Route::get('/', [VerifyUserController::class,'index']);
     Route::post('/user/create', [VerifyUserController::class, 'store']);

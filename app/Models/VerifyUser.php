@@ -39,10 +39,10 @@ class VerifyUser extends Model
     }
 
     public static function checkToken($request) {
-        $inactiveUser = VerifyUser::where('user_id',$request->get('uuid'))->with('user')->latest()->get();
-        if (!Hash::check($inactiveUser->first()?->token.env('VERIFY_SECRET'),$request->get('token')) || $inactiveUser?->first()->expiry_date < Carbon::now() )
-            throw new Exception('Token is invalid or expired, try again');
+            $inactiveUser = VerifyUser::where('user_id',$request->get('uuid'))->with('user')->latest()->get();
+            if (!Hash::check($inactiveUser->first()?->token.env('VERIFY_SECRET'),$request->get('token')) || $inactiveUser?->first()->expiry_date < Carbon::now() )
+                throw new Exception('Token is invalid or expired, try again');
 
-        return $inactiveUser;
+            return $inactiveUser;
     }
 }

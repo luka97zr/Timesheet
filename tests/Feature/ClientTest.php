@@ -5,10 +5,7 @@ namespace Tests\Feature;
 use App\Models\Client;
 use App\Models\Country;
 use App\Models\User;
-use Database\Factories\CategoryFactory;
-use Database\Factories\ClientFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
@@ -21,7 +18,6 @@ class ClientTest extends TestCase
      *
      * @return void
      */
-    
     public function testGetPaginatedClients()
     {
         $response = $this->actingAs(User::factory()->create())->get('/api/client');
@@ -45,7 +41,8 @@ class ClientTest extends TestCase
 
     }
 
-    public function testStoreClient() {
+    public function testStoreClient()
+    {
         $payload = Client::factory()->create([
             'name' => 'Klijent 1'
         ]);
@@ -55,7 +52,8 @@ class ClientTest extends TestCase
         ]);
     }
 
-    public function testUpdateClient() {
+    public function testUpdateClient()
+    {
         $payload = Client::factory()->create([
             'name' => 'Klijent 1',
             'country_id' => Country::factory()

@@ -38,7 +38,7 @@
                 </div>
                 <ul>
                     <li class="logout">
-                        <router-link :to="{name: 'login'}" class="logout__link" @click.native.prevent="logout">Logout</router-link>
+                        <router-link :to="{name: 'logout'}" class="logout__link">Logout</router-link>
                     </li>
                 </ul>
             </div>
@@ -67,14 +67,6 @@ export default {
         this.role();
     },
     methods: {
-        async logout() {
-            try {
-                // axios.get('/api/logout');
-                // this.$store.dispatch('logout')
-            } catch(error) {
-
-            }
-        },
         role() {
            this.isAdmin = (JSON.parse(localStorage.getItem('user')).role === 'Admin')? true : false;
         },

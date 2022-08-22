@@ -18,7 +18,7 @@
 						<div class="invalid" v-if="errors">{{errors}}</div>
 						<div class="btn-wrap">
 							<label class="initial-form__checkbox"><input type="checkbox" name="remember-me">Remember me</label>
-							<a href="./forgot-password.html" class="btn btn--transparent"><span>Forgot password</span></a>
+							<router-link to="/password/forgot" class="btn btn--transparent"><span>Forgot password</span></router-link>
 							<button type="submit" class="btn btn--green" :disabled="loading" @click="login()"><span>Login</span></button>
 						</div>
 					</form>

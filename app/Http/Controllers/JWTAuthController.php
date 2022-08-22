@@ -4,24 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Symfony\Component\HttpFoundation\Response;
-use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\Facades\JWTAuth;
+
 
 class JWTAuthController extends Controller
 {
     public $token = true;
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $jwt_token = null;
         $data = $request->validate([
             'email'     => ['required','email'],
             'password'  => 'required'
         ]);
 
-        if (!$jwt_token = auth()->attempt($data, true)) {
+        if (!$jwt_token = auth()->attempt($data)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Invalid Email or Password',
@@ -42,13 +41,15 @@ class JWTAuthController extends Controller
     public function logout(Request $request)
     {
         auth()->logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
+        if ($request->hasCookie('token')) {
+            Cookie::queue(Cookie::forget('token'));
+            $request->headers->remove('Authorization');
+        }
+        return response()->json(['message' => 'Successfully logged out'])->withCookie('token');
     }
 
     public function getUser(Request $request)
     {
-
         return response()->json(['user' => auth()->user()]);
     }
 

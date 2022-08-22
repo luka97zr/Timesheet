@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Calendar from './pages/timesheet/calendar/Calendar'
 import EditDay from './pages/timesheet/day/EditDay'
 import Login from './pages/auth/Login'
+import Logout from './pages/auth/Logout'
 import Clients from './pages/clients/Clients'
 import Projects from './pages/projects/Projects'
 import Categories from './pages/categories/Categories'
@@ -11,6 +12,7 @@ import Reports from './pages/reports/Reports'
 import NotFound from './pages/404/NotFound'
 import Verify from './pages/verify/Verify'
 import AsignProject from './pages/asign/AsignProject'
+import PasswordForgot from './pages/password-forgot/PasswordForgot'
 
 
 const routes = [
@@ -37,6 +39,14 @@ const routes = [
         meta: {
             hideNavbar: true,
         }
+    },
+    {
+      path: '/auth/logout',
+      name: 'logout',
+      component: Logout,
+      meta: {
+          hideNavbar: true,
+      }
     },
     {
         path: '/clients',
@@ -100,7 +110,16 @@ const routes = [
     },
     {
       path: '/verify',
+      name: 'verify',
       component: Verify,
+      meta: {
+          hideNavbar: true
+      }
+    },
+    {
+      path: '/password/forgot',
+      name: 'password-forgot',
+      component: PasswordForgot,
       meta: {
           hideNavbar: true
       }
