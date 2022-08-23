@@ -111,6 +111,7 @@ export default {
             this.$emit('created');
             this.clearForm();
           } catch(error) {
+              this.loading = false;
               this.errors = error.response.data.errors
           }
         },

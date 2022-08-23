@@ -15,6 +15,7 @@ use App\Http\Controllers\User\UserProjectController;
 use App\Http\Controllers\JWTAuthController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Admin\ResetPasswordController;
+use App\Http\Controllers\CategoryProjectController;
 use App\Repository\Test;
 use Illuminate\Support\Facades\Route;
 
@@ -45,16 +46,22 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::post('/', [ReportController::class, 'index']);
         Route::post('/clients', [ReportController::class, 'userClients']);
         Route::post('/category', [ReportController::class, 'projectCategory']);
+        Route::post('/generate', [ReportController::class, 'generateReport']);
     });
 
     Route::middleware(['admin'])->group(function() {
-        Route::get('client/all',[ClientController::class, 'allClients']);
-        Route::get('client/alphabet',[ClientController::class, 'getAlphabet']);
-        Route::apiResource('client',ClientController::class);
+        Route::prefix('client')->group(function() {
+            Route::get('all',[ClientController::class, 'allClients']);
+            Route::get('alphabet',[ClientController::class, 'getAlphabet']);
+            Route::apiResource('/',ClientController::class);
+        });
+        Route::prefix('project')->group(function() {
+            Route::get('all',[ProjectController::class, 'allProjects']);
+            Route::get('alphabet',[ProjectController::class, 'getAlphabet']);
+            Route::apiResource('/',ProjectController::class);
+        });
+        Route::post('/categoryProject', CategoryProjectController::class);
         Route::get('country',CountryController::class);
-        Route::get('project/all',[ProjectController::class, 'allProjects']);
-        Route::get('project/alphabet',[ProjectController::class, 'getAlphabet']);
-        Route::apiResource('project',ProjectController::class);
         Route::post('user/project',[UserProjectController::class, 'show']);
         Route::post('user/project/store',[UserProjectController::class, 'store']);
         Route::post('password/change',[ChangePasswordController::class, 'store']);

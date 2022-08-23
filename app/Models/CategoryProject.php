@@ -10,6 +10,7 @@ class CategoryProject extends Model
 {
     use HasFactory;
     protected $table = 'categories_projects';
+    protected $hidden = ['project_id', 'category_id'];
 
 
     public function category() {

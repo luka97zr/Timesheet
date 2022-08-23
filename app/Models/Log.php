@@ -19,4 +19,22 @@ class Log extends Model
     public function categoryProject() {
         return $this->belongsTo(CategoryProject::class);
     }
+
+    public function scopeReport($query) {
+       return $query->when(request('startDate'), fn($query)=>
+            $query->where('date', '>=', request('startDate'))
+        )
+        ->when(request('endDate'), fn($query)=>
+            $query->where('date', '<=', request('endDate'))
+        )
+        ->when(request('user_id'), fn($query)=>
+            $query->where('user_id', request('user_id'))
+        )
+        ->when(request('client_id'), fn($query)=>
+            $query->where('category_', function() use ($query){
+                // $query->where('client_id')
+            })
+        )
+        ->get();
+    }
 }

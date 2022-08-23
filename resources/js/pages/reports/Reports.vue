@@ -39,33 +39,30 @@
                     <ul class="reports__form">
                         <li class="reports__list">
                             <label class="report__label">Quick date:</label>
-                            <select class="reports__select" v-model="week">
-                                <option :value="null">Select week</option>
-                                <option value="1">Next week</option>
-                                <option value="2">This week</option>
-                                <option value="3">Last week</option>
+                            <select class="reports__select" v-model.number="week">
+                                <option :value="week.key" v-for="(week, index) in selectWeek" :key="index">{{week.value}}</option>
                             </select>
                         </li>
                         <li class="reports__list">
                             <label class="report__label">Quick date:</label>
-                            <select class="reports__select">
-                                <option value="">Select month</option>
-                                <option value="1">Next month</option>
-                                <option value="2">This month</option>
-                                <option value="3">Last month</option>
+                            <select class="reports__select" v-model.number="month">
+                                <option :value="month.key" v-for="(month, index) in selectMonth" :key="index">{{month.value}}</option>
                             </select>
                         </li>
                         <li class="reports__list">
                             <label class="report__label">Start date</label>
-                            <input type="date" class="in-text">
+                            <input type="date" class="in-text" v-model="startDate">
                         </li>
                         <li class="reports__list">
                             <label class="report__label">End date</label>
-                            <input type="date" class="in-text">
+                            <input type="date" class="in-text" v-model="endDate">
                         </li>
+                        <div v-if="!isDateValid && this.startDate && this.endDate">
+                            <span>End date has to be grater then the start date</span>
+                        </div>
                     </ul>
                     <div class="reports__buttons">
-                        <button type="submit" class="btn btn--green">Search</button>
+                        <button type="submit" class="btn btn--green" @click="generateReport()">Search</button>
                         <button type="submit" class="btn btn--green">Search Overtime</button>
                         <button type="button" class="btn btn--green">Reset</button>
                     </div>
@@ -91,10 +88,13 @@
 
 <script>
 import ReportTable from './ReportTable.vue'
+import moment from 'moment';
+import GetWholeWeek from '../../mixins/getWholeWeekMixin'
 export default {
     components: {
         ReportTable
     },
+	mixins: [GetWholeWeek],
     data() {
         return {
             employeeId: JSON.parse(localStorage.getItem('user')).id,
@@ -111,7 +111,45 @@ export default {
             week: null,
             month: null,
             startDate: null,
-            endDate: null
+            endDate: null,
+            weekdays: null,
+            categoryProjects: null,
+            selectWeek: [
+                {
+                    key: null,
+                    value: 'Select week'
+                },
+                {
+                    key: 'next_week',
+                    value: 'Next week'
+                },
+                {
+                    key: 'this_week',
+                    value: 'This week'
+                },
+                {
+                    key: 'last_week',
+                    value: 'Last week'
+                }
+            ],
+            selectMonth: [
+                {
+                    key: null,
+                    value: 'Select month'
+                },
+                {
+                    key: 'next_month',
+                    value: 'Next month'
+                },
+                {
+                    key: 'this_month',
+                    value: 'This month'
+                },
+                {
+                    key: 'last_month',
+                    value: 'Last month'
+                }
+            ]
         }
     },
     computed: {
@@ -120,7 +158,10 @@ export default {
         },
         userId() {
             return JSON.parse(localStorage.getItem('user')).id
-        }
+        },
+        isDateValid() {
+            return (moment(this.endDate).isSameOrAfter(this.startDate))? true : false;
+        },
     },
     created() {
         this.getUsersData();
@@ -141,13 +182,38 @@ export default {
                     this.selectedProjects.push(project);
             })
         },
+        quickWeek() {
+            if (this.week === 'next_week') {
+                this.startDate = moment().add(1, 'week').startOf('isoWeek').format('YYYY-MM-DD');
+                this.endDate = moment().add(1, 'week').endOf('isoWeek').format('YYYY-MM-DD');
+            } else if(this.week === 'this_week') {
+                this.startDate = moment().startOf('isoWeek').format('YYYY-MM-DD');
+                this.endDate = moment().endOf('isoWeek').format('YYYY-MM-DD');
+            } else if(this.week === 'last_week') {
+                this.startDate = moment().subtract(1, 'week').startOf('isoWeek').format('YYYY-MM-DD');
+                this.endDate = moment().subtract(1, 'week').endOf('isoWeek').format('YYYY-MM-DD');
+            }
+        },
+        quickMonth() {
+            this.week = null;
+            if (this.month === 'next_month') {
+                this.startDate = moment().add(1, 'month').startOf('month').format('YYYY-MM-DD');
+                this.endDate   = moment().add(1, 'month').endOf('month').format('YYYY-MM-DD');
+            } else if(this.month === 'this_month') {
+                this.startDate = moment().startOf('month').format('YYYY-MM-DD');
+                this.endDate   = moment().endOf('month').format('YYYY-MM-DD');
+            } else if(this.month === 'last_month') {
+                this.startDate = moment().subtract(1, 'month').startOf('month').format('YYYY-MM-DD');
+                this.endDate   = moment().subtract(1, 'month').endOf('month').format('YYYY-MM-DD');
+            }
+        },
         async getUsersData() {
             try {
                 const data = (await axios.post('/api/report', {
                     user_id: this.employeeId
                 })).data;
                 this.allUsers = data.data;
-            }catch(error) {
+            } catch(error) {
                 this.errors = error.response
             }
         },
@@ -158,12 +224,12 @@ export default {
                 })).data;
                 this.allClientsProjects = data.data;
                 this.filteredClients(data.data);
-            }catch(error) {
+            } catch(error) {
                 this.errors = error.response.data.errors
 
             }
         },
-         async getCategories() {
+        async getCategories() {
             try {
                 const data = (await axios.post(`/api/report/category`, {
                     project_id: this.projectId
@@ -173,6 +239,27 @@ export default {
                 this.errors = error.response.data.error
             }
         },
+        async getCategoryProject() {
+            try {
+                this.categoryProjects = axios.post(`/api/categoryProject`, {
+                    client_id: this.clientId,
+                    category_id: this.categoryId
+                });
+            } catch(error) {
+                this.errors = error.response.data.errors
+            }
+        },
+        async generateReport() {
+            try {
+                axios.post('/api/report/generate', {
+                    user_id: this.employeeId,
+                    startDate: this.startDate,
+                    endDate: this.endDate
+                })
+            } catch(error) {
+                this.errors = error.response.data.errors
+            }
+        }
     },
     watch: {
         employeeId: {
@@ -184,11 +271,27 @@ export default {
         clientId: {
             handler() {
                 this.filteredProjects();
+                this.getCategoryProject();
             }
         },
         projectId: {
             handler() {
                 this.getCategories();
+            }
+        },
+        categoryId: {
+            handler() {
+                this.getCategoryProject();
+            }
+        },
+        week: {
+            handler() {
+                this.quickWeek()
+            }
+        },
+        month: {
+            handler() {
+                this.quickMonth()
             }
         }
     }

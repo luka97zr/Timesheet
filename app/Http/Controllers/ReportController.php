@@ -6,7 +6,7 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\EmployeeResource;
 use App\Http\Resources\UserProjectResource;
 use App\Models\Category;
-use App\Models\Project;
+use App\Models\Log;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserProject;
@@ -56,5 +56,9 @@ class ReportController extends Controller
                 $query->where('project_id',$projectId);
             })->get()
         );
+    }
+
+    public function generateReport(Request $request) {
+        return Log::report($request);
     }
 }

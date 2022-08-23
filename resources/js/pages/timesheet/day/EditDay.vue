@@ -39,6 +39,7 @@ import moment from 'moment'
 import WeekLabel from './WeekLabel.vue'
 import ProjectLabel from './ProjectLabel.vue'
 import ProjectHead from './ProjectHead.vue'
+import GetWholeWeek from '../../../mixins/getWholeWeekMixin'
 export default {
 	data() {
 		return {
@@ -55,9 +56,10 @@ export default {
 			userProjectData: [],
 			logData: [],
 			total: 0,
-			isDisabled: false
+			isDisabled: false,
 		}
 	},
+	mixins: [GetWholeWeek],
 	components: {
 		WeekLabel,
 		ProjectLabel,
@@ -96,31 +98,20 @@ export default {
 		}
 	},
 	created() {
-		this.getWholeWeek()
+		this.getWholeWeek(this.dayRoute)
 		this.checkCalendar()
 	},
 	methods: {
         nextWeek() {
-			this.getWholeWeek();
+			this.getWholeWeek(this.dayRoute);
 			this.checkCalendar()
 			this.$refs.weeklabel.asignDate();
         },
 		prevWeek() {
-			this.getWholeWeek();
+			this.getWholeWeek(this.dayRoute);
 			this.checkCalendar()
 			this.$refs.weeklabel.asignDate();
 		},
-		getWholeWeek() {
-            let now = moment(this.dayRoute).clone().startOf('isoWeek');
-			let end = moment(this.dayRoute).clone().endOf('isoWeek')
-            const dates = [];
-
-				while( now.isSameOrBefore(end)) {
-					dates.push(now.format('YYYY-MMMM-DD'));
-					now.add(1,'days')
-					this.weekdays = dates;
-				}
-        },
 		saveData() {
 			this.validateFields()
 			this.success = null
