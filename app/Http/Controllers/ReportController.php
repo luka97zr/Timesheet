@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\EmployeeResource;
+use App\Http\Resources\LogReportResource;
 use App\Http\Resources\UserProjectResource;
 use App\Models\Category;
 use App\Models\Log;
@@ -59,6 +60,8 @@ class ReportController extends Controller
     }
 
     public function generateReport(Request $request) {
-        return Log::report($request);
+        return LogReportResource::collection(
+           Log::report($request)
+        );
     }
 }

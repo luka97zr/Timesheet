@@ -11,93 +11,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>14.12.2020.</td>
-                <td>Ognjen Adamović</td>
-                <td>Internal</td>
-                <td>Internal</td>
+            <tr v-for="(entry, index) in data" :key="index">
+                <td>{{entry.date}}</td>
+                <td>{{employee}}</td>
+                <td>{{entry.category_project.project.name}}</td>
+                <td>{{entry.category_project.category.name}}</td>
                 <td>Front-end Development</td>
-                <td>7.5</td>
-            </tr>
-            <tr>
-                <td>14.12.2020.</td>
-                <td>Ognjen Adamović</td>
-                <td>Internal</td>
-                <td>Learning</td>
-                <td>Front-end Development</td>
-                <td>7.5</td>
-            </tr>
-            <tr>
-                <td>15.12.2020.</td>
-                <td>Ognjen Adamović</td>
-                <td>Internal</td>
-                <td>Internal</td>
-                <td>Front-end Development</td>
-                <td>7.5</td>
-            </tr>
-            <tr>
-                <td>15.12.2020.</td>
-                <td>Ognjen Adamović</td>
-                <td>Internal</td>
-                <td>Learning</td>
-                <td>Front-end Development</td>
-                <td>7.5</td>
-            </tr>
-            <tr>
-                <td>16.12.2020.</td>
-                <td>Ognjen Adamović</td>
-                <td>Internal</td>
-                <td>Internal</td>
-                <td>Front-end Development</td>
-                <td>7.5</td>
-            </tr>
-            <tr>
-                <td>16.12.2020.</td>
-                <td>Ognjen Adamović</td>
-                <td>Internal</td>
-                <td>Learning</td>
-                <td>Front-end Development</td>
-                <td>7.5</td>
-            </tr>
-            <tr>
-                <td>17.12.2020.</td>
-                <td>Ognjen Adamović</td>
-                <td>Internal</td>
-                <td>Internal</td>
-                <td>Front-end Development</td>
-                <td>7.5</td>
-            </tr>
-            <tr>
-                <td>17.12.2020.</td>
-                <td>Ognjen Adamović</td>
-                <td>Internal</td>
-                <td>Learning</td>
-                <td>Front-end Development</td>
-                <td>7.5</td>
-            </tr>
-            <tr>
-                <td>18.12.2020.</td>
-                <td>Ognjen Adamović</td>
-                <td>Internal</td>
-                <td>Internal</td>
-                <td>Front-end Development</td>
-                <td>7.5</td>
-            </tr>
-            <tr>
-                <td>18.12.2020.</td>
-                <td>Ognjen Adamović</td>
-                <td>Internal</td>
-                <td>Learning</td>
-                <td>Front-end Development</td>
-                <td>7.5</td>
-            </tr>
-            <tr>
-                <td>21.12.2020.</td>
-                <td>Ognjen Adamović</td>
-                <td>Internal</td>
-                <td>Internal</td>
-                <td>Front-end Development</td>
-                <td>7.5</td>
+                <td>{{entry.hours}}</td>
             </tr>
         </tbody>
     </table>
@@ -105,7 +25,7 @@
 
 <script>
 export default {
-
+    props: ['data', 'employee']
 }
 </script>
 

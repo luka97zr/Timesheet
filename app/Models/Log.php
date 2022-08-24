@@ -30,10 +30,8 @@ class Log extends Model
         ->when(request('user_id'), fn($query)=>
             $query->where('user_id', request('user_id'))
         )
-        ->when(request('client_id'), fn($query)=>
-            $query->where('category_', function() use ($query){
-                // $query->where('client_id')
-            })
+        ->when(request('category_project'), fn($query)=>
+            $query->whereIn('category_project_id', request('category_project'))->with(['categoryProject.project', 'categoryProject.category'])
         )
         ->get();
     }

@@ -67,19 +67,21 @@
                         <button type="button" class="btn btn--green">Reset</button>
                     </div>
                 </form>
-                <div class="table-wrapper">
-                    <report-table></report-table>
-                </div>
-                <div class="table-navigation">
-                    <div class="table-navigation__next">
-                        <span class="table-navigation__text">Reports Total:</span>
-                        <span>352.0</span>
+                <div v-if="dataReport.length > 0">
+                    <div class="table-wrapper">
+                        <report-table :data="dataReport" :employee="employeeName"></report-table>
                     </div>
-                </div>
-                <div class="reports__buttons-bottom">
-                    <a href="javascript:;" class="btn btn--transparent">Print Report</a>
-                    <a href="javascript:;" class="btn btn--transparent">Create PDF</a>
-                    <a href="javascript:;" class="btn btn--transparent">Export to excel</a>
+                    <div class="table-navigation">
+                        <div class="table-navigation__next">
+                            <span class="table-navigation__text">Reports Total:</span>
+                            <span>{{ hours }}</span>
+                        </div>
+                    </div>
+                    <div class="reports__buttons-bottom">
+                        <a href="javascript:;" class="btn btn--transparent">Print Report</a>
+                        <a href="javascript:;" class="btn btn--transparent">Create PDF</a>
+                        <a href="javascript:;" class="btn btn--transparent">Export to excel</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -114,6 +116,8 @@ export default {
             endDate: null,
             weekdays: null,
             categoryProjects: null,
+            dataReport: [],
+            hours: 0,
             selectWeek: [
                 {
                     key: null,
@@ -207,6 +211,12 @@ export default {
                 this.endDate   = moment().subtract(1, 'month').endOf('month').format('YYYY-MM-DD');
             }
         },
+        totalHours(data) {
+            this.hours = 0;
+            data.forEach(entry => {
+                 this.hours += entry.hours
+             })
+        },
         async getUsersData() {
             try {
                 const data = (await axios.post('/api/report', {
@@ -241,21 +251,23 @@ export default {
         },
         async getCategoryProject() {
             try {
-                this.categoryProjects = axios.post(`/api/categoryProject`, {
+                this.categoryProjects = (await axios.post(`/api/categoryProject`, {
                     client_id: this.clientId,
                     category_id: this.categoryId
-                });
+                })).data;
             } catch(error) {
                 this.errors = error.response.data.errors
             }
         },
         async generateReport() {
             try {
-                axios.post('/api/report/generate', {
+                this.dataReport = (await axios.post('/api/report/generate', {
                     user_id: this.employeeId,
                     startDate: this.startDate,
-                    endDate: this.endDate
-                })
+                    endDate: this.endDate,
+                    category_project: this.categoryProjects
+                })).data.data;
+                this.totalHours(this.dataReport);
             } catch(error) {
                 this.errors = error.response.data.errors
             }
@@ -265,6 +277,7 @@ export default {
         employeeId: {
            handler() {
                 this.getClientsData();
+                this.dataReport = [];
            },
            immediate: true
         },

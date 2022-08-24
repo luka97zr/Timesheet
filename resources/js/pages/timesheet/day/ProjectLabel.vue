@@ -102,6 +102,7 @@ export default {
        },
        saveCategoryProject() {
 			this.userProjectData?.forEach(project => {
+                console.log(project);
                 project.category_project.forEach(row =>{
                     if (row.category_id === this.category && row.project_id === this.project) this.categoryProjectId = row.id
                 })
@@ -124,8 +125,7 @@ export default {
         category: {
             handler() {
                 this.saveCategoryProject()
-
-            }
+            },
         }
     },
 }
