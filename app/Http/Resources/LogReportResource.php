@@ -17,7 +17,7 @@ class LogReportResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'category_project' => CategoryProjectResource::make($this->categoryProject),
+            'category_project' => new CategoryProjectResource($this->categoryProject),
             'date'     => $this->date,
             'hours'    => $this->hours
         ];

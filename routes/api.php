@@ -60,7 +60,7 @@ Route::group(['middleware' => 'auth:api'], function() {
             Route::get('alphabet',[ProjectController::class, 'getAlphabet']);
             Route::apiResource('/',ProjectController::class);
         });
-        Route::post('/categoryProject', CategoryProjectController::class);
+        Route::post('/categoryProject', [CategoryProjectController::class, 'index']);
         Route::get('country',CountryController::class);
         Route::post('user/project',[UserProjectController::class, 'show']);
         Route::post('user/project/store',[UserProjectController::class, 'store']);

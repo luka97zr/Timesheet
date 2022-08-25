@@ -64,24 +64,22 @@
                     <div class="reports__buttons">
                         <button type="submit" class="btn btn--green" @click="generateReport()">Search</button>
                         <button type="submit" class="btn btn--green">Search Overtime</button>
-                        <button type="button" class="btn btn--green">Reset</button>
+                        <button type="button" class="btn btn--green" @click="resetForm()">Reset</button>
                     </div>
                 </form>
-                <div v-if="dataReport.length > 0">
-                    <div class="table-wrapper">
-                        <report-table :data="dataReport" :employee="employeeName"></report-table>
+                <div class="table-wrapper" v-if="dataReport.length > 0">
+                    <report-table :data="dataReport" :employee="employeeName"></report-table>
+                </div>
+                <div class="table-navigation">
+                    <div class="table-navigation__next">
+                        <span class="table-navigation__text">Reports Total:</span>
+                        <span>{{ hours }}</span>
                     </div>
-                    <div class="table-navigation">
-                        <div class="table-navigation__next">
-                            <span class="table-navigation__text">Reports Total:</span>
-                            <span>{{ hours }}</span>
-                        </div>
-                    </div>
-                    <div class="reports__buttons-bottom">
-                        <a href="javascript:;" class="btn btn--transparent">Print Report</a>
-                        <a href="javascript:;" class="btn btn--transparent">Create PDF</a>
-                        <a href="javascript:;" class="btn btn--transparent">Export to excel</a>
-                    </div>
+                </div>
+                <div class="reports__buttons-bottom" v-if="dataReport.length > 0">
+                    <a href="javascript:;" class="btn btn--transparent">Print Report</a>
+                    <a href="javascript:;" class="btn btn--transparent">Create PDF</a>
+                    <a href="javascript:;" class="btn btn--transparent">Export to excel</a>
                 </div>
             </div>
         </section>
@@ -217,6 +215,10 @@ export default {
                  this.hours += entry.hours
              })
         },
+        resetForm() {
+            this.clientId = this.projectId = this.categoryId = this.startDate = this.endDate = null;
+            this.generateReport();
+        },
         async getUsersData() {
             try {
                 const data = (await axios.post('/api/report', {
@@ -253,6 +255,7 @@ export default {
             try {
                 this.categoryProjects = (await axios.post(`/api/categoryProject`, {
                     client_id: this.clientId,
+                    project_id: this.projectId,
                     category_id: this.categoryId
                 })).data;
             } catch(error) {
@@ -266,7 +269,7 @@ export default {
                     startDate: this.startDate,
                     endDate: this.endDate,
                     category_project: this.categoryProjects
-                })).data.data;
+                })).data;
                 this.totalHours(this.dataReport);
             } catch(error) {
                 this.errors = error.response.data.errors
@@ -290,6 +293,7 @@ export default {
         projectId: {
             handler() {
                 this.getCategories();
+                this.getCategoryProject();
             }
         },
         categoryId: {

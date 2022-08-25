@@ -10,7 +10,6 @@ class CategoryProject extends Model
     use HasFactory;
     protected $table = 'categories_projects';
 
-
     public function category() {
         return $this->belongsTo(Category::class);
     }

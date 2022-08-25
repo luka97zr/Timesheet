@@ -60,8 +60,6 @@ class ReportController extends Controller
     }
 
     public function generateReport(Request $request) {
-        return LogReportResource::collection(
-           Log::report($request)
-        );
+           return Log::report($request);
     }
 }
