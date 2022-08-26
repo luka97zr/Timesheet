@@ -79,7 +79,7 @@
                 <div class="reports__buttons-bottom" v-if="dataReport.length > 0">
                     <a href="javascript:;" class="btn btn--transparent">Print Report</a>
                     <a href="javascript:;" class="btn btn--transparent">Create PDF</a>
-                    <a href="javascript:;" class="btn btn--transparent">Export to excel</a>
+                    <a href="javascript:;" class="btn btn--transparent" @click="exportData()">Export to excel</a>
                 </div>
             </div>
         </section>
@@ -218,6 +218,15 @@ export default {
         resetForm() {
             this.clientId = this.projectId = this.categoryId = this.startDate = this.endDate = null;
             this.generateReport();
+        },
+        async exportData() {
+            try {
+                await axios.post('/api/report/export', {
+                    data: this.dataReport
+                });
+            window.open("/api/report/export").focus();
+            }catch(error) {
+            }
         },
         async getUsersData() {
             try {
