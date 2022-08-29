@@ -44,9 +44,12 @@ export default {
         border: 2px solid green;
     }
     .v-application a {
-	color: #444 !important; 
+	    color: #444 !important; 
     }
     .month-table__regular--disabled .v-application a {
-	color: #bdbdbd !important; 
+	    color: #bdbdbd !important; 
+    }
+    .month-table__regular--disabled {
+        pointer-events: none;
     }
 </style>

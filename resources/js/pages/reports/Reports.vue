@@ -78,8 +78,8 @@
                 </div>
                 <div class="reports__buttons-bottom" v-if="dataReport.length > 0">
                     <a href="javascript:;" class="btn btn--transparent">Print Report</a>
-                    <a href="javascript:;" class="btn btn--transparent">Create PDF</a>
-                    <a href="javascript:;" class="btn btn--transparent" @click="exportData()">Export to excel</a>
+                    <a href="javascript:;" class="btn btn--transparent" @click="exportData('pdf')">Create PDF</a>
+                    <a href="javascript:;" class="btn btn--transparent" @click="exportData('excel')">Export to excel</a>
                 </div>
             </div>
         </section>
@@ -217,14 +217,22 @@ export default {
         },
         resetForm() {
             this.clientId = this.projectId = this.categoryId = this.startDate = this.endDate = null;
-            this.generateReport();
+            this.dataReport = [];
+            this.hours = 0;
         },
-        async exportData() {
+        async exportData(dataType) {
             try {
-                await axios.post('/api/report/export', {
-                    data: this.dataReport
+                const data = await axios.post('/api/report/export', {
+                    data: this.dataReport,
+                    type: dataType
                 });
-            window.open("/api/report/export").focus();
+                const fileUrl = window.URL.createObjectURL(new Blob([data.data]));
+                console.log(fileUrl);
+                const fileLink = document.createElement('a');
+                fileLink.href = fileUrl;
+                fileLink.setAttribute('download', 'test.xlsx');
+                document.body.appendChild(fileLink);
+                fileLink.click();
             }catch(error) {
             }
         },

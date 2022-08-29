@@ -129,5 +129,7 @@
 </script>
 
 <style scoped>
-
+    .table-navigation a {
+        color: #f1592a !important;
+    }
 </style>

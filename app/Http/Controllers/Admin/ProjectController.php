@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Models\Project;
+use App\Repository\Interface\ProjectRepositoryInterface;
 use App\Repository\ProjectRepository;
 
 class ProjectController extends Controller
 {
     private $repository;
 
-    public function __construct(ProjectRepository $repository) {
+    public function __construct(ProjectRepositoryInterface $repository) {
         $this->repository = $repository;
     }
     /**

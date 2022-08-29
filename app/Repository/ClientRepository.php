@@ -2,14 +2,13 @@
 
 namespace App\Repository;
 
-use App\Http\Requests\ClientRequest;
 use App\Http\Resources\ClientIndexResource;
 use App\Models\Client;
-use App\Repository\Interaface\CrudControllerInterface;
+use App\Repository\Interface\ClientRepositoryInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class ClientRepository {
+class ClientRepository implements ClientRepositoryInterface{
     public $clients;
 
     public function index(){

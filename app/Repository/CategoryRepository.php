@@ -5,10 +5,11 @@ namespace App\Repository;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Repository\Interface\CategoryRepositoryInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class CategoryRepository {
+class CategoryRepository implements CategoryRepositoryInterface{
     
     public function index()
     {

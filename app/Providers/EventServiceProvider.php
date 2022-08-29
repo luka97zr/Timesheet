@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Events\UpdatePassword;
 use App\Listeners\SendUserVerifyNotification;
+use App\Models\Category;
 use App\Models\Client;
 use App\Models\Project;
+use App\Observers\CategoryObserver;
 use App\Observers\ClientObserver;
 use App\Observers\ProjectObserver;
 use Illuminate\Auth\Events\Registered;
@@ -37,5 +39,6 @@ class EventServiceProvider extends ServiceProvider
     {
         Client::observe(ClientObserver::class);
         Project::observe(ProjectObserver::class);
+        Category::observe(CategoryObserver::class);
     }
 }

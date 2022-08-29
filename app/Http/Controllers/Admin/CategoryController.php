@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
-use App\Repository\CategoryRepository;
+use App\Repository\Interface\CategoryRepositoryInterface;
 use Illuminate\Http\Request;
 
 
 class CategoryController extends Controller
 {
     private $repository;
-    public function __construct(CategoryRepository $repository) {
+
+    public function __construct(CategoryRepositoryInterface $repository)
+    {
         $this->repository = $repository;
     }
     /**

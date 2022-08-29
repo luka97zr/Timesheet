@@ -17,11 +17,12 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Maatwebsite\Excel\Excel;
 
 class ReportController extends Controller
 {
-    protected $printer = ExportServiceInterface::class;
+    protected ExportServiceInterface $printer;
+    protected $data;
+
     public function index(Request $request) {
         $userId = $request->get('user_id');
         if(auth()->user()->role_id === Role::IS_ADMIN) {
@@ -64,20 +65,16 @@ class ReportController extends Controller
     }
 
     public function generateReport(Request $request) {
-           return Log::report($request);
+        return Log::report($request);
     }
 
     public function download(Request $request) {
-        $printer = resolve(PdfService::class);
-
-        if($request->get('type') == 'excel') {
-            $printer = resolve(ExcelService::class);
-        } elseif($request->get('type') == 'pdf') {
-            $printer = resolve(PDFService::class);
+        if ($request->get('type') === 'excel') {
+            $this->printer = resolve(ExcelService::class);
+        } elseif($request->get('type') === 'pdf') {
+            $this->printer = resolve(PDFService::class);
         }
-
-        // $printer->setData($data);
-        $printer->setData(request('data'));
-        $printer->generate();
+        $this->printer->setData($request->get('data'));
+        return $this->printer->generate();
     }
 }

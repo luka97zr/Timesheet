@@ -17,10 +17,10 @@ class PdfService implements ExportServiceInterface {
     public function generate()
     {
         return $this->excel->download(new ReportExport($this->data), 'report.csv');
-
     }
 
-    public function setData($data) {
+    public function setData($data)
+    {
         $this->data = $data;
     }
 }

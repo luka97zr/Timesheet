@@ -4,10 +4,11 @@ namespace App\Repository;
 
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
+use App\Repository\Interface\ProjectRepositoryInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class ProjectRepository {
+class ProjectRepository implements ProjectRepositoryInterface{
 
     public function index()
     {

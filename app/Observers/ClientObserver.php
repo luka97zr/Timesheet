@@ -11,6 +11,7 @@ class ClientObserver
     private function clearCache()
     {
         Cache::forget('clients');
+        Cache::forget('client-alphabet');
     }
     /**
      * Handle the Client "created" event.
