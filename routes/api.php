@@ -46,7 +46,7 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::post('/clients', [ReportController::class, 'userClients']);
         Route::post('/category', [ReportController::class, 'projectCategory']);
         Route::post('/generate', [ReportController::class, 'generateReport']);
-        Route::post('/export', [ReportController::class, 'download']);
+        Route::post('/export', [ReportController::class, 'export']);
     });
 
     Route::middleware(['admin'])->group(function() {

@@ -35,8 +35,13 @@
                     </li>
                 </ul>
                 <div class="btn-wrap">
-                    <button type="submit" class="btn btn--green" @click.prevent="createProject()"><span>Save changes</span></button>
+                    <button type="submit" class="btn btn--green" @click.prevent="createProject()" :disabled="isValidated"><span>Save changes</span></button>
                     <button type="button" class="btn btn--red" @click.prevent="clearForm()"><span>Delete</span></button>
+                </div>
+                <div v-if="errors">
+                    <ul>
+                        <li v-for="(error, index) in errors" :key="index" class="error-item"><span class="invalid">{{error[0]}}</span></li>
+                    </ul>
                 </div>
             </form>
         </div>
@@ -52,12 +57,14 @@ export default {
             projectName: null,
             clientId: null,
             leadId: null,
-            isValidated: false
         }
     },
     computed: {
         getAllClients() {
             return Object.values(this.$store.state.clients).flat()
+        },
+        isValidated() {
+            return (this.projectName && this.clientId && this.leadId)? false : true;
         }
     },
     methods: {
@@ -77,7 +84,6 @@ export default {
             this.clearForm();
             this.$emit('created');
           } catch(error) {
-              this.isValidated = true;
               this.errors = error.response.data.errors
           }
         },

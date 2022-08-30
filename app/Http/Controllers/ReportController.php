@@ -68,8 +68,8 @@ class ReportController extends Controller
         return Log::report($request);
     }
 
-    public function download(Request $request) {
-        if ($request->get('type') === 'excel') {
+    public function export(Request $request) {
+        if ($request->get('type') === 'xlsx') {
             $this->printer = resolve(ExcelService::class);
         } elseif($request->get('type') === 'pdf') {
             $this->printer = resolve(PDFService::class);

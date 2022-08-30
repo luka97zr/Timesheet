@@ -10,6 +10,7 @@ class ProjectObserver
     private function clearCache()
     {
         Cache::forget('projects');
+        Cache::forget('project-alphabet');
     }
     /**
      * Handle the Project "created" event.

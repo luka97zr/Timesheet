@@ -77,9 +77,9 @@
                     </div>
                 </div>
                 <div class="reports__buttons-bottom" v-if="dataReport.length > 0">
-                    <a href="javascript:;" class="btn btn--transparent">Print Report</a>
+                    <a href="javascript:;" class="btn btn--transparent" @click="printData()">Print Report</a>
                     <a href="javascript:;" class="btn btn--transparent" @click="exportData('pdf')">Create PDF</a>
-                    <a href="javascript:;" class="btn btn--transparent" @click="exportData('excel')">Export to excel</a>
+                    <a href="javascript:;" class="btn btn--transparent" @click="exportData('xlsx')">Export to excel</a>
                 </div>
             </div>
         </section>
@@ -220,17 +220,37 @@ export default {
             this.dataReport = [];
             this.hours = 0;
         },
+        printData() {
+            const prtContent = document.querySelector(".table-wrapper");
+            const WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+            WinPrint.document.write(prtContent.innerHTML);
+            WinPrint.document.close();
+            WinPrint.focus();
+            WinPrint.print();
+
+        },
         async exportData(dataType) {
             try {
+                const mappedData = this.dataReport.map(entry => {
+                    return {
+                        'id': entry.id,
+                        'date': entry.date,
+                        'project': entry.category_project.project.name,
+                        'category': entry.category_project.category.name,
+                        'time': entry.hours
+                    }
+                })
                 const data = await axios.post('/api/report/export', {
-                    data: this.dataReport,
-                    type: dataType
+                    data: mappedData,
+                    type: dataType,
+                    user_id: this.employeeId
+                },{
+                    responseType: 'blob'
                 });
                 const fileUrl = window.URL.createObjectURL(new Blob([data.data]));
-                console.log(fileUrl);
                 const fileLink = document.createElement('a');
                 fileLink.href = fileUrl;
-                fileLink.setAttribute('download', 'test.xlsx');
+                fileLink.setAttribute('download', `report.${dataType}`);
                 document.body.appendChild(fileLink);
                 fileLink.click();
             }catch(error) {

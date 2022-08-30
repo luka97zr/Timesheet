@@ -7,8 +7,10 @@ use App\Listeners\SendUserVerifyNotification;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\Project;
+use App\Models\User;
 use App\Observers\CategoryObserver;
 use App\Observers\ClientObserver;
+use App\Observers\EmployeeObserver;
 use App\Observers\ProjectObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -40,5 +42,6 @@ class EventServiceProvider extends ServiceProvider
         Client::observe(ClientObserver::class);
         Project::observe(ProjectObserver::class);
         Category::observe(CategoryObserver::class);
+        User::observe(EmployeeObserver::class);
     }
 }
