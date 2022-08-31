@@ -109,5 +109,6 @@ export default {
 <style lang="scss">
 .accorion-open {
     display: block;
+    max-height: 100%;
 }
 </style>

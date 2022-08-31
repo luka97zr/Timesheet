@@ -5,8 +5,8 @@
                 <img :src="Logo" alt="">
             </a>
             <nav class="navigation">
-                <button id="navigation__link" type="button" class="navigation__link"><span id="navigation__text" class="nav-toggle"></span></button>
-                <ul class="navigation__menu">
+                <button id="navigation__link" type="button" class="navigation__link" ><span id="navigation__text" class="nav-toggle" @click="toggleNav()" :class="{'nav-toggle nav-toggle-open' : navOpen}"></span></button>
+                <ul class="navigation__menu" :class="{'nav-toggle-open' : navOpen}">
                     <li class="navigation__list">
                         <router-link to="/" class="btn navigation__button">Timesheet</router-link>
                     </li>
@@ -52,7 +52,8 @@ export default {
     data() {
         return {
             isAdmin: false,
-            Logo
+            Logo,
+            navOpen: false,
         }
     },
     computed: {
@@ -72,6 +73,9 @@ export default {
         },
         capitilizeFirstLetter(string) {
              return string.charAt(0).toUpperCase() + string.slice(1);
+        },
+        toggleNav() {
+            this.navOpen = !this.navOpen;
         }
     }
 }

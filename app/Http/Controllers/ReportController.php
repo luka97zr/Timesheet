@@ -24,7 +24,9 @@ class ReportController extends Controller
     protected $data;
 
     public function index(Request $request) {
-        $userId = $request->get('user_id');
+        $userId = $request->validate([
+            'user_id' => ['exists:users,id']
+        ]);
         if(auth()->user()->role_id === Role::IS_ADMIN) {
             $employees = Cache::remember('employees', 60*10, function() use ($userId) {
                 return EmployeeResource::collection(
@@ -43,7 +45,9 @@ class ReportController extends Controller
 
     public function userClients(Request $request) {
         try {
-            $userId = $request->get('user_id');
+            $userId = $request->validate([
+                'user_id' => ['exists:users,id']
+            ]);
             if(auth()->user()->id !== $userId && auth()->user()->role_id !== Role::IS_ADMIN ) {
                 throw new Exception('You are not authorized');
             }
@@ -56,7 +60,10 @@ class ReportController extends Controller
     }
 
     public function projectCategory(Request $request) {
-        $projectId = $request->get('project_id');
+        $projectId = $request->validate([
+            'project_id' => ['exists:projects,id']
+        ]);
+
         return CategoryResource::collection(
             Category::whereHas('categoryProject', function(Builder $query) use ($projectId) {
                 $query->where('project_id',$projectId);
@@ -69,12 +76,16 @@ class ReportController extends Controller
     }
 
     public function export(Request $request) {
-        if ($request->get('type') === 'xlsx') {
-            $this->printer = resolve(ExcelService::class);
-        } elseif($request->get('type') === 'pdf') {
-            $this->printer = resolve(PDFService::class);
+        try {
+            if ($request->get('type') === 'xlsx') {
+                $this->printer = resolve(ExcelService::class);
+            } elseif($request->get('type') === 'pdf') {
+                $this->printer = resolve(PDFService::class);
+            }
+            $this->printer->setData($request->get('data'));
+            return $this->printer->generate();
+        } catch(\Exception $exception) {
+            return $exception->getMessage();
         }
-        $this->printer->setData($request->get('data'));
-        return $this->printer->generate();
     }
 }

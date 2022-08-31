@@ -11320,7 +11320,7 @@ nav ul, nav ol, ul, li {
 }
 
 .pagination__button {
-  color: #000;
+  color: #000 !important;
   text-decoration: none;
 }
 

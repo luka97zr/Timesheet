@@ -15,7 +15,8 @@ class ExcelService implements ExportServiceInterface {
         $this->excel = $excel;
     }
 
-    public function setData($data) {
+    public function setData($data)
+    {
         $this->data = $data;
     }
 
